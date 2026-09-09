@@ -1,0 +1,27 @@
+.card {
+  width: 280px;
+  flex: 0 0 280px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 1024 / 1260;
+  overflow: hidden;
+}
+
+.gameImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+.bottomSection {
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}

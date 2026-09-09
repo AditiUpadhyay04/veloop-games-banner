@@ -1,0 +1,59 @@
+.section {
+  min-height: 100vh;
+  padding: 60px 0;
+  background: #161827;
+}
+
+.container {
+  width: min(1400px, 92%);
+  margin: 0 auto;
+}
+
+.heading {
+  margin: 0;
+  color: white;
+  font-size: 32px;
+}
+
+.subtitle {
+  margin: 6px 0 30px;
+  color: #b9bdcf;
+}
+
+.carousel {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 10px 4px 20px;
+  scroll-behavior: smooth;
+
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6f7285;
+  transition: all 0.25s ease;
+}
+
+.activeDot {
+  width: 22px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+.card {
+  width: 280px;
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+}
