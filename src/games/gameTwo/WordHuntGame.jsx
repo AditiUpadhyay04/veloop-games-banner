@@ -61,11 +61,7 @@ const WORD_POOL = [
   "FIG",
   "JAM",
   "ZIP",
-  "FIG",
   "HOP",
-  "RUN",
-  "FOX",
-  "BOX",
 
   // 4 LETTER
   "GAME",
@@ -233,11 +229,8 @@ const WORD_POOL = [
   "FLOWERS",
   "FORESTS",
   "ROCKETS",
-  "GAMING",
-  "GAMERS",
 ];
 
-/* Remove duplicates */
 const UNIQUE_WORD_POOL = [...new Set(WORD_POOL)];
 
 /* ==================================================
@@ -249,7 +242,7 @@ function getGridSize(level) {
 }
 
 function getWordCount(level) {
-  return level + 1;
+  return Math.min(level + 1, 10);
 }
 
 function getGameTime(level) {
@@ -262,7 +255,6 @@ function getGameTime(level) {
 
 function getMinimumWordLength(level) {
   if (level <= 5) return 3;
-  if (level <= 10) return 4;
   if (level <= 15) return 4;
   return 5;
 }
@@ -277,26 +269,29 @@ function getWordsForLevel(level) {
   const minimumLength = getMinimumWordLength(level);
 
   const candidates = UNIQUE_WORD_POOL.filter(
-    (word) => word.length >= minimumLength && word.length <= gridSize,
+    (word) =>
+      word.length >= minimumLength &&
+      word.length <= gridSize,
   );
 
-  /*
-    Shuffle candidates
-  */
-  const shuffled = [...candidates].sort(() => Math.random() - 0.5);
+  const shuffled = [...candidates].sort(
+    () => Math.random() - 0.5,
+  );
 
-  /*
-    Higher levels prefer longer words.
-  */
   shuffled.sort((a, b) => {
-    const aScore = a.length * level * 0.01 + Math.random();
+    const aScore =
+      a.length * level * 0.01 + Math.random();
 
-    const bScore = b.length * level * 0.01 + Math.random();
+    const bScore =
+      b.length * level * 0.01 + Math.random();
 
     return bScore - aScore;
   });
 
-  return shuffled.slice(0, Math.min(wordCount, shuffled.length));
+  return shuffled.slice(
+    0,
+    Math.min(wordCount, shuffled.length),
+  );
 }
 
 /* ==================================================
@@ -304,28 +299,51 @@ function getWordsForLevel(level) {
 ================================================== */
 
 function createEmptyGrid(size) {
-  return Array.from({ length: size }, () => Array(size).fill(""));
+  return Array.from(
+    { length: size },
+    () => Array(size).fill(""),
+  );
 }
 
-function canPlaceWord(grid, word, row, col, rowDirection, colDirection) {
+function canPlaceWord(
+  grid,
+  word,
+  row,
+  col,
+  rowDirection,
+  colDirection,
+) {
   const size = grid.length;
 
-  const endRow = row + rowDirection * (word.length - 1);
+  const endRow =
+    row + rowDirection * (word.length - 1);
 
-  const endCol = col + colDirection * (word.length - 1);
+  const endCol =
+    col + colDirection * (word.length - 1);
 
-  if (endRow < 0 || endRow >= size || endCol < 0 || endCol >= size) {
+  if (
+    endRow < 0 ||
+    endRow >= size ||
+    endCol < 0 ||
+    endCol >= size
+  ) {
     return false;
   }
 
   for (let index = 0; index < word.length; index++) {
-    const currentRow = row + rowDirection * index;
+    const currentRow =
+      row + rowDirection * index;
 
-    const currentCol = col + colDirection * index;
+    const currentCol =
+      col + colDirection * index;
 
-    const existing = grid[currentRow][currentCol];
+    const existing =
+      grid[currentRow][currentCol];
 
-    if (existing !== "" && existing !== word[index]) {
+    if (
+      existing !== "" &&
+      existing !== word[index]
+    ) {
       return false;
     }
   }
@@ -333,17 +351,26 @@ function canPlaceWord(grid, word, row, col, rowDirection, colDirection) {
   return true;
 }
 
-function placeWord(grid, word, row, col, rowDirection, colDirection) {
+function placeWord(
+  grid,
+  word,
+  row,
+  col,
+  rowDirection,
+  colDirection,
+) {
   const newGrid = grid.map((line) => [...line]);
-
   const positions = [];
 
   for (let index = 0; index < word.length; index++) {
-    const currentRow = row + rowDirection * index;
+    const currentRow =
+      row + rowDirection * index;
 
-    const currentCol = col + colDirection * index;
+    const currentCol =
+      col + colDirection * index;
 
-    newGrid[currentRow][currentCol] = word[index];
+    newGrid[currentRow][currentCol] =
+      word[index];
 
     positions.push({
       row: currentRow,
@@ -363,18 +390,14 @@ function placeWord(grid, word, row, col, rowDirection, colDirection) {
 
 function buildPuzzle(level) {
   const size = getGridSize(level);
-
   const words = getWordsForLevel(level);
 
-  const orderedWords = [...words].sort((a, b) => b.length - a.length);
+  const orderedWords = [...words].sort(
+    (a, b) => b.length - a.length,
+  );
 
-  if (!orderedWords.length) {
-    return buildPuzzle(1);
-  }
-
-  for (let attempt = 0; attempt < 500; attempt++) {
+  for (let attempt = 0; attempt < 150; attempt++) {
     let grid = createEmptyGrid(size);
-
     const wordPositions = {};
     let success = true;
 
@@ -383,9 +406,19 @@ function buildPuzzle(level) {
 
       for (let row = 0; row < size; row++) {
         for (let col = 0; col < size; col++) {
-          for (const [rowDirection, colDirection] of DIRECTIONS) {
+          for (const [
+            rowDirection,
+            colDirection,
+          ] of DIRECTIONS) {
             if (
-              canPlaceWord(grid, word, row, col, rowDirection, colDirection)
+              canPlaceWord(
+                grid,
+                word,
+                row,
+                col,
+                rowDirection,
+                colDirection,
+              )
             ) {
               placements.push({
                 row,
@@ -404,7 +437,11 @@ function buildPuzzle(level) {
       }
 
       const placement =
-        placements[Math.floor(Math.random() * placements.length)];
+        placements[
+          Math.floor(
+            Math.random() * placements.length,
+          )
+        ];
 
       const result = placeWord(
         grid,
@@ -416,7 +453,6 @@ function buildPuzzle(level) {
       );
 
       grid = result.grid;
-
       wordPositions[word] = result.positions;
     }
 
@@ -426,7 +462,13 @@ function buildPuzzle(level) {
 
     const filledGrid = grid.map((row) =>
       row.map(
-        (cell) => cell || ALPHABET[Math.floor(Math.random() * ALPHABET.length)],
+        (cell) =>
+          cell ||
+          ALPHABET[
+            Math.floor(
+              Math.random() * ALPHABET.length,
+            )
+          ],
       ),
     );
 
@@ -438,7 +480,51 @@ function buildPuzzle(level) {
     };
   }
 
-  return buildPuzzle(level);
+  /* Safe fallback */
+  const fallbackGrid = createEmptyGrid(size);
+  const fallbackWords = orderedWords.slice(
+    0,
+    Math.min(3, orderedWords.length),
+  );
+
+  const fallbackPositions = {};
+
+  fallbackWords.forEach((word, index) => {
+    const row = Math.min(index, size - 1);
+
+    if (word.length <= size) {
+      const result = placeWord(
+        fallbackGrid,
+        word,
+        row,
+        0,
+        0,
+        1,
+      );
+
+      fallbackPositions[word] =
+        result.positions;
+    }
+  });
+
+  const filledGrid = fallbackGrid.map((row) =>
+    row.map(
+      (cell) =>
+        cell ||
+        ALPHABET[
+          Math.floor(
+            Math.random() * ALPHABET.length,
+          )
+        ],
+    ),
+  );
+
+  return {
+    grid: filledGrid,
+    words: fallbackWords,
+    wordPositions: fallbackPositions,
+    size,
+  };
 }
 
 /* ==================================================
@@ -447,45 +533,60 @@ function buildPuzzle(level) {
 
 function WordHuntGame() {
   const navigate = useNavigate();
-
   const { addGameCoins } = useGameCoin();
 
   const [level, setLevel] = useState(1);
 
-  const initialPuzzle = useMemo(() => buildPuzzle(1), []);
+  const initialPuzzle = useMemo(
+    () => buildPuzzle(1),
+    [],
+  );
 
-  const [puzzle, setPuzzle] = useState(initialPuzzle);
+  const [puzzle, setPuzzle] =
+    useState(initialPuzzle);
 
-  const [foundWords, setFoundWords] = useState([]);
+  const [foundWords, setFoundWords] =
+    useState([]);
 
-  const [selectedCells, setSelectedCells] = useState([]);
+  const [selectedCells, setSelectedCells] =
+    useState([]);
 
-  const [isSelecting, setIsSelecting] = useState(false);
+  const [isSelecting, setIsSelecting] =
+    useState(false);
 
-  const [selectionDirection, setSelectionDirection] = useState(null);
+  const [selectionDirection, setSelectionDirection] =
+    useState(null);
 
-  const [timeLeft, setTimeLeft] = useState(getGameTime(1));
+  const [timeLeft, setTimeLeft] =
+    useState(getGameTime(1));
 
-  const [gameOver, setGameOver] = useState(false);
+  const [gameOver, setGameOver] =
+    useState(false);
 
-  const [showRevive, setShowRevive] = useState(false);
+  const [showRevive, setShowRevive] =
+    useState(false);
 
-  const [revived, setRevived] = useState(false);
+  const [revived, setRevived] =
+    useState(false);
 
-  const [levelComplete, setLevelComplete] = useState(false);
+  const [levelComplete, setLevelComplete] =
+    useState(false);
 
-  const [finalComplete, setFinalComplete] = useState(false);
+  const [finalComplete, setFinalComplete] =
+    useState(false);
 
-  /*
-    Prevent duplicate rewards.
-  */
   const rewardGrantedRef = useRef(false);
+  const gridRef = useRef(null);
+  const selectingRef = useRef(false);
+  const selectedCellsRef = useRef([]);
+  const directionRef = useRef(null);
 
-  const { grid, words, wordPositions, size } = puzzle;
+  const { grid, words, wordPositions, size } =
+    puzzle;
 
   const totalWords = words.length;
-
-  const isLastLevel = level === TOTAL_LEVELS;
+  const isLastLevel =
+    level === TOTAL_LEVELS;
 
   const reward = foundWords.length * 10;
 
@@ -494,119 +595,361 @@ function WordHuntGame() {
   ================================================== */
 
   useEffect(() => {
-    if (gameOver || levelComplete || finalComplete) {
+    if (
+      gameOver ||
+      levelComplete ||
+      finalComplete
+    ) {
       return;
     }
 
     if (timeLeft <= 0) {
       setGameOver(true);
-      setShowRevive(true);
+
+      if (!revived) {
+        setShowRevive(true);
+      }
+
       return;
     }
 
     const timer = setInterval(() => {
-      setTimeLeft((previous) => previous - 1);
+      setTimeLeft(
+        (previous) => previous - 1,
+      );
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeLeft, gameOver, levelComplete, finalComplete]);
+  }, [
+    timeLeft,
+    gameOver,
+    levelComplete,
+    finalComplete,
+    revived,
+  ]);
 
   /* ==================================================
      CELL HELPERS
   ================================================== */
 
   const isCellSelected = (row, col) =>
-    selectedCells.some((cell) => cell.row === row && cell.col === col);
+    selectedCells.some(
+      (cell) =>
+        cell.row === row &&
+        cell.col === col,
+    );
 
   const isCellInFoundWord = (row, col) =>
     foundWords.some((word) =>
-      wordPositions[word]?.some((cell) => cell.row === row && cell.col === col),
+      wordPositions[word]?.some(
+        (cell) =>
+          cell.row === row &&
+          cell.col === col,
+      ),
     );
 
   const getSelectedWord = (cells) =>
-    cells.map((cell) => grid[cell.row][cell.col]).join("");
+    cells
+      .map((cell) => grid[cell.row][cell.col])
+      .join("");
 
   /* ==================================================
-     STRAIGHT LINE SELECTION
+     SELECTION
   ================================================== */
 
   const canContinueSelection = (cell) => {
-    if (selectedCells.length === 0) {
+    const current =
+      selectedCellsRef.current;
+
+    if (current.length === 0) {
       return true;
     }
 
-    const lastCell = selectedCells[selectedCells.length - 1];
+    const lastCell =
+      current[current.length - 1];
 
-    const rowDifference = cell.row - lastCell.row;
+    const rowDifference =
+      cell.row - lastCell.row;
 
-    const colDifference = cell.col - lastCell.col;
+    const colDifference =
+      cell.col - lastCell.col;
 
-    if (!selectionDirection) {
-      const direction = DIRECTIONS.find(
-        ([rowDirection, colDirection]) =>
-          rowDirection === Math.sign(rowDifference) &&
-          colDirection === Math.sign(colDifference),
-      );
+    if (
+      rowDifference === 0 &&
+      colDifference === 0
+    ) {
+      return false;
+    }
 
-      if (!direction) {
+    if (!directionRef.current) {
+      const rowStep =
+        Math.sign(rowDifference);
+
+      const colStep =
+        Math.sign(colDifference);
+
+      const validDirection =
+        DIRECTIONS.find(
+          ([rowDirection, colDirection]) =>
+            rowDirection === rowStep &&
+            colDirection === colStep,
+        );
+
+      if (!validDirection) {
         return false;
       }
 
-      setSelectionDirection(direction);
-
-      return true;
+      directionRef.current =
+        validDirection;
     }
 
     return (
-      Math.sign(rowDifference) === selectionDirection[0] &&
-      Math.sign(colDifference) === selectionDirection[1]
+      Math.sign(rowDifference) ===
+        directionRef.current[0] &&
+      Math.sign(colDifference) ===
+        directionRef.current[1]
     );
+  };
+
+  const addCellToSelection = (
+    row,
+    col,
+  ) => {
+    const cell = { row, col };
+
+    const current =
+      selectedCellsRef.current;
+
+    if (
+      current.some(
+        (item) =>
+          item.row === row &&
+          item.col === col,
+      )
+    ) {
+      return;
+    }
+
+    if (
+      !canContinueSelection(cell)
+    ) {
+      return;
+    }
+
+    const next = [...current, cell];
+
+    selectedCellsRef.current = next;
+    setSelectedCells(next);
+  };
+
+  const addCellsBetween = (
+    targetRow,
+    targetCol,
+  ) => {
+    const current =
+      selectedCellsRef.current;
+
+    if (!current.length) {
+      addCellToSelection(
+        targetRow,
+        targetCol,
+      );
+      return;
+    }
+
+    const last =
+      current[current.length - 1];
+
+    const rowDifference =
+      targetRow - last.row;
+
+    const colDifference =
+      targetCol - last.col;
+
+    const rowStep =
+      Math.sign(rowDifference);
+
+    const colStep =
+      Math.sign(colDifference);
+
+    if (
+      Math.abs(rowDifference) !==
+        Math.abs(colDifference) &&
+      rowDifference !== 0 &&
+      colDifference !== 0
+    ) {
+      return;
+    }
+
+    if (
+      directionRef.current &&
+      (rowStep !==
+        directionRef.current[0] ||
+        colStep !==
+          directionRef.current[1])
+    ) {
+      return;
+    }
+
+    if (!directionRef.current) {
+      const validDirection =
+        DIRECTIONS.find(
+          ([r, c]) =>
+            r === rowStep &&
+            c === colStep,
+        );
+
+      if (!validDirection) {
+        return;
+      }
+
+      directionRef.current =
+        validDirection;
+    }
+
+    const distance = Math.max(
+      Math.abs(rowDifference),
+      Math.abs(colDifference),
+    );
+
+    for (
+      let step = 1;
+      step <= distance;
+      step++
+    ) {
+      const nextRow =
+        last.row + rowStep * step;
+
+      const nextCol =
+        last.col + colStep * step;
+
+      if (
+        nextRow < 0 ||
+        nextRow >= size ||
+        nextCol < 0 ||
+        nextCol >= size
+      ) {
+        break;
+      }
+
+      const alreadySelected =
+        selectedCellsRef.current.some(
+          (item) =>
+            item.row === nextRow &&
+            item.col === nextCol,
+        );
+
+      if (alreadySelected) {
+        continue;
+      }
+
+      const next = [
+        ...selectedCellsRef.current,
+        {
+          row: nextRow,
+          col: nextCol,
+        },
+      ];
+
+      selectedCellsRef.current = next;
+      setSelectedCells(next);
+    }
   };
 
   /* ==================================================
      POINTER DOWN
   ================================================== */
 
-  const handleCellPointerDown = (row, col) => {
-    if (gameOver || levelComplete || finalComplete) {
+  const handleCellPointerDown = (
+    event,
+    row,
+    col,
+  ) => {
+    if (
+      gameOver ||
+      levelComplete ||
+      finalComplete
+    ) {
       return;
     }
 
-    setIsSelecting(true);
+    event.preventDefault();
 
-    setSelectionDirection(null);
+    selectingRef.current = true;
 
-    setSelectedCells([
+    directionRef.current = null;
+
+    const firstCell = [
       {
         row,
         col,
       },
-    ]);
+    ];
+
+    selectedCellsRef.current =
+      firstCell;
+
+    setSelectedCells(firstCell);
+
+    try {
+      event.currentTarget.setPointerCapture(
+        event.pointerId,
+      );
+    } catch {
+      // Pointer capture may not be supported
+      // in every browser environment.
+    }
   };
 
   /* ==================================================
-     POINTER ENTER
+     POINTER MOVE
   ================================================== */
 
-  const handleCellPointerEnter = (row, col) => {
-    if (!isSelecting || gameOver || levelComplete || finalComplete) {
+  const handleGridPointerMove = (
+    event,
+  ) => {
+    if (
+      !selectingRef.current ||
+      gameOver ||
+      levelComplete ||
+      finalComplete
+    ) {
       return;
     }
 
-    if (selectedCells.some((cell) => cell.row === row && cell.col === col)) {
+    event.preventDefault();
+
+    const element =
+      document.elementFromPoint(
+        event.clientX,
+        event.clientY,
+      );
+
+    const cellElement =
+      element?.closest(
+        "[data-row][data-col]",
+      );
+
+    if (!cellElement) {
       return;
     }
 
-    const cell = {
-      row,
-      col,
-    };
+    const row = Number(
+      cellElement.dataset.row,
+    );
 
-    if (!canContinueSelection(cell)) {
+    const col = Number(
+      cellElement.dataset.col,
+    );
+
+    if (
+      Number.isNaN(row) ||
+      Number.isNaN(col)
+    ) {
       return;
     }
 
-    setSelectedCells((previous) => [...previous, cell]);
+    addCellsBetween(row, col);
   };
 
   /* ==================================================
@@ -614,29 +957,50 @@ function WordHuntGame() {
   ================================================== */
 
   const finishSelection = () => {
-    if (!isSelecting) {
+    if (!selectingRef.current) {
       return;
     }
 
-    setIsSelecting(false);
+    selectingRef.current = false;
 
-    const selectedWord = getSelectedWord(selectedCells);
+    const cells =
+      selectedCellsRef.current;
 
-    const reversedWord = selectedWord.split("").reverse().join("");
-
-    const matchedWord = words.find(
-      (word) =>
-        !foundWords.includes(word) &&
-        (word === selectedWord || word === reversedWord),
-    );
-
-    if (matchedWord) {
-      setFoundWords((previous) => [...previous, matchedWord]);
+    if (cells.length < 3) {
+      selectedCellsRef.current = [];
+      setSelectedCells([]);
+      directionRef.current = null;
+      return;
     }
 
-    setSelectedCells([]);
+    const selectedWord =
+      getSelectedWord(cells);
 
-    setSelectionDirection(null);
+    const reversedWord = selectedWord
+      .split("")
+      .reverse()
+      .join("");
+
+    const matchedWord =
+      words.find(
+        (word) =>
+          !foundWords.includes(word) &&
+          (word === selectedWord ||
+            word === reversedWord),
+      );
+
+    if (matchedWord) {
+      setFoundWords(
+        (previous) => [
+          ...previous,
+          matchedWord,
+        ],
+      );
+    }
+
+    selectedCellsRef.current = [];
+    setSelectedCells([]);
+    directionRef.current = null;
   };
 
   /* ==================================================
@@ -644,7 +1008,10 @@ function WordHuntGame() {
   ================================================== */
 
   useEffect(() => {
-    if (foundWords.length !== totalWords) {
+    if (
+      foundWords.length !== totalWords ||
+      totalWords === 0
+    ) {
       return;
     }
 
@@ -654,10 +1021,9 @@ function WordHuntGame() {
 
     rewardGrantedRef.current = true;
 
-    /*
-      Game stops immediately
-      once every word is found.
-    */
+    selectingRef.current = false;
+    selectedCellsRef.current = [];
+
     setIsSelecting(false);
     setSelectedCells([]);
     setLevelComplete(true);
@@ -667,7 +1033,13 @@ function WordHuntGame() {
     if (isLastLevel) {
       setFinalComplete(true);
     }
-  }, [foundWords, totalWords, reward, addGameCoins, isLastLevel]);
+  }, [
+    foundWords,
+    totalWords,
+    reward,
+    addGameCoins,
+    isLastLevel,
+  ]);
 
   /* ==================================================
      NEXT LEVEL
@@ -679,24 +1051,24 @@ function WordHuntGame() {
     }
 
     const nextLevel = level + 1;
-
-    const nextPuzzle = buildPuzzle(nextLevel);
+    const nextPuzzle =
+      buildPuzzle(nextLevel);
 
     rewardGrantedRef.current = false;
 
+    selectedCellsRef.current = [];
+    directionRef.current = null;
+    selectingRef.current = false;
+
     setLevel(nextLevel);
-
     setPuzzle(nextPuzzle);
-
     setFoundWords([]);
     setSelectedCells([]);
-
     setSelectionDirection(null);
-
     setIsSelecting(false);
-
-    setTimeLeft(getGameTime(nextLevel));
-
+    setTimeLeft(
+      getGameTime(nextLevel),
+    );
     setGameOver(false);
     setShowRevive(false);
     setRevived(false);
@@ -713,6 +1085,14 @@ function WordHuntGame() {
       return;
     }
 
+    selectedCellsRef.current = [];
+    directionRef.current = null;
+    selectingRef.current = false;
+
+    setSelectedCells([]);
+    setSelectionDirection(null);
+    setIsSelecting(false);
+
     setRevived(true);
     setShowRevive(false);
     setGameOver(false);
@@ -720,12 +1100,23 @@ function WordHuntGame() {
   };
 
   /* ==================================================
-     NO THANKS
+     NO THANKS / FINISH
   ================================================== */
 
-  const handleNoThanks = () => {
+  const finishGame = () => {
+    if (!rewardGrantedRef.current) {
+      rewardGrantedRef.current = true;
+      addGameCoins(reward);
+    }
+
     setShowRevive(false);
     setGameOver(true);
+
+    navigate("/game/8");
+  };
+
+  const handleNoThanks = () => {
+    finishGame();
   };
 
   /* ==================================================
@@ -735,17 +1126,16 @@ function WordHuntGame() {
   const handleRestart = () => {
     rewardGrantedRef.current = false;
 
-    setPuzzle(buildPuzzle(level));
+    selectedCellsRef.current = [];
+    directionRef.current = null;
+    selectingRef.current = false;
 
+    setPuzzle(buildPuzzle(level));
     setFoundWords([]);
     setSelectedCells([]);
-
     setSelectionDirection(null);
-
     setIsSelecting(false);
-
     setTimeLeft(getGameTime(level));
-
     setGameOver(false);
     setShowRevive(false);
     setRevived(false);
@@ -765,7 +1155,9 @@ function WordHuntGame() {
         <button
           type="button"
           className={styles.backButton}
-          onClick={() => navigate("/game/8")}
+          onClick={() =>
+            navigate("/game/8")
+          }
           aria-label="Back to Word Hunt"
         >
           <FiArrowLeft />
@@ -782,76 +1174,118 @@ function WordHuntGame() {
         <div className={styles.timer}>
           <FiHeart />
 
-          <strong>{timeLeft}s</strong>
+          <strong>
+            {timeLeft}s
+          </strong>
         </div>
       </header>
 
       {/* MAIN */}
 
       <main className={styles.main}>
-        <section className={styles.gameContainer}>
-          {/* LEVEL COMPLETE POPUP */}
+        {/* LEVEL COMPLETE POPUP */}
 
-          {levelComplete && (
-            <div className={styles.levelCompleteOverlay}>
-              <div className={styles.levelCompletePopup}>
-                <div className={styles.completeIcon}>
-                  {finalComplete ? "🏆" : "🎉"}
-                </div>
+        {levelComplete && (
+          <div
+            className={
+              styles.levelCompleteOverlay
+            }
+          >
+            <div
+              className={
+                styles.levelCompletePopup
+              }
+            >
+              <div
+                className={styles.completeIcon}
+              >
+                {finalComplete
+                  ? "🏆"
+                  : "🎉"}
+              </div>
 
-                <span className={styles.completeLabel}>
-                  {finalComplete ? "CHALLENGE COMPLETE" : "LEVEL COMPLETE"}
-                </span>
+              <span
+                className={
+                  styles.completeLabel
+                }
+              >
+                {finalComplete
+                  ? "CHALLENGE COMPLETE"
+                  : "LEVEL COMPLETE"}
+              </span>
 
-                <h2>
-                  {finalComplete
-                    ? "All 20 Levels Complete!"
-                    : `Level ${level} Complete!`}
-                </h2>
+              <h2>
+                {finalComplete
+                  ? "All 20 Levels Complete!"
+                  : `Level ${level} Complete!`}
+              </h2>
 
-                <p>You found all {totalWords} words.</p>
+              <p>
+                You found all{" "}
+                {totalWords} words.
+              </p>
 
-                <strong className={styles.completeReward}>
-                  +{reward} Game Coins
-                </strong>
+              <strong
+                className={
+                  styles.completeReward
+                }
+              >
+                +{reward} Game Coins
+              </strong>
 
-                {!finalComplete ? (
-                  <>
-                    <button
-                      type="button"
-                      className={styles.nextLevelButton}
-                      onClick={handleNextLevel}
-                    >
-                      Next Level →
-                    </button>
-
-                    <button
-                      type="button"
-                      className={styles.stayButton}
-                      onClick={() => setLevelComplete(false)}
-                    >
-                      Stay on this level
-                    </button>
-                  </>
-                ) : (
+              {!finalComplete ? (
+                <>
                   <button
                     type="button"
-                    className={styles.nextLevelButton}
-                    onClick={() => navigate("/game/8")}
+                    className={
+                      styles.nextLevelButton
+                    }
+                    onClick={
+                      handleNextLevel
+                    }
                   >
-                    Continue
+                    Next Level →
                   </button>
-                )}
-              </div>
-            </div>
-          )}
 
+                  <button
+                    type="button"
+                    className={
+                      styles.stayButton
+                    }
+                    onClick={() =>
+                      setLevelComplete(
+                        false,
+                      )
+                    }
+                  >
+                    Stay on this level
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className={
+                    styles.nextLevelButton
+                  }
+                  onClick={() =>
+                    navigate("/game/8")
+                  }
+                >
+                  Continue
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        <section
+          className={styles.gameContainer}
+        >
           {/* LEVEL INFO */}
 
           <div className={styles.levelInfo}>
             <div>
               <span>LEVEL</span>
-
               <strong>{level}</strong>
             </div>
 
@@ -867,7 +1301,8 @@ function WordHuntGame() {
               <span>WORDS</span>
 
               <strong>
-                {foundWords.length}/{totalWords}
+                {foundWords.length}/
+                {totalWords}
               </strong>
             </div>
           </div>
@@ -875,9 +1310,27 @@ function WordHuntGame() {
           {/* GRID */}
 
           <div
+            ref={gridRef}
             className={styles.gridWrapper}
-            onPointerUp={finishSelection}
-            onPointerCancel={finishSelection}
+            onPointerMove={
+              handleGridPointerMove
+            }
+            onPointerUp={
+              finishSelection
+            }
+            onPointerCancel={
+              finishSelection
+            }
+            onPointerLeave={(event) => {
+              if (
+                selectingRef.current &&
+                event.pointerType === "mouse"
+              ) {
+                // Don't finish selection here.
+                // Pointer can leave a cell while
+                // continuing across the board.
+              }
+            }}
           >
             <div
               className={styles.grid}
@@ -885,91 +1338,147 @@ function WordHuntGame() {
                 gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
               }}
             >
-              {grid.map((row, rowIndex) =>
-                row.map((letter, colIndex) => {
-                  const selected = isCellSelected(rowIndex, colIndex);
+              {grid.map(
+                (row, rowIndex) =>
+                  row.map(
+                    (letter, colIndex) => {
+                      const selected =
+                        isCellSelected(
+                          rowIndex,
+                          colIndex,
+                        );
 
-                  const found = isCellInFoundWord(rowIndex, colIndex);
+                      const found =
+                        isCellInFoundWord(
+                          rowIndex,
+                          colIndex,
+                        );
 
-                  return (
-                    <button
-                      type="button"
-                      key={`${rowIndex}-${colIndex}`}
-                      className={[
-                        styles.cell,
-                        selected ? styles.selected : "",
-                        found ? styles.found : "",
-                      ].join(" ")}
-                      onPointerDown={() =>
-                        handleCellPointerDown(rowIndex, colIndex)
-                      }
-                      onPointerEnter={() =>
-                        handleCellPointerEnter(rowIndex, colIndex)
-                      }
-                      aria-label={`Letter ${letter}`}
-                    >
-                      {letter}
-                    </button>
-                  );
-                }),
+                      return (
+                        <button
+                          type="button"
+                          key={`${rowIndex}-${colIndex}`}
+                          data-row={rowIndex}
+                          data-col={colIndex}
+                          className={[
+                            styles.cell,
+                            selected
+                              ? styles.selected
+                              : "",
+                            found
+                              ? styles.found
+                              : "",
+                          ].join(" ")}
+                          onPointerDown={(
+                            event,
+                          ) =>
+                            handleCellPointerDown(
+                              event,
+                              rowIndex,
+                              colIndex,
+                            )
+                          }
+                          aria-label={`Letter ${letter}`}
+                        >
+                          {letter}
+                        </button>
+                      );
+                    },
+                  ),
               )}
             </div>
           </div>
 
           {/* INSTRUCTIONS */}
 
-          <div className={styles.instructions}>
-            <strong>How to play</strong>
+          <div
+            className={styles.instructions}
+          >
+            <strong>
+              How to play
+            </strong>
 
-            <span>Drag across letters in a straight line to find a word.</span>
+            <span>
+              Drag across letters in a
+              straight line to find a
+              word.
+            </span>
           </div>
         </section>
 
-        {/* LEVEL COMPLETE */}
-
-        {/* FINAL COMPLETE */}
-
         {/* GAME OVER */}
 
-        {gameOver && !levelComplete && !finalComplete && !showRevive && (
-          <section className={styles.resultCard}>
-            <div className={styles.resultIcon}>!</div>
-
-            <h2>Game Over</h2>
-
-            <p>
-              You found {foundWords.length} of {totalWords} words on Level{" "}
-              {level}.
-            </p>
-
-            <strong className={styles.rewardText}>+{reward} Game Coins</strong>
-
-            <button
-              type="button"
-              className={styles.primaryButton}
-              onClick={handleRestart}
+        {gameOver &&
+          !levelComplete &&
+          !finalComplete &&
+          !showRevive && (
+            <section
+              className={styles.resultCard}
             >
-              <FiRotateCcw />
-              Try Again
-            </button>
-          </section>
-        )}
+              <div
+                className={styles.resultIcon}
+              >
+                !
+              </div>
+
+              <h2>Game Over</h2>
+
+              <p>
+                You found{" "}
+                {foundWords.length} of{" "}
+                {totalWords} words on
+                Level {level}.
+              </p>
+
+              <strong
+                className={
+                  styles.rewardText
+                }
+              >
+                +{reward} Game Coins
+              </strong>
+
+              <button
+                type="button"
+                className={
+                  styles.primaryButton
+                }
+                onClick={handleRestart}
+              >
+                <FiRotateCcw />
+                Try Again
+              </button>
+            </section>
+          )}
       </main>
 
       {/* REVIVE MODAL */}
 
       {showRevive && (
-        <div className={styles.modalOverlay}>
+        <div
+          className={
+            styles.modalOverlay
+          }
+        >
           <div className={styles.modal}>
-            <div className={styles.modalIcon}>❤️</div>
+            <div
+              className={styles.modalIcon}
+            >
+              ❤️
+            </div>
 
             <h2>Time's Up!</h2>
 
-            <p>Want another chance to continue Level {level}?</p>
+            <p>
+              Want another chance to
+              continue Level {level}?
+            </p>
 
             <button
               type="button"
-              className={styles.primaryButton}
+              className={
+                styles.primaryButton
+              }
               onClick={handleRevive}
             >
               Revive
@@ -977,7 +1486,9 @@ function WordHuntGame() {
 
             <button
               type="button"
-              className={styles.secondaryButton}
+              className={
+                styles.secondaryButton
+              }
               onClick={handleNoThanks}
             >
               No Thanks

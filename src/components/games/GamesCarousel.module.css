@@ -1,7 +1,8 @@
 .section {
   min-height: 100vh;
-  padding: 60px 0;
+  padding: 60px 0 45px;
   background: #161827;
+  overflow: hidden;
 }
 
 .container {
@@ -11,40 +12,66 @@
 
 .heading {
   margin: 0;
-  color: white;
+  color: #ffffff;
   font-size: 32px;
+  font-weight: 800;
 }
 
 .subtitle {
   margin: 6px 0 30px;
   color: #b9bdcf;
+  font-size: 14px;
 }
 
 .carousel {
   display: flex;
   gap: 24px;
+  width: 100%;
   overflow-x: auto;
-  padding: 10px 4px 20px;
-  scroll-behavior: smooth;
+  padding: 10px 4px 22px;
 
+  scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
+
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
 }
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  width: 280px;
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+}
+
+/* DOTS */
+
 .dots {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .dot {
   width: 8px;
   height: 8px;
+  padding: 0;
+  border: none;
   border-radius: 50%;
   background: #6f7285;
-  transition: all 0.25s ease;
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
 .activeDot {
@@ -52,8 +79,67 @@
   border-radius: 10px;
   background: #ffffff;
 }
-.card {
-  width: 280px;
-  flex: 0 0 280px;
-  scroll-snap-align: start;
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+  .section {
+    padding-top: 42px;
+  }
+
+  .container {
+    width: 94%;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    margin-bottom: 22px;
+  }
+
+  .carousel {
+    gap: 18px;
+  }
+
+  .card {
+    width: min(78vw, 280px);
+    flex-basis: min(78vw, 280px);
+  }
+}
+
+@media (max-width: 420px) {
+  .section {
+    padding-top: 32px;
+  }
+
+  .heading {
+    font-size: 25px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .carousel {
+    gap: 14px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .card {
+    width: 82vw;
+    flex-basis: 82vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel {
+    scroll-behavior: auto;
+  }
+
+  .dot {
+    transition: none;
+  }
 }

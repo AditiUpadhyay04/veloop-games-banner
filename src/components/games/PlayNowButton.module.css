@@ -1,58 +1,126 @@
-.PlayNowButton {
+.playButton {
   position: relative;
   overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+  padding: 10px 16px;
+
   border: none;
   border-radius: 10px;
-  padding: 10px 14px;
-  background: black;
-  color: white;
+
+  background: #171827;
+  color: #ffffff;
+
   font-size: 13px;
-  font-weight: 700px;
+  font-weight: 700;
+  line-height: 1;
+
   cursor: pointer;
   white-space: nowrap;
+
+  isolation: isolate;
+
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
-.PlayButton::before {
+
+/* Infinite shine */
+.playButton::before {
   content: "";
+
   position: absolute;
   top: 0;
-  left: -100%;
+  left: -120%;
+
   width: 45%;
   height: 100%;
+
   background: linear-gradient(
     110deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.35),
     transparent
   );
-  animation: shimmer 2.2s infinite;
+
+  transform: skewX(-20deg);
+
+  animation: shimmer 2.2s linear infinite;
+
+  pointer-events: none;
 }
 
-.PlayButton:hover {
+/* Keep text above shimmer */
+.playButton span {
+  position: relative;
+  z-index: 2;
+}
+
+.playButton:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+
+  box-shadow:
+    0 7px 18px rgba(0, 0, 0, 0.2);
 }
 
-.PlayButton:active {
+.playButton:active {
   transform: scale(0.97);
 }
 
+.playButton:focus-visible {
+  outline: 3px solid rgba(110, 140, 255, 0.45);
+  outline-offset: 2px;
+}
+
 .arrow {
-  margin-left: 4px;
+  position: relative;
+  z-index: 2;
+
+  margin-left: 5px;
+
+  font-size: 15px;
+
+  transition: transform 0.2s ease;
+}
+
+.playButton:hover .arrow {
+  transform: translateX(3px);
 }
 
 @keyframes shimmer {
   0% {
-    left: -100%;
+    left: -120%;
   }
+
   100% {
     left: 160%;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .PlayButton::before {
+  .playButton::before {
     animation: none;
+  }
+
+  .playButton,
+  .arrow {
+    transition: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .playButton {
+    min-height: 40px;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .arrow {
+    font-size: 14px;
   }
 }
