@@ -3,19 +3,29 @@ import { createContext, useContext, useState } from "react";
 const GameCoinContext = createContext();
 
 export function GameCoinProvider({ children }) {
-  const [tokens, setTokens] = useState(100);
+  const [gameCoins, setGameCoins] = useState(100);
 
-  const spendTokens = (amount) => {
-    if (tokens < amount) {
+  const addGameCoins = (amount) => {
+    setGameCoins((prev) => prev + amount);
+  };
+
+  const spendGameCoins = (amount) => {
+    if (gameCoins < amount) {
       return false;
     }
 
-    setTokens((prev) => prev - amount);
+    setGameCoins((prev) => prev - amount);
     return true;
   };
 
   return (
-    <GameCoinContext.Provider value={{ tokens, spendTokens }}>
+    <GameCoinContext.Provider
+      value={{
+        gameCoins,
+        addGameCoins,
+        spendGameCoins,
+      }}
+    >
       {children}
     </GameCoinContext.Provider>
   );

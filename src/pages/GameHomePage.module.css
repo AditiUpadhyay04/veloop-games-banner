@@ -1,0 +1,562 @@
+.page {
+  min-height: 100vh;
+  background: #f6f8fc;
+  color: #172033;
+  padding-bottom: 90px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  width: 100%;
+  height: 72px;
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #ffffff;
+  border-bottom: 1px solid #e7ebf2;
+}
+
+.backButton {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #f1f4f9;
+  color: #172033;
+
+  font-size: 21px;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.backButton:hover {
+  background: #e5eaf2;
+  transform: translateX(-2px);
+}
+
+/* =========================
+   GAME COIN BALANCE
+========================= */
+
+.coinBalance {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.coinBalance img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.coinBalance div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.coinBalance strong {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.coinBalance span {
+  margin-top: 3px;
+  font-size: 11px;
+  color: #7a8496;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+  width: min(1180px, calc(100% - 40px));
+  margin: 28px auto 0;
+}
+
+/* =========================
+   GAME CARD
+========================= */
+
+.gameCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+
+  gap: 28px;
+
+  padding: 24px;
+
+  background: #ffffff;
+  border: 1px solid #e8ecf3;
+  border-radius: 26px;
+
+  box-shadow: 0 12px 40px rgba(22, 34, 55, 0.08);
+}
+
+/* =========================
+   ARTWORK
+========================= */
+
+.artworkContainer {
+  width: 100%;
+
+  /*
+   * Important:
+   * Keeps the artwork inside a controlled area
+   * instead of letting the original image dimensions
+   * make it extremely large.
+   */
+  height: min(66vh, 650px);
+  min-height: 420px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background: linear-gradient(145deg, #f3f7ff, #eaf1ff);
+
+  position: relative;
+}
+
+.artwork {
+  display: block;
+
+  /*
+   * The image can never exceed
+   * the artwork container.
+   */
+  max-width: 100%;
+  max-height: 100%;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  border-radius: 17px;
+
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* =========================
+   GAME INFO
+========================= */
+
+.gameInfo {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px 14px;
+}
+
+.gameLabel {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+
+  color: #6d7890;
+}
+
+.gameInfo h1 {
+  margin: 0;
+
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.05;
+
+  font-weight: 850;
+
+  color: #172033;
+}
+
+.gameInfo p {
+  max-width: 430px;
+
+  margin: 16px 0 24px;
+
+  font-size: 15px;
+  line-height: 1.6;
+
+  color: #69758a;
+}
+
+/* =========================
+   ENTRY COST
+========================= */
+
+.entryCost {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: fit-content;
+
+  margin-bottom: 18px;
+  padding: 11px 14px;
+
+  border: 1px solid #e7ebf2;
+  border-radius: 14px;
+
+  background: #f8faff;
+}
+
+.entryCost img {
+  width: 28px;
+  height: 28px;
+
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.entryCost div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.entryCost span {
+  font-size: 11px;
+  color: #7a8496;
+}
+
+.entryCost strong {
+  font-size: 15px;
+  color: #172033;
+}
+
+/* =========================
+   PLAY BUTTON
+========================= */
+
+.playButton {
+  width: 100%;
+  min-height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: none;
+  border-radius: 15px;
+
+  background: #172033;
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.playButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 24px rgba(23, 32, 51, 0.2);
+}
+
+.playButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.playButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.playIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+}
+
+/* =========================
+   TOKEN BALANCE
+========================= */
+
+.tokenBalance {
+  margin-top: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  font-size: 12px;
+  color: #7a8496;
+}
+
+.tokenBalance img {
+  width: 20px;
+  height: 20px;
+
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.tokenBalance strong {
+  color: #172033;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.bottomNav {
+  position: fixed;
+
+  left: 50%;
+  bottom: 18px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e9f0;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(22, 34, 55, 0.12);
+
+  z-index: 20;
+}
+
+.bottomNav button {
+  min-width: 90px;
+  height: 40px;
+
+  padding: 0 16px;
+
+  border: none;
+  border-radius: 11px;
+
+  background: transparent;
+  color: #69758a;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.bottomNav button:hover {
+  background: #f1f4f9;
+  color: #172033;
+}
+
+/* =========================
+   NOT FOUND
+========================= */
+
+.notFound {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  text-align: center;
+}
+
+.notFound h1 {
+  margin: 0 0 10px;
+
+  font-size: 32px;
+}
+
+.notFound p {
+  margin: 0 0 22px;
+
+  color: #69758a;
+}
+
+.primaryButton {
+  padding: 12px 20px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #172033;
+  color: #ffffff;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+  .gameCard {
+    grid-template-columns: 1fr;
+  }
+
+  .artworkContainer {
+    height: min(65vh, 600px);
+    min-height: 400px;
+  }
+
+  .gameInfo {
+    padding: 8px 4px 12px;
+  }
+
+  .gameInfo p {
+    max-width: 650px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 520px) {
+  .page {
+    padding-bottom: 82px;
+  }
+
+  .header {
+    height: 62px;
+    padding: 0 16px;
+  }
+
+  .backButton {
+    width: 38px;
+    height: 38px;
+  }
+
+  .coinBalance img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .coinBalance strong {
+    font-size: 15px;
+  }
+
+  .main {
+    width: calc(100% - 20px);
+    margin-top: 14px;
+  }
+
+  .gameCard {
+    gap: 18px;
+
+    padding: 12px;
+
+    border-radius: 20px;
+  }
+
+  .artworkContainer {
+    /*
+     * Mobile artwork is also constrained.
+     */
+    height: min(65vh, 560px);
+    min-height: 320px;
+
+    border-radius: 17px;
+  }
+
+  .artwork {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .gameInfo {
+    padding: 6px 4px 10px;
+  }
+
+  .gameInfo h1 {
+    font-size: 30px;
+  }
+
+  .gameInfo p {
+    margin: 12px 0 18px;
+    font-size: 14px;
+  }
+
+  .entryCost {
+    margin-bottom: 14px;
+  }
+
+  .playButton {
+    min-height: 50px;
+  }
+
+  .bottomNav {
+    bottom: 12px;
+  }
+
+  .bottomNav button {
+    min-width: 82px;
+  }
+}
+
+/* =========================
+   VERY SMALL SCREENS
+========================= */
+
+@media (max-width: 360px) {
+  .artworkContainer {
+    min-height: 280px;
+    height: 62vh;
+  }
+
+  .gameInfo h1 {
+    font-size: 27px;
+  }
+
+  .bottomNav button {
+    min-width: 74px;
+    padding: 0 12px;
+  }
+}

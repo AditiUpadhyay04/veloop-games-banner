@@ -1,22 +1,12 @@
 import styles from "./PlayNowButton.module.css";
-import { useGameCoin } from "../../context/GameCoinContext";
+import { useNavigate } from "react-router-dom";
 
 function PlayNowButton({ game }) {
-  const { tokens, spendTokens } = useGameCoin();
+  const navigate = useNavigate();
 
   const handlePlay = () => {
-    const success = spendTokens(game.cost);
-
-    if (!success) {
-      alert(
-        `Not Enough Tokens\nYou need ${game.cost} Tokens to play.\nYour Balance: ${tokens} Tokens`,
-      );
-      return;
-    }
-
-    console.log(`Playing ${game.name}`);
+    navigate(`/game/${game.id}`);
   };
-
   return (
     <button
       type="button"
