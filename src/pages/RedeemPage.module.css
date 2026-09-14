@@ -1,16 +1,19 @@
 .page {
   min-height: 100vh;
   padding-bottom: 82px;
-
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(117, 84, 200, 0.1),
+      rgba(91, 104, 174, 0.18),
       transparent 35%
     ),
-    #f7f8fc;
-
-  color: #171827;
+    radial-gradient(
+      circle at 90% 70%,
+      rgba(54, 69, 126, 0.12),
+      transparent 30%
+    ),
+    #0b1020;
+  color: #ffffff;
 }
 
 /* =========================
@@ -19,43 +22,35 @@
 
 .header {
   min-height: 70px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 24px;
-
-  background: #ffffff;
-
-  border-bottom: 1px solid #e7e8ef;
+  background: rgba(14, 18, 32, 0.94);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .backButton {
   width: 42px;
   height: 42px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 11px;
-
-  background: #f2f3f7;
-  color: #171827;
-
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
   font-size: 19px;
-
   cursor: pointer;
-
   transition:
     background 0.2s ease,
     transform 0.2s ease;
 }
 
 .backButton:hover {
-  background: #e7e8ee;
+  background: rgba(255, 255, 255, 0.1);
   transform: translateX(-2px);
 }
 
@@ -63,22 +58,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
   text-align: center;
 }
 
 .titleSection h1 {
   margin: 0;
-
+  color: #ffffff;
   font-size: 20px;
   font-weight: 850;
 }
 
 .titleSection span {
   margin-top: 3px;
-
-  color: #7b8090;
-
+  color: #858ca4;
   font-size: 11px;
 }
 
@@ -91,29 +83,25 @@
 .coinBalance img {
   width: 36px;
   height: 36px;
-
   object-fit: contain;
-
   border-radius: 50%;
 }
 
 .coinBalance > div {
   display: flex;
   flex-direction: column;
-
   line-height: 1.1;
 }
 
 .coinBalance strong {
+  color: #ffffff;
   font-size: 16px;
   font-weight: 850;
 }
 
 .coinBalance span {
   margin-top: 3px;
-
-  color: #7b8090;
-
+  color: #858ca4;
   font-size: 10px;
 }
 
@@ -123,30 +111,25 @@
 
 .main {
   width: min(1120px, calc(100% - 32px));
-
   margin: 0 auto;
-
   padding: 34px 0 40px;
 }
 
 .intro {
   margin-bottom: 24px;
-
   text-align: center;
 }
 
 .intro h2 {
   margin: 0 0 6px;
-
+  color: #ffffff;
   font-size: 27px;
   font-weight: 850;
 }
 
 .intro p {
   margin: 0;
-
-  color: #73798a;
-
+  color: #858ca4;
   font-size: 13px;
 }
 
@@ -156,29 +139,24 @@
 
 .rewardGrid {
   display: grid;
-
   grid-template-columns: repeat(5, minmax(0, 1fr));
-
   gap: 16px;
 }
 
 .rewardCard {
   min-width: 0;
-
   padding: 18px 13px;
-
   display: flex;
   flex-direction: column;
 
-  border: 1px solid #e4e6ed;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
 
-  background: #ffffff;
-
+  background: #14192b;
   text-align: center;
 
   box-shadow:
-    0 8px 25px rgba(23, 24, 39, 0.05);
+    0 12px 30px rgba(0, 0, 0, 0.3);
 
   transition:
     transform 0.2s ease,
@@ -187,53 +165,46 @@
 
 .rewardCard:hover {
   transform: translateY(-3px);
-
   box-shadow:
-    0 14px 30px rgba(23, 24, 39, 0.09);
+    0 18px 38px rgba(0, 0, 0, 0.4);
 }
 
 .rewardImage {
   height: 82px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   margin-bottom: 10px;
 
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 14px;
 
-  background: #f7f8fb;
+  background: #0e1322;
 }
 
 .rewardImage img {
   max-width: 68px;
   max-height: 68px;
-
   object-fit: contain;
 }
 
 .rewardInfo {
   display: flex;
   flex-direction: column;
-
   flex: 1;
 }
 
 .rewardInfo h3 {
   margin: 0 0 5px;
-
+  color: #ffffff;
   font-size: 15px;
   font-weight: 850;
 }
 
 .rewardInfo p {
   min-height: 32px;
-
   margin: 0 0 12px;
-
-  color: #777d8c;
-
+  color: #858ca4;
   font-size: 11px;
   line-height: 1.45;
 }
@@ -242,53 +213,55 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 5px;
-
   margin-bottom: 13px;
 }
 
 .rewardCost img {
   width: 20px;
   height: 20px;
-
   object-fit: contain;
 }
 
 .rewardCost strong {
+  color: #ffffff;
   font-size: 14px;
   font-weight: 850;
 }
 
 .rewardCost span {
-  color: #777d8c;
-
+  color: #858ca4;
   font-size: 10px;
 }
 
 .redeemButton {
   width: 100%;
-
   min-height: 40px;
-
-  border: none;
+  border: 1px solid rgba(201, 160, 74, 0.4);
   border-radius: 10px;
 
-  background: #171827;
-  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    #d6b15b,
+    #b98a2e
+  );
 
+  color: #17120a;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 850;
 
   cursor: pointer;
 
   transition:
     transform 0.2s ease,
+    box-shadow 0.2s ease,
     opacity 0.2s ease;
 }
 
 .redeemButton:hover:not(:disabled) {
   transform: translateY(-1px);
+  box-shadow:
+    0 8px 20px rgba(201, 160, 74, 0.2);
 }
 
 .redeemButton:active:not(:disabled) {
@@ -296,9 +269,9 @@
 }
 
 .redeemButton:disabled {
-  background: #e7e8ed;
-  color: #969aa7;
-
+  background: #292d3c;
+  border-color: rgba(255, 255, 255, 0.05);
+  color: #70768a;
   cursor: not-allowed;
 }
 
@@ -309,7 +282,6 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-
   z-index: 1000;
 
   display: flex;
@@ -318,26 +290,25 @@
 
   padding: 20px;
 
-  background: rgba(15, 16, 28, 0.55);
+  background: rgba(3, 6, 15, 0.72);
 
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(7px);
 }
 
 .modal {
   position: relative;
-
   width: min(390px, 100%);
-
   padding: 28px 22px;
 
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 22px;
 
-  background: #ffffff;
+  background: #171c2e;
 
   text-align: center;
 
   box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.2);
+    0 30px 80px rgba(0, 0, 0, 0.55);
 
   animation: modalIn 0.22s ease-out;
 }
@@ -356,7 +327,6 @@
 
 .closeButton {
   position: absolute;
-
   top: 12px;
   right: 12px;
 
@@ -370,8 +340,8 @@
   border: none;
   border-radius: 50%;
 
-  background: #f3f4f7;
-  color: #555a68;
+  background: rgba(255, 255, 255, 0.07);
+  color: #aeb4ca;
 
   cursor: pointer;
 }
@@ -379,72 +349,68 @@
 .modalIcon {
   width: 68px;
   height: 68px;
-
   margin: 0 auto 14px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 17px;
 
-  background: #f5f6fa;
+  background: #0e1322;
 }
 
 .modalIcon img {
   max-width: 54px;
   max-height: 54px;
-
   object-fit: contain;
 }
 
 .modal h2 {
   margin: 0 0 8px;
-
+  color: #ffffff;
   font-size: 21px;
   font-weight: 850;
 }
 
 .modal p {
   margin: 0;
-
-  color: #707483;
-
+  color: #9ba2b7;
   font-size: 12px;
   line-height: 1.6;
 }
 
 .modalActions {
   display: grid;
-
   grid-template-columns: 1fr 1fr;
-
   gap: 10px;
-
   margin-top: 20px;
 }
 
 .cancelButton,
 .confirmButton {
   min-height: 44px;
-
-  border: none;
   border-radius: 11px;
-
   font-size: 12px;
   font-weight: 800;
-
   cursor: pointer;
 }
 
 .cancelButton {
-  background: #f1f2f5;
-  color: #555a68;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  color: #aeb4ca;
 }
 
 .confirmButton {
-  background: #171827;
-  color: #ffffff;
+  border: 1px solid rgba(201, 160, 74, 0.4);
+  background: linear-gradient(
+    135deg,
+    #d6b15b,
+    #b98a2e
+  );
+  color: #17120a;
 }
 
 .confirmButton:hover {
@@ -455,7 +421,6 @@
 .warningIcon {
   width: 62px;
   height: 62px;
-
   margin: 0 auto 15px;
 
   display: flex;
@@ -469,45 +434,40 @@
 }
 
 .successIcon {
-  background: #eaf8ef;
-  color: #2f8750;
+  background: rgba(61, 157, 91, 0.14);
+  color: #71d18d;
 }
 
 .warningIcon {
-  background: #fff2df;
-  color: #d47720;
+  background: rgba(212, 119, 32, 0.14);
+  color: #e7a35f;
 }
 
 .currentBalance {
   margin: 17px 0;
-
   padding: 12px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 6px;
 
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 11px;
 
-  background: #f6f7fa;
-
-  color: #73798a;
-
+  background: rgba(255, 255, 255, 0.045);
+  color: #858ca4;
   font-size: 11px;
 }
 
 .currentBalance img {
   width: 20px;
   height: 20px;
-
   object-fit: contain;
 }
 
 .currentBalance strong {
-  color: #171827;
-
+  color: #ffffff;
   font-size: 14px;
 }
 
@@ -517,10 +477,8 @@
 
 .bottomNav {
   position: fixed;
-
   left: 50%;
   bottom: 14px;
-
   z-index: 500;
 
   width: min(330px, calc(100% - 28px));
@@ -532,15 +490,15 @@
 
   padding: 5px;
 
-  border: 1px solid #e1e3ea;
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 15px;
 
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(17, 21, 36, 0.94);
 
   box-shadow:
-    0 12px 30px rgba(23, 24, 39, 0.13);
+    0 15px 35px rgba(0, 0, 0, 0.42);
 
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
 }
 
 .bottomNav button {
@@ -550,7 +508,7 @@
   border-radius: 11px;
 
   background: transparent;
-  color: #7a7f8d;
+  color: #7f879d;
 
   font-size: 12px;
   font-weight: 750;
@@ -559,12 +517,12 @@
 }
 
 .bottomNav button:hover {
-  background: #f4f5f8;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .bottomNav .activeNav {
-  background: #171827;
-  color: #ffffff;
+  background: rgba(201, 160, 74, 0.14);
+  color: #d5b86d;
 }
 
 /* =========================
@@ -584,13 +542,11 @@
 
   .main {
     width: min(100% - 20px, 600px);
-
     padding-top: 25px;
   }
 
   .rewardGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-
     gap: 11px;
   }
 

@@ -2,7 +2,6 @@
   position: relative;
   min-height: 100vh;
   padding: 28px 0 50px;
-
   background:
     radial-gradient(
       circle at 12% 5%,
@@ -15,33 +14,26 @@
       transparent 30%
     ),
     #111322;
-
   color: #ffffff;
   overflow: hidden;
 }
 
 .section::before {
   content: "";
-
   position: absolute;
   width: 520px;
   height: 520px;
-
   top: -300px;
   right: -150px;
-
   border-radius: 50%;
-
   background: rgba(255, 255, 255, 0.035);
   filter: blur(2px);
-
   pointer-events: none;
 }
 
 .container {
   position: relative;
   z-index: 1;
-
   width: min(1400px, 92%);
   margin: 0 auto;
 }
@@ -52,22 +44,16 @@
 
 .topBar {
   min-height: 66px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 10px 14px;
-
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 17px;
-
   background: rgba(255, 255, 255, 0.045);
-
   box-shadow:
     0 12px 35px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
-
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -83,40 +69,29 @@
 .brandIcon {
   width: 39px;
   height: 39px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 12px;
-
   background: #ffffff;
   color: #171827;
-
   font-size: 18px;
-
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
 }
 
 .brandName {
   color: #ffffff;
-
   font-size: 15px;
   font-weight: 900;
-
   letter-spacing: 1.2px;
   line-height: 1;
 }
 
 .brandSub {
   margin-top: 4px;
-
   color: #aeb4ca;
-
   font-size: 8px;
   font-weight: 800;
-
   letter-spacing: 2.4px;
 }
 
@@ -137,7 +112,6 @@
 .balanceItem img {
   width: 28px;
   height: 28px;
-
   object-fit: contain;
   border-radius: 50%;
 }
@@ -145,22 +119,18 @@
 .balanceItem div {
   display: flex;
   flex-direction: column;
-
   line-height: 1.05;
 }
 
 .balanceItem strong {
   color: #ffffff;
-
   font-size: 13px;
   font-weight: 850;
 }
 
 .balanceItem span {
   margin-top: 3px;
-
   color: #858ca4;
-
   font-size: 8px;
   font-weight: 600;
 }
@@ -168,32 +138,23 @@
 .balanceDivider {
   width: 1px;
   height: 27px;
-
   background: rgba(255, 255, 255, 0.12);
 }
 
 .redeemButton {
   height: 38px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 7px;
-
   padding: 0 13px;
-
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 11px;
-
   background: #ffffff;
   color: #171827;
-
   font-size: 11px;
   font-weight: 850;
-
   cursor: pointer;
-
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -201,9 +162,7 @@
 
 .redeemButton:hover {
   transform: translateY(-2px);
-
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
 
 .redeemButton:active {
@@ -216,7 +175,6 @@
 
 .headingArea {
   margin: 43px 0 29px;
-
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -224,60 +182,43 @@
 
 .sectionEyebrow {
   display: block;
-
   margin-bottom: 8px;
-
   color: #c9a04a;
-
   font-size: 9px;
   font-weight: 850;
-
   letter-spacing: 2.2px;
 }
 
 .heading {
   position: relative;
-
   margin: 0;
-
   color: #ffffff;
-
   font-size: clamp(32px, 3vw, 42px);
   font-weight: 900;
-
   letter-spacing: -1px;
   line-height: 1;
 }
 
 .heading::after {
   content: "";
-
   position: absolute;
-
   left: 0;
   bottom: -10px;
-
   width: 48px;
   height: 4px;
-
   border-radius: 10px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ffffff,
-      rgba(255, 255, 255, 0.15)
-    );
+  background: linear-gradient(
+    90deg,
+    #c9a04a,
+    rgba(201, 160, 74, 0.15)
+  );
 }
 
 .subtitle {
   margin: 17px 0 0;
-
   color: #aeb4ca;
-
   font-size: 13px;
   font-weight: 500;
-
   letter-spacing: 0.15px;
 }
 
@@ -285,17 +226,10 @@
   display: flex;
   align-items: center;
   gap: 7px;
-
   margin-bottom: 3px;
-
   color: #777f99;
-
   font-size: 10px;
   font-weight: 600;
-}
-
-.desktopHint svg {
-  font-size: 13px;
 }
 
 /* =========================
@@ -304,24 +238,15 @@
 
 .carousel {
   display: flex;
-
   gap: 24px;
-
   width: 100%;
-
   overflow-x: auto;
-
   padding: 13px 5px 30px;
-
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-
   -webkit-overflow-scrolling: touch;
-
   touch-action: pan-x;
-
   scrollbar-width: none;
-
   overscroll-behavior-x: contain;
 }
 
@@ -332,7 +257,6 @@
 .card {
   width: 280px;
   flex: 0 0 280px;
-
   scroll-snap-align: start;
 }
 
@@ -344,25 +268,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 7px;
-
   margin-top: 10px;
 }
 
 .dot {
   width: 7px;
   height: 7px;
-
   padding: 0;
-
   border: none;
   border-radius: 50%;
-
   background: #565b70;
-
   cursor: pointer;
-
   transition:
     width 0.25s ease,
     background 0.25s ease,
@@ -376,10 +293,8 @@
 
 .activeDot {
   width: 25px;
-
   border-radius: 10px;
-
-  background: #ffffff;
+  background: #c9a04a;
 }
 
 /* =========================
@@ -426,16 +341,13 @@
   .topBar {
     min-height: 58px;
     padding: 8px 9px;
-
     border-radius: 15px;
   }
 
   .brandIcon {
     width: 34px;
     height: 34px;
-
     border-radius: 10px;
-
     font-size: 15px;
   }
 
@@ -472,9 +384,7 @@
   .redeemButton {
     width: 35px;
     height: 34px;
-
     padding: 0;
-
     border-radius: 10px;
   }
 
@@ -506,7 +416,6 @@
 
   .carousel {
     gap: 18px;
-
     padding-top: 8px;
     padding-bottom: 22px;
   }
@@ -574,7 +483,6 @@
 
   .carousel {
     gap: 14px;
-
     padding-left: 2px;
     padding-right: 2px;
   }

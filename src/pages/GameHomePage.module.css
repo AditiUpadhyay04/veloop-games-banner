@@ -1205,3 +1205,274 @@
     animation: none;
   }
 }
+
+
+/* =========================================================
+   VELOOP DARK THEME OVERRIDES
+   Added without changing the existing layout/structure.
+========================================================= */
+
+.page {
+  background:
+    radial-gradient(circle at 8% 8%, rgba(214, 174, 79, 0.08), transparent 28%),
+    radial-gradient(circle at 92% 18%, rgba(55, 72, 115, 0.16), transparent 30%),
+    #0b1020 !important;
+  color: #f4f6fb !important;
+}
+
+.header {
+  background: rgba(10, 15, 30, 0.94) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.headerBrand strong,
+.headerTokenBalance strong {
+  color: #ffffff !important;
+}
+
+.headerBrand span {
+  color: #d6ae4f !important;
+}
+
+.headerTokenBalance span {
+  color: #858da2 !important;
+}
+
+.headerDivider {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.backButton {
+  background: #171c2e !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+.backButton:hover {
+  background: #222a40 !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.coinBalance {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+
+.coinBalance strong {
+  color: #ffffff !important;
+}
+
+.coinBalance span {
+  color: #858da2 !important;
+}
+
+.gameCard {
+  background: #11172a !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, 0.38),
+    0 5px 18px rgba(0, 0, 0, 0.2) !important;
+}
+
+.gameCard::before {
+  background: linear-gradient(90deg, #11172a, #c99b38, #11172a) !important;
+}
+
+.artworkContainer {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.07), transparent 40%),
+    linear-gradient(145deg, #0d1323 0%, #182239 52%, #0b1220 100%) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 14px 35px rgba(0, 0, 0, 0.3) !important;
+}
+
+.artworkContainer::before {
+  background: rgba(216, 174, 78, 0.09) !important;
+}
+
+.gameInfo h1 {
+  color: #ffffff !important;
+}
+
+.gameInfo p {
+  color: #929bb0 !important;
+}
+
+.gameLabel {
+  background: rgba(214, 174, 79, 0.08) !important;
+  border-color: rgba(190, 146, 51, 0.24) !important;
+  color: #d6ae4f !important;
+}
+
+.entryCost {
+  background: linear-gradient(135deg, #171c2e, #131a2c) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18) !important;
+}
+
+.entryCost span {
+  color: #858da2 !important;
+}
+
+.entryCost strong {
+  color: #ffffff !important;
+}
+
+.playButton {
+  background: linear-gradient(135deg, #d6b15b 0%, #b98a2e 100%) !important;
+  color: #17120a !important;
+  box-shadow:
+    0 10px 28px rgba(198, 158, 65, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+}
+
+.playButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e0c16f 0%, #c99b38 100%) !important;
+  box-shadow:
+    0 15px 35px rgba(198, 158, 65, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+.tokenBalance {
+  color: #858da2 !important;
+}
+
+.tokenBalance strong {
+  color: #ffffff !important;
+}
+
+.quickTip {
+  background: rgba(255, 255, 255, 0.035) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+.quickTip span {
+  color: #d6ae4f !important;
+}
+
+.quickTip p {
+  color: #858da2 !important;
+}
+
+.bottomNav {
+  background: rgba(20, 25, 43, 0.96) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.42) !important;
+}
+
+.bottomNav button {
+  color: #858da2 !important;
+}
+
+.bottomNav button:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #ffffff !important;
+}
+
+.modalOverlay {
+  background: rgba(3, 6, 15, 0.78) !important;
+}
+
+.modal {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.52) !important;
+}
+
+.closeButton {
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: #aeb5c5 !important;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.11) !important;
+}
+
+.warningIcon {
+  background: rgba(214, 174, 79, 0.1) !important;
+  border-color: rgba(214, 174, 79, 0.2) !important;
+  color: #d6ae4f !important;
+}
+
+.modalLabel {
+  color: #d6ae4f !important;
+}
+
+.modal h2 {
+  color: #ffffff !important;
+}
+
+.modal > p {
+  color: #929bb0 !important;
+}
+
+.modal > p strong {
+  color: #ffffff !important;
+}
+
+.balanceBox {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.balanceBox strong {
+  color: #ffffff !important;
+}
+
+.balanceBox span {
+  color: #858da2 !important;
+}
+
+.requiredBox {
+  background: rgba(214, 174, 79, 0.07) !important;
+  border-color: rgba(214, 174, 79, 0.18) !important;
+  color: #b6a77c !important;
+}
+
+.requiredBox strong {
+  color: #d6ae4f !important;
+}
+
+.modalButton {
+  background: linear-gradient(135deg, #d6b15b, #b98a2e) !important;
+  color: #17120a !important;
+  box-shadow: 0 8px 20px rgba(198, 158, 65, 0.18) !important;
+}
+
+.notFound {
+  background: #0b1020 !important;
+}
+
+.notFound h1 {
+  color: #ffffff !important;
+}
+
+.notFound p {
+  color: #929bb0 !important;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #d6b15b, #b98a2e) !important;
+  color: #17120a !important;
+}
+
+@media (max-width: 600px) {
+  .header {
+    background: rgba(10, 15, 30, 0.97) !important;
+  }
+
+  .gameCard {
+    background: #11172a !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playButton::before {
+    animation: none !important;
+  }
+}

@@ -2,37 +2,40 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  min-height: 36px;
-  padding: 7px 11px;
+
+  min-height: 34px;
+  padding: 5px 10px 5px 7px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
-  background: #f5f6fa;
-  border: 1px solid rgba(23, 24, 39, 0.07);
-  color: #202236;
-  font-size: 12px;
-  font-weight: 700;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  color: #dfe3ee;
+  font-size: 10px;
+  font-weight: 800;
   white-space: nowrap;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .tokenIcon {
-  width: 21px;
-  height: 21px;
-  flex: 0 0 21px;
+  width: 22px;
+  height: 22px;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 @media (max-width: 420px) {
   .tokenCost {
-    min-height: 34px;
-    padding: 6px 9px;
-    gap: 6px;
-    font-size: 11px;
+    min-height: 31px;
+    gap: 5px;
+    padding: 4px 8px 4px 6px;
+    font-size: 9px;
+    border-radius: 9px;
   }
 
   .tokenIcon {
-    width: 19px;
-    height: 19px;
-    flex-basis: 19px;
+    width: 20px;
+    height: 20px;
   }
 }

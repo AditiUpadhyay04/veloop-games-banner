@@ -2,7 +2,28 @@
   box-sizing: border-box;
 }
 
+html {
+  background: #0b1020;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  background: #0b1020;
+  color: #f5f7fb;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
 }

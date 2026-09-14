@@ -88,13 +88,12 @@
   overflow: hidden;
   border: 1px solid #dfe5ef;
   border-radius: 20px;
-  background:
-    radial-gradient(
-      circle at 50% 30%,
-      #ffffff 0,
-      #f4f7fc 55%,
-      #e9eef7 100%
-    );
+  background: radial-gradient(
+    circle at 50% 30%,
+    #ffffff 0,
+    #f4f7fc 55%,
+    #e9eef7 100%
+  );
   box-shadow:
     0 18px 45px rgba(37, 48, 74, 0.12),
     inset 0 0 50px rgba(255, 255, 255, 0.8);
@@ -111,13 +110,7 @@
   transform: translateX(-50%);
   border-radius: 50%;
   padding: 17px;
-  background:
-    radial-gradient(
-      circle,
-      #e7b866,
-      #bd8734 65%,
-      #815b26
-    );
+  background: radial-gradient(circle, #e7b866, #bd8734 65%, #815b26);
   box-shadow:
     0 15px 25px rgba(61, 42, 17, 0.22),
     inset 0 0 0 5px #fff0c9;
@@ -140,11 +133,7 @@
   position: absolute;
   inset: 3%;
   border-radius: 50%;
-  background:
-    repeating-conic-gradient(
-      #30343b 0deg 9deg,
-      #f2eee1 9deg 18deg
-    );
+  background: repeating-conic-gradient(#30343b 0deg 9deg, #f2eee1 9deg 18deg);
   border: 2px solid #22252a;
 }
 
@@ -152,11 +141,7 @@
   position: absolute;
   inset: 9%;
   border-radius: 50%;
-  background:
-    repeating-conic-gradient(
-      #f0eadb 0deg 9deg,
-      #363a40 9deg 18deg
-    );
+  background: repeating-conic-gradient(#f0eadb 0deg 9deg, #363a40 9deg 18deg);
   border: 2px solid #24272b;
 }
 
@@ -243,19 +228,8 @@
 .buttonKnife span {
   position: absolute;
   display: block;
-  background: linear-gradient(
-    90deg,
-    #7d8490,
-    #ffffff,
-    #747b87
-  );
-  clip-path: polygon(
-    50% 0,
-    100% 25%,
-    80% 100%,
-    20% 100%,
-    0 25%
-  );
+  background: linear-gradient(90deg, #7d8490, #ffffff, #747b87);
+  clip-path: polygon(50% 0, 100% 25%, 80% 100%, 20% 100%, 0 25%);
 }
 
 .stuckKnife span {
@@ -319,9 +293,7 @@
 
 .hand {
   font-size: 55px;
-  filter: drop-shadow(
-    0 5px 4px rgba(34, 43, 59, 0.18)
-  );
+  filter: drop-shadow(0 5px 4px rgba(34, 43, 59, 0.18));
 }
 
 .launchKnife {
@@ -452,15 +424,13 @@
   min-height: 56px;
   border: none;
   border-radius: 12px;
-  background:
-    linear-gradient(135deg, #e6b449, #c4881e);
+  background: linear-gradient(135deg, #e6b449, #c4881e);
   color: #ffffff;
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 1px;
   cursor: pointer;
-  box-shadow:
-    0 7px 15px rgba(197, 140, 32, 0.24);
+  box-shadow: 0 7px 15px rgba(197, 140, 32, 0.24);
   transition: 0.2s ease;
 }
 
@@ -669,11 +639,7 @@
 
 .primaryButton {
   width: 100%;
-  background: linear-gradient(
-    135deg,
-    #e6b449,
-    #c4881e
-  );
+  background: linear-gradient(135deg, #e6b449, #c4881e);
   color: #ffffff;
   box-shadow: 0 7px 15px rgba(197, 140, 32, 0.2);
 }
@@ -855,4 +821,188 @@
   .resultButtons {
     grid-template-columns: 1fr;
   }
+}
+/* =========================================
+   DARK THEME OVERRIDES
+   Keeps existing Blade Master layout/design
+========================================= */
+
+.page {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(91, 104, 174, 0.18),
+      transparent 35%
+    ),
+    #0b1020 !important;
+  color: #ffffff !important;
+}
+
+.backButton {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.backButton:hover {
+  background: #20263a !important;
+}
+.title h1 {
+  color: #ffffff !important;
+}
+.title span {
+  color: #858ca4 !important;
+}
+.scoreBox {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28) !important;
+}
+.scoreBox span {
+  color: #858ca4 !important;
+}
+.scoreBox strong {
+  color: #ffffff !important;
+}
+
+.arena {
+  background: radial-gradient(
+    circle at 50% 30%,
+    #1c2336 0,
+    #12182a 58%,
+    #0d1323 100%
+  ) !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.42),
+    inset 0 0 50px rgba(255, 255, 255, 0.025) !important;
+}
+
+.boardFrame {
+  box-shadow:
+    0 18px 30px rgba(0, 0, 0, 0.42),
+    inset 0 0 0 5px #fff0c9 !important;
+}
+
+.message {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;
+}
+.message strong {
+  color: #d6ae4f !important;
+}
+
+.throwCounter {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  color: #858ca4 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+}
+.throwCounter strong {
+  color: #ffffff !important;
+}
+
+.controls {
+  background: #14192b !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.32) !important;
+}
+.controlTop span {
+  color: #858ca4 !important;
+}
+.controlTop strong {
+  color: #d6ae4f !important;
+}
+.rangeLabels {
+  color: #707991 !important;
+}
+.physicsText {
+  color: #707991 !important;
+}
+
+.overlay {
+  background: rgba(3, 6, 15, 0.72) !important;
+}
+
+.modalCard,
+.resultCard {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55) !important;
+}
+
+.modalLabel {
+  color: #d6ae4f !important;
+}
+.modalCard h2,
+.resultCard h2 {
+  color: #ffffff !important;
+}
+.modalIntro {
+  color: #9ba3b8 !important;
+}
+.modalIntro strong {
+  color: #ffffff !important;
+}
+
+.guideList > div {
+  border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+}
+.guideList span {
+  background: rgba(201, 160, 74, 0.12) !important;
+  color: #d6ae4f !important;
+}
+.guideList p {
+  color: #9ba3b8 !important;
+}
+.guideList strong {
+  color: #ffffff !important;
+}
+
+.currentScore {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+.currentScore span {
+  color: #858ca4 !important;
+}
+.currentScore strong {
+  color: #ffffff !important;
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #aeb5c7 !important;
+}
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.resultCard p {
+  color: #9ba3b8 !important;
+}
+.finalScore {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+.finalScore span {
+  color: #858ca4 !important;
+}
+.finalScore strong {
+  color: #ffffff !important;
+}
+.reward {
+  background: rgba(201, 160, 74, 0.1) !important;
+  color: #d6ae4f !important;
+}
+.homeButton {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #aeb5c7 !important;
+}
+.homeButton:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
 }

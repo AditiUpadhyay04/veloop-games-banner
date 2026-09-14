@@ -108,8 +108,7 @@
   border: 1px solid #e7ebf2;
   border-radius: 24px;
 
-  box-shadow:
-    0 12px 40px rgba(22, 34, 55, 0.08);
+  box-shadow: 0 12px 40px rgba(22, 34, 55, 0.08);
 }
 
 /* =========================
@@ -301,8 +300,7 @@
   border: 1px solid #e7ebf2;
   border-radius: 22px;
 
-  box-shadow:
-    0 12px 40px rgba(22, 34, 55, 0.08);
+  box-shadow: 0 12px 40px rgba(22, 34, 55, 0.08);
 }
 
 .resultIcon {
@@ -382,8 +380,7 @@
 .primaryButton:hover {
   transform: translateY(-2px);
 
-  box-shadow:
-    0 8px 20px rgba(23, 32, 51, 0.18);
+  box-shadow: 0 8px 20px rgba(23, 32, 51, 0.18);
 }
 
 .secondaryButton {
@@ -445,8 +442,7 @@
 
   border-radius: 22px;
 
-  box-shadow:
-    0 24px 70px rgba(16, 24, 40, 0.22);
+  box-shadow: 0 24px 70px rgba(16, 24, 40, 0.22);
 }
 
 .modalIcon {
@@ -665,8 +661,7 @@
   border: 1px solid #e3e8f0;
   border-radius: 22px;
 
-  box-shadow:
-    0 24px 70px rgba(20, 30, 50, 0.22);
+  box-shadow: 0 24px 70px rgba(20, 30, 50, 0.22);
 
   animation: levelPopupIn 0.25s ease-out;
 }
@@ -763,8 +758,7 @@
 .nextLevelButton:hover {
   transform: translateY(-2px);
 
-  box-shadow:
-    0 8px 20px rgba(23, 32, 51, 0.18);
+  box-shadow: 0 8px 20px rgba(23, 32, 51, 0.18);
 }
 
 .stayButton {
@@ -822,4 +816,160 @@
     font-size: 16px;
     margin-bottom: 17px;
   }
+}
+/* =========================================
+   DARK THEME OVERRIDES
+   Existing Word Hunt layout preserved
+========================================= */
+
+.page {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(91, 104, 174, 0.18),
+      transparent 35%
+    ),
+    #0b1020 !important;
+  color: #ffffff !important;
+}
+
+.header {
+  background: rgba(14, 18, 32, 0.94) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.backButton {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  color: #ffffff !important;
+}
+.backButton:hover {
+  background: #20263a !important;
+}
+.headerTitle span {
+  color: #858ca4 !important;
+}
+.headerTitle strong {
+  color: #ffffff !important;
+}
+.timer {
+  background: rgba(201, 74, 91, 0.12) !important;
+  color: #ef7180 !important;
+}
+
+.gameContainer {
+  background: #14192b !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38) !important;
+}
+
+.levelInfo > div {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+.levelInfo span {
+  color: #858ca4 !important;
+}
+.levelInfo strong {
+  color: #ffffff !important;
+}
+
+.grid {
+  background: #0e1322 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.cell {
+  background: #1a2032 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #eef1f7 !important;
+}
+.cell:hover {
+  background: #242b40 !important;
+}
+.cell.selected {
+  background: rgba(91, 132, 220, 0.28) !important;
+  border-color: #6f9eea !important;
+  color: #a9c8ff !important;
+}
+.cell.found,
+.cell.found.selected {
+  background: rgba(61, 157, 91, 0.18) !important;
+  border-color: #65b97d !important;
+  color: #8de0a4 !important;
+}
+
+.instructions {
+  background: rgba(255, 255, 255, 0.045) !important;
+  color: #9ba3b8 !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+}
+.instructions strong {
+  color: #ffffff !important;
+}
+
+.resultCard {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45) !important;
+}
+.resultCard h2 {
+  color: #ffffff !important;
+}
+.resultCard p {
+  color: #9ba3b8 !important;
+}
+.rewardText {
+  color: #d6ae4f !important;
+}
+
+.primaryButton,
+.nextLevelButton {
+  background: linear-gradient(135deg, #d6b15b, #b98a2e) !important;
+  color: #17120a !important;
+  box-shadow: 0 8px 20px rgba(201, 160, 74, 0.2) !important;
+}
+
+.secondaryButton,
+.stayButton {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #aeb5c7 !important;
+}
+.secondaryButton:hover,
+.stayButton:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.modalOverlay,
+.levelCompleteOverlay {
+  background: rgba(3, 6, 15, 0.72) !important;
+}
+
+.modal,
+.levelCompletePopup {
+  background: #171c2e !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55) !important;
+}
+
+.modal h2,
+.levelCompletePopup h2 {
+  color: #ffffff !important;
+}
+.modal p,
+.levelCompletePopup p {
+  color: #9ba3b8 !important;
+}
+
+.modalIcon,
+.completeIcon {
+  background: rgba(201, 160, 74, 0.1) !important;
+}
+
+.completeLabel {
+  color: #858ca4 !important;
+}
+.completeReward {
+  color: #d6ae4f !important;
 }
