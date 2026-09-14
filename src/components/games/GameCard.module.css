@@ -2,14 +2,42 @@
   width: 280px;
   flex: 0 0 280px;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 22px;
   background: #ffffff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(20, 25, 45, 0.08);
+  box-shadow:
+    0 12px 35px rgba(20, 25, 45, 0.12),
+    0 3px 10px rgba(20, 25, 45, 0.06);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 45px rgba(20, 25, 45, 0.18),
+    0 5px 15px rgba(20, 25, 45, 0.08);
+}
+
 .imageWrapper {
+  position: relative;
   width: 100%;
   aspect-ratio: 1024 / 1260;
   overflow: hidden;
+  background: #f7f8fb;
+}
+
+.imageWrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 75%,
+    rgba(10, 15, 30, 0.08)
+  );
 }
 
 .gameImage {
@@ -17,11 +45,47 @@
   height: 100%;
   display: block;
   object-fit: contain;
+  transition: transform 0.45s ease;
 }
+
+.card:hover .gameImage {
+  transform: scale(1.025);
+}
+
 .bottomSection {
-  padding: 14px;
+  min-height: 76px;
+  padding: 14px 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
+  background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .card {
+    border-radius: 20px;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .card:hover .gameImage {
+    transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .card {
+    width: 270px;
+    flex-basis: 270px;
+    border-radius: 18px;
+  }
+
+  .bottomSection {
+    min-height: 70px;
+    padding: 12px;
+    gap: 8px;
+  }
 }

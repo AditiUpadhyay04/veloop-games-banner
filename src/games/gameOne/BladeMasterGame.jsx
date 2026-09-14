@@ -173,6 +173,10 @@ function BladeMasterGame() {
       : TOTAL_THROWS;
 
     if (nextThrow >= currentThrowLimit) {
+      // Lock the round immediately so another throw cannot be triggered
+      // during the short transition before the result/revive screen.
+      setGameOver(true);
+
       setTimeout(() => {
         finishRound();
       }, 800);

@@ -554,9 +554,6 @@ function WordHuntGame() {
   const [isSelecting, setIsSelecting] =
     useState(false);
 
-  const [selectionDirection, setSelectionDirection] =
-    useState(null);
-
   const [timeLeft, setTimeLeft] =
     useState(getGameTime(1));
 
@@ -608,6 +605,9 @@ function WordHuntGame() {
 
       if (!revived) {
         setShowRevive(true);
+      } else if (!rewardGrantedRef.current) {
+        rewardGrantedRef.current = true;
+        addGameCoins(reward);
       }
 
       return;
@@ -1064,7 +1064,6 @@ function WordHuntGame() {
     setPuzzle(nextPuzzle);
     setFoundWords([]);
     setSelectedCells([]);
-    setSelectionDirection(null);
     setIsSelecting(false);
     setTimeLeft(
       getGameTime(nextLevel),
@@ -1090,7 +1089,6 @@ function WordHuntGame() {
     selectingRef.current = false;
 
     setSelectedCells([]);
-    setSelectionDirection(null);
     setIsSelecting(false);
 
     setRevived(true);
@@ -1133,7 +1131,6 @@ function WordHuntGame() {
     setPuzzle(buildPuzzle(level));
     setFoundWords([]);
     setSelectedCells([]);
-    setSelectionDirection(null);
     setIsSelecting(false);
     setTimeLeft(getGameTime(level));
     setGameOver(false);
