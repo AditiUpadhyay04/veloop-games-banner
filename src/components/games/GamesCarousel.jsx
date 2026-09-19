@@ -1,279 +1,274 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FiGift, FiHome } from "react-icons/fi";
+import { motion } from "framer-motion";
+import {
+  FiGift,
+  FiUser,
+  FiChevronDown,
+  FiDollarSign,
+} from "react-icons/fi";
+import { MdSportsEsports } from "react-icons/md";
 
 import games from "../../data/gamesData";
 import GameCard from "./GameCard";
-import CarouselDots from "./CarouselDots";
+
+import heroBanner from "../../assets/games/hero-banner.png";
 import styles from "./GamesCarousel.module.css";
 
-import { useTokens } from "../../context/TokenContext";
-import { useGameCoin } from "../../context/GameCoinContext";
-import gameCoinIcon from "../../assets/games/game_coin.jpeg";
-import tokenIcon from "../../assets/games/multi_token.jpeg";
-
-const GAP = 24;
-
 function GamesCarousel() {
-  const carouselRef = useRef(null);
-  const autoScrollRef = useRef(null);
-  const resumeTimerRef = useRef(null);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const { tokens } = useTokens();
-  const { gameCoins } = useGameCoin();
-
-  const repeatedGames = [...games, ...games, ...games];
-
-  const getStep = useCallback(() => {
-    const carousel = carouselRef.current;
-
-    if (!carousel) return 304;
-
-    const firstCard = carousel.querySelector("[data-game-card]");
-
-    if (!firstCard) return 304;
-
-    return firstCard.getBoundingClientRect().width + GAP;
-  }, []);
-
-  const normalizePosition = useCallback(() => {
-    const carousel = carouselRef.current;
-
-    if (!carousel) return;
-
-    const oneSetWidth = games.length * getStep();
-
-    if (carousel.scrollLeft >= oneSetWidth * 2) {
-      carousel.scrollLeft -= oneSetWidth;
-    } else if (carousel.scrollLeft <= 0) {
-      carousel.scrollLeft += oneSetWidth;
-    }
-  }, [getStep]);
-
-  const updateActiveIndex = useCallback(() => {
-    const carousel = carouselRef.current;
-
-    if (!carousel) return;
-
-    const step = getStep();
-    const rawIndex = Math.round(carousel.scrollLeft / step);
-
-    const normalizedIndex =
-      ((rawIndex % games.length) + games.length) % games.length;
-
-    setActiveIndex(normalizedIndex);
-  }, [getStep]);
-
-  const scrollNext = useCallback(() => {
-    const carousel = carouselRef.current;
-
-    if (!carousel) return;
-
-    const step = getStep();
-
-    carousel.scrollTo({
-      left: carousel.scrollLeft + step,
-      behavior: "smooth",
-    });
-  }, [getStep]);
-
-  const pauseTemporarily = useCallback(() => {
-    setIsPaused(true);
-
-    clearTimeout(resumeTimerRef.current);
-
-    resumeTimerRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 3500);
-  }, []);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-
-    if (!carousel) return;
-
-    const oneSetWidth = games.length * getStep();
-
-    carousel.scrollLeft = oneSetWidth;
-
-    updateActiveIndex();
-  }, [getStep, updateActiveIndex]);
-
-  useEffect(() => {
-    clearInterval(autoScrollRef.current);
-
-    if (isPaused) return;
-
-    autoScrollRef.current = setInterval(() => {
-      scrollNext();
-    }, 3000);
-
-    return () => {
-      clearInterval(autoScrollRef.current);
-    };
-  }, [isPaused, scrollNext]);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-
-    if (!carousel) return;
-
-    const handleScroll = () => {
-      normalizePosition();
-      updateActiveIndex();
-    };
-
-    carousel.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    return () => {
-      carousel.removeEventListener("scroll", handleScroll);
-    };
-  }, [normalizePosition, updateActiveIndex]);
-
-  useEffect(() => {
-    return () => {
-      clearInterval(autoScrollRef.current);
-      clearTimeout(resumeTimerRef.current);
-    };
-  }, []);
-
-  const handlePointerEnter = () => {
-    setIsPaused(true);
-  };
-
-  const handlePointerLeave = () => {
-    setIsPaused(false);
-  };
-
-  const handleTouchStart = () => {
-    pauseTemporarily();
-  };
-
-  const handleWheel = () => {
-    pauseTemporarily();
-  };
-
   return (
-    <section className={styles.section}>
-      <div className={styles.container}>
+    <main className={styles.page}>
 
-        {/* ================= HEADER ================= */}
+      {/* ================= HEADER ================= */}
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
 
-        <header className={styles.topBar}>
-          <div className={styles.brandArea}>
-            <div className={styles.brandIcon}>
-              <FiGift />
-            </div>
-
-            <div>
-              <div className={styles.brandName}>
-                VELOOP
-              </div>
-
-              <div className={styles.brandSub}>
-                REWARDS
-              </div>
+          {/* LOGO */}
+          <div className={styles.logo}>
+            <div className={styles.logoMain}>VELOOP</div>
+            <div className={styles.logoSub}>
+              R E W A R D S
             </div>
           </div>
 
-          <div className={styles.balanceArea}>
-
-            <div className={styles.balanceItem}>
-              <img
-                src={tokenIcon}
-                alt="Tokens"
-              />
-
-              <div>
-                <strong>{tokens}</strong>
-                <span>Tokens</span>
-              </div>
-            </div>
-
-            <div className={styles.balanceDivider} />
-
-            <div className={styles.balanceItem}>
-              <img
-                src={gameCoinIcon}
-                alt="Game Coins"
-              />
-
-              <div>
-                <strong>{gameCoins}</strong>
-                <span>Game Coins</span>
-              </div>
-            </div>
+          {/* NAVIGATION */}
+          <nav className={styles.nav}>
+            <button
+              type="button"
+              className={`${styles.navItem} ${styles.active}`}
+            >
+              <MdSportsEsports />
+              <span>Games</span>
+            </button>
 
             <button
               type="button"
-              className={styles.redeemButton}
-              onClick={() => {
-                window.location.href = "/redeem";
-              }}
+              className={styles.navItem}
             >
               <FiGift />
               <span>Redeem</span>
             </button>
+          </nav>
 
-          </div>
-        </header>
+          {/* HEADER RIGHT */}
+          <div className={styles.headerRight}>
 
-        {/* ================= SECTION HEADING ================= */}
+            {/* GAME COINS */}
+            <div className={styles.coinBalance}>
+              <div className={styles.coinIcon}>
+                <FiDollarSign />
+              </div>
 
-        <div className={styles.headingArea}>
-          <div>
-            <span className={styles.sectionEyebrow}>
-              PLAY &amp; EARN
-            </span>
-
-            <h1 className={styles.heading}>
-              Games
-            </h1>
-
-            <p className={styles.subtitle}>
-              Explore Games &amp; Earn Rewards
-            </p>
-          </div>
-
-          <div className={styles.desktopHint}>
-            <FiHome />
-            <span>Choose a game to start</span>
-          </div>
-        </div>
-
-        {/* ================= CAROUSEL ================= */}
-
-        <div
-          ref={carouselRef}
-          className={styles.carousel}
-          onMouseEnter={handlePointerEnter}
-          onMouseLeave={handlePointerLeave}
-          onTouchStart={handleTouchStart}
-          onWheel={handleWheel}
-          aria-label="VELOOP games carousel"
-        >
-          {repeatedGames.map((game, index) => (
-            <div
-              key={`${game.id}-${index}`}
-              className={styles.card}
-              data-game-card
-            >
-              <GameCard game={game} />
+              <div>
+                <strong>100</strong>
+                <span>Game Coins</span>
+              </div>
             </div>
-          ))}
-        </div>
 
-        <CarouselDots
-          total={games.length}
-          activeIndex={activeIndex}
+            {/* PROFILE */}
+            <div className={styles.profile}>
+              <div className={styles.profileAvatar}>
+                <FiUser />
+              </div>
+
+              <div className={styles.profileInfo}>
+                <strong>Hey Player!</strong>
+                <span>Good to see you!</span>
+              </div>
+
+              <FiChevronDown className={styles.profileArrow} />
+            </div>
+
+          </div>
+        </div>
+      </header>
+
+
+      {/* ================= HERO ================= */}
+      <section className={styles.hero}>
+
+        <img
+          src={heroBanner}
+          alt=""
+          className={styles.heroImage}
         />
 
+        <div className={styles.heroOverlay} />
+
+        <div className={styles.heroContent}>
+
+          <motion.div
+            className={styles.heroPill}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            PLAY <span>•</span> EARN <span>•</span> REDEEM
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.1,
+              duration: 0.6,
+            }}
+          >
+            Games
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.2,
+              duration: 0.6,
+            }}
+          >
+            Explore exciting games, complete challenges,
+            <br />
+            and earn amazing rewards.
+          </motion.p>
+
+        </div>
+      </section>
+
+
+      {/* ================= GAMES ================= */}
+      <section className={styles.gamesWrapper}>
+
+        <div className={styles.gamesPanel}>
+
+          <div className={styles.gamesHeading}>
+
+            <div className={styles.headingLeft}>
+
+              <div className={styles.gameHeadingIcon}>
+                <MdSportsEsports />
+              </div>
+
+              <div>
+                <h2>Games for You</h2>
+                <p>
+                  13 amazing games. Play, earn and redeem!
+                </p>
+              </div>
+
+            </div>
+
+            <div className={styles.gameCount}>
+              13 GAMES
+            </div>
+
+          </div>
+
+
+          {/* ================= 13 GAME GRID ================= */}
+          <div className={styles.gamesGrid}>
+
+            {games.map((game, index) => (
+              <motion.div
+                key={game.id}
+                initial={{
+                  opacity: 0,
+                  y: 25,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: Math.min(index * 0.04, 0.5),
+                  duration: 0.45,
+                  ease: [0.2, 0.7, 0.2, 1],
+                }}
+              >
+                <GameCard game={game} />
+              </motion.div>
+            ))}
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ================= BENEFITS ================= */}
+      <section className={styles.benefits}>
+
+        <Benefit
+          icon={<MdSportsEsports />}
+          title="Exciting Games"
+          text="for Every Skill"
+        />
+
+        <div className={styles.divider} />
+
+        <Benefit
+          icon={<FiDollarSign />}
+          title="Earn Game Coins"
+          text="as You Play"
+        />
+
+        <div className={styles.divider} />
+
+        <Benefit
+          icon={<FiGift />}
+          title="Redeem Real"
+          text="Rewards"
+        />
+
+        <div className={styles.rewardMessage}>
+          <span>Play More</span>
+          <strong>Earn More!</strong>
+        </div>
+
+      </section>
+
+
+      {/* ================= FOOTER ================= */}
+      <footer className={styles.footer}>
+
+        <div className={styles.footerBrand}>
+          <strong>VELOOP</strong>
+          <span> REWARDS</span>
+        </div>
+
+        <div className={styles.footerLinks}>
+          <span>Games</span>
+          <b>•</b>
+          <span>Redeem</span>
+          <b>•</b>
+          <span>Repeat</span>
+        </div>
+
+        <div className={styles.footerMessage}>
+          Good Games. Greater Rewards.
+        </div>
+
+      </footer>
+
+    </main>
+  );
+}
+
+
+/* =========================================================
+   BENEFIT COMPONENT
+========================================================= */
+
+function Benefit({ icon, title, text }) {
+  return (
+    <div className={styles.benefit}>
+
+      <div className={styles.benefitIcon}>
+        {icon}
       </div>
-    </section>
+
+      <div>
+        <strong>{title}</strong>
+        <span>{text}</span>
+      </div>
+
+    </div>
   );
 }
 

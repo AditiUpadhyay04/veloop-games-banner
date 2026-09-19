@@ -1,0 +1,411 @@
+.page {
+  min-height: 100vh;
+  padding: 50px 28px 100px;
+  background: #0d0f17;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.heading > span {
+  font-size: 12px;
+  letter-spacing: 3px;
+  opacity: 0.6;
+}
+
+.heading h1 {
+  margin: 10px 0;
+  font-size: 42px;
+}
+
+.heading p {
+  margin: 0;
+  opacity: 0.65;
+}
+
+section {
+  max-width: 1300px;
+  margin: 0 auto 70px;
+}
+
+section h2 {
+  margin-bottom: 22px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  overflow: hidden;
+  position: relative;
+  min-width: 0;
+  transition: 0.35s ease;
+}
+
+.card:hover {
+  transform: translateY(-7px);
+}
+
+.imageWrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.imageWrap img {
+  width: 100%;
+  height: 410px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px 20px 18px;
+}
+
+.gameType {
+  display: inline-block;
+  margin-bottom: 7px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.overlay h3 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px;
+}
+
+.cost {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+}
+
+.token {
+  font-size: 18px;
+}
+
+.bottom button {
+  border: 0;
+  cursor: pointer;
+  padding: 11px 17px;
+  font-weight: 700;
+  transition: 0.25s ease;
+}
+
+.bottom button span {
+  margin-left: 7px;
+}
+
+/* =====================================
+   01 — PREMIUM DARK
+===================================== */
+
+.premiumDark {
+  background: #171a27;
+  border-radius: 22px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+.premiumDark .imageWrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(10, 12, 20, 0.95),
+      rgba(10, 12, 20, 0.15) 45%,
+      transparent 75%
+    );
+}
+
+.premiumDark .overlay {
+  z-index: 2;
+}
+
+.premiumDark .gameType {
+  color: #8d94ff;
+}
+
+.premiumDark .bottom {
+  background: #171a27;
+}
+
+.premiumDark button {
+  border-radius: 10px;
+  background: #ffffff;
+  color: #11131c;
+}
+
+.premiumDark button:hover {
+  transform: scale(1.04);
+}
+
+/* =====================================
+   02 — GLASSMORPHISM
+===================================== */
+
+.glass {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.16),
+      rgba(255, 255, 255, 0.04)
+    );
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 28px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.glass .imageWrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(15, 18, 30, 0.92),
+      transparent 70%
+    );
+}
+
+.glass .overlay {
+  z-index: 2;
+}
+
+.glass .gameType {
+  color: #8ee7ff;
+}
+
+.glass .bottom {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.glass button {
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+/* =====================================
+   03 — NEON ARCADE
+===================================== */
+
+.neon {
+  background: #080b11;
+  border: 2px solid #273044;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.02),
+    0 0 35px rgba(113, 101, 255, 0.15);
+}
+
+.neon:hover {
+  box-shadow:
+    0 0 30px rgba(113, 101, 255, 0.4);
+}
+
+.neon .imageWrap {
+  border-bottom: 2px solid #273044;
+}
+
+.neon .imageWrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(8, 11, 17, 0.98),
+      transparent 62%
+    );
+}
+
+.neon .overlay {
+  z-index: 2;
+}
+
+.neon .gameType {
+  color: #75f6ff;
+}
+
+.neon .overlay h3 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.neon .bottom {
+  background: #080b11;
+}
+
+.neon button {
+  background: transparent;
+  color: #75f6ff;
+  border: 1px solid #75f6ff;
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =====================================
+   04 — SOFT PREMIUM
+===================================== */
+
+.soft {
+  background: #ffffff;
+  color: #171923;
+  border-radius: 24px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.1);
+}
+
+.soft .imageWrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.98),
+      transparent 58%
+    );
+}
+
+.soft .overlay {
+  z-index: 2;
+}
+
+.soft .gameType {
+  color: #7178ff;
+}
+
+.soft .bottom {
+  background: white;
+}
+
+.soft button {
+  border-radius: 100px;
+  background: #171923;
+  color: white;
+}
+
+.soft .token {
+  color: #7178ff;
+}
+
+/* =====================================
+   05 — GAMING DASHBOARD
+===================================== */
+
+.dashboard {
+  background: #11151d;
+  border: 1px solid #2b3342;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.dashboard .imageWrap {
+  padding: 8px;
+  background: #11151d;
+}
+
+.dashboard .imageWrap img {
+  border-radius: 12px;
+}
+
+.dashboard .imageWrap::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      to top,
+      rgba(9, 12, 18, 0.92),
+      transparent 62%
+    );
+}
+
+.dashboard .overlay {
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+}
+
+.dashboard .gameType {
+  color: #b2ff72;
+}
+
+.dashboard .bottom {
+  padding: 13px;
+  background: #11151d;
+  border-top: 1px solid #2b3342;
+}
+
+.dashboard button {
+  background: #b2ff72;
+  color: #11151d;
+  border-radius: 8px;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heading h1 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 35px 16px 70px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrap img {
+    height: 430px;
+  }
+
+  .heading h1 {
+    font-size: 28px;
+  }
+
+  section {
+    margin-bottom: 55px;
+  }
+}

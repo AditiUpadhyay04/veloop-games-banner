@@ -1,41 +1,28 @@
-.tokenCost {
+.cost {
   display: inline-flex;
+
   align-items: center;
-  gap: 7px;
 
-  min-height: 34px;
-  padding: 5px 10px 5px 7px;
+  gap: 8px;
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
 
-  background: rgba(255, 255, 255, 0.055);
+  font-size: 14px;
 
-  color: #dfe3ee;
-  font-size: 10px;
-  font-weight: 800;
+  font-weight: 700;
+
   white-space: nowrap;
 }
 
-.tokenIcon {
-  width: 22px;
-  height: 22px;
+.icon {
+  width: 20px;
+  height: 20px;
+
+  display: block;
+
   object-fit: contain;
-  border-radius: 50%;
+
   flex-shrink: 0;
-}
 
-@media (max-width: 420px) {
-  .tokenCost {
-    min-height: 31px;
-    gap: 5px;
-    padding: 4px 8px 4px 6px;
-    font-size: 9px;
-    border-radius: 9px;
-  }
-
-  .tokenIcon {
-    width: 20px;
-    height: 20px;
-  }
+  border-radius: 50%;
 }

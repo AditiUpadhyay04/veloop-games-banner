@@ -1,92 +1,715 @@
 .card {
-  width: 280px;
-  flex: 0 0 280px;
+  position: relative;
+ min-width: 0;
+  width: 100%;
+
   overflow: hidden;
-  border-radius: 22px;
-  background: #171b2d;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.035)
+    );
+
   box-shadow:
-    0 16px 40px rgba(0, 0, 0, 0.35),
-    0 4px 12px rgba(0, 0, 0, 0.2);
+    0 24px 55px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  scroll-snap-align: start;
+
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
 .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-7px);
+
+  border-color: rgba(255, 255, 255, 0.28);
+
   box-shadow:
-    0 22px 50px rgba(0, 0, 0, 0.45),
-    0 5px 16px rgba(0, 0, 0, 0.25);
+    0 32px 70px rgba(0, 0, 0, 0.42),
+    0 0 30px rgba(120, 130, 255, 0.08);
 }
 
-.imageWrapper {
+/* ---------------- IMAGE ---------------- */
+
+.imageWrap {
   position: relative;
+
   width: 100%;
-  aspect-ratio: 1024 / 1260;
+  height: 420px;
+
   overflow: hidden;
-  background: #0e1220;
+
+  background: #0c0e18;
 }
 
-.imageWrapper::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 72%,
-    rgba(0, 0, 0, 0.18)
-  );
-}
-
-.gameImage {
+.image {
   width: 100%;
   height: 100%;
+
   display: block;
-  object-fit: contain;
-  transition: transform 0.45s ease;
+
+  object-fit: cover;
+  object-position: top center;
+
+  user-select: none;
+
+  transition:
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.35s ease;
 }
 
-.card:hover .gameImage {
-  transform: scale(1.025);
+.card:hover .image {
+  transform: scale(1.035);
 }
 
-.bottomSection {
-  min-height: 76px;
-  padding: 14px 15px;
+/* Dark cinematic gradient */
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(9, 11, 19, 0.97) 0%,
+      rgba(9, 11, 19, 0.72) 22%,
+      rgba(9, 11, 19, 0.18) 52%,
+      rgba(9, 11, 19, 0.02) 75%
+    );
+}
+
+/* ---------------- STATUS ---------------- */
+
+.statusBadge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+
+  z-index: 3;
+
+  padding: 7px 11px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+
+  background: rgba(10, 12, 20, 0.58);
+
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card:nth-child(odd) .statusBadge {
+  color: #ffffff;
+}
+
+.card:has(.statusBadge:not(:empty)) {
+  isolation: isolate;
+}
+
+/* ---------------- GAME INFO ---------------- */
+
+.gameInfo {
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+
+  z-index: 3;
+}
+
+.gameType {
+  display: inline-block;
+
+  margin-bottom: 7px;
+
+  color: #8ee7ff;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.gameInfo h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 29px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.8px;
+
+  text-shadow:
+    0 3px 15px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------------- BOTTOM ---------------- */
+
+.bottom {
+  min-height: 82px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  background: #171b2d;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  gap: 14px;
+
+  padding: 15px 16px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-@media (max-width: 768px) {
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 1200px) {
   .card {
-    border-radius: 20px;
+    flex-basis: 360px;
+    width: 360px;
   }
 
-  .card:hover {
-    transform: none;
-  }
-
-  .card:hover .gameImage {
-    transform: none;
+  .imageWrap {
+    height: 400px;
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 800px) {
   .card {
-    width: 270px;
-    flex-basis: 270px;
-    border-radius: 18px;
+    flex-basis: 330px;
+    width: 330px;
+
+    border-radius: 22px;
   }
 
-  .bottomSection {
-    min-height: 70px;
-    padding: 12px;
+  .imageWrap {
+    height: 380px;
+  }
+
+  .gameInfo {
+    left: 17px;
+    right: 17px;
+    bottom: 17px;
+  }
+
+  .gameInfo h3 {
+    font-size: 25px;
+  }
+
+  .bottom {
+    min-height: 76px;
+    padding: 13px;
+  }
+}
+
+@media (max-width: 520px) {
+  .card {
+    flex-basis: min(86vw, 330px);
+    width: min(86vw, 330px);
+  }
+
+  .imageWrap {
+    height: min(105vw, 375px);
+  }
+
+  .statusBadge {
+    top: 12px;
+    left: 12px;
+
+    padding: 6px 9px;
+
+    font-size: 8px;
+  }
+
+  .gameType {
+    font-size: 9px;
+  }
+
+  .gameInfo h3 {
+    font-size: 23px;
+  }
+
+  .bottom {
     gap: 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  .card {
+    flex-basis: 292px;
+    width: 292px;
+  }
+
+  .imageWrap {
+    height: 340px;
+  }
+
+  .gameInfo h3 {
+    font-size: 21px;
+  }
+}/* =========================================
+   CARD
+========================================= */
+
+.card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+
+  position: relative;
+
+  flex: 0 0 390px;
+
+  width: 390px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(255, 255, 255, 0.035)
+    );
+
+  box-shadow:
+    0 24px 55px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  scroll-snap-align: start;
+
+  isolation: isolate;
+
+  transform: translateZ(0);
+
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.45s ease,
+    border-color 0.35s ease;
+}
+
+
+/* =========================================
+   HOVER
+========================================= */
+
+.card:hover {
+  transform: translateY(-7px) scale(1.008);
+
+  border-color: rgba(255, 255, 255, 0.3);
+
+  box-shadow:
+    0 34px 75px rgba(0, 0, 0, 0.46),
+    0 0 35px rgba(120, 130, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+
+/* =========================================
+   MOUSE LIGHT REFLECTION
+========================================= */
+
+.cardReflection {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 5;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background:
+    radial-gradient(
+      circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.13),
+      transparent 24%
+    );
+
+  transition: opacity 0.35s ease;
+
+  mix-blend-mode: screen;
+}
+
+.card:hover .cardReflection {
+  opacity: 1;
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.imageWrap {
+  position: relative;
+
+  width: 100%;
+  height: 420px;
+
+  overflow: hidden;
+
+  background: #0c0e18;
+}
+
+
+.image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: top center;
+
+  user-select: none;
+
+  transform: scale(1);
+
+  filter: saturate(1);
+
+  transition:
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.5s ease;
+}
+
+
+.card:hover .image {
+  transform: scale(1.035);
+
+  filter: saturate(1.06);
+}
+
+
+/* =========================================
+   IMAGE OVERLAY
+========================================= */
+
+.imageOverlay {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(9, 11, 19, 0.97) 0%,
+      rgba(9, 11, 19, 0.78) 23%,
+      rgba(9, 11, 19, 0.2) 54%,
+      rgba(9, 11, 19, 0.02) 76%
+    );
+}
+
+
+/* =========================================
+   TOP STATUS BADGE
+========================================= */
+
+.statusBadge {
+  position: absolute;
+
+  top: 16px;
+  left: 16px;
+
+  z-index: 8;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(10, 12, 20, 0.72),
+      rgba(10, 12, 20, 0.45)
+    );
+
+  color: #ffffff;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+.card:hover .statusBadge {
+  transform: translateY(-1px);
+
+  border-color: rgba(255, 255, 255, 0.3);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(20, 22, 34, 0.78),
+      rgba(20, 22, 34, 0.5)
+    );
+}
+
+
+/* =========================================
+   GAME INFO
+========================================= */
+
+.gameInfo {
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+
+  z-index: 8;
+}
+
+
+.gameType {
+  display: inline-block;
+
+  margin-bottom: 7px;
+
+  color: #8ee7ff;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.8px;
+
+  text-shadow:
+    0 2px 12px rgba(142, 231, 255, 0.2);
+}
+
+
+.gameInfo h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 29px;
+
+  font-weight: 700;
+
+  line-height: 1.05;
+
+  letter-spacing: -0.8px;
+
+  text-shadow:
+    0 3px 15px rgba(0, 0, 0, 0.45);
+
+  transition:
+    transform 0.35s ease,
+    text-shadow 0.35s ease;
+}
+
+
+.card:hover .gameInfo h3 {
+  transform: translateX(2px);
+
+  text-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+
+/* =========================================
+   BOTTOM GLASS PANEL
+========================================= */
+
+.bottom {
+  position: relative;
+
+  z-index: 10;
+
+  min-height: 82px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 14px;
+
+  padding: 15px 16px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+
+.bottom::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 15%;
+
+  width: 70%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.16),
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .card {
+    flex-basis: 360px;
+
+    width: 360px;
+  }
+
+  .imageWrap {
+    height: 400px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .card {
+    flex-basis: 330px;
+
+    width: 330px;
+
+    border-radius: 24px;
+  }
+
+  .imageWrap {
+    height: 380px;
+  }
+
+  .gameInfo {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+  }
+
+  .gameInfo h3 {
+    font-size: 26px;
+  }
+
+  .statusBadge {
+    top: 14px;
+    left: 14px;
+  }
+
+  .bottom {
+    min-height: 76px;
+
+    padding: 13px 14px;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  .card {
+    flex-basis: 300px;
+
+    width: 300px;
+  }
+
+  .imageWrap {
+    height: 350px;
+  }
+
+  .gameInfo h3 {
+    font-size: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .image {
+    transition: none;
   }
 }

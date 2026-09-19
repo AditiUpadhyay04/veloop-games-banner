@@ -1,15 +1,20 @@
 import styles from "./TokenCost.module.css";
-import tokenIcon from "../../assets/games/multi_token.jpeg";
-
 
 function TokenCost({ cost, currency }) {
   return (
-    <div className={styles.tokenCost}>
-      <img src={tokenIcon} alt="Token" className={styles.tokenIcon} />
+    <div className={styles.cost}>
+      <img
+        src="/src/assets/games/multi_token.jpeg"
+        alt=""
+        className={styles.icon}
+        draggable="false"
+      />
+
       <span>
         {cost} {currency}
       </span>
     </div>
   );
 }
+
 export default TokenCost;

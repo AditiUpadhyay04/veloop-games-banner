@@ -1,21 +1,28 @@
-import styles from "./PlayNowButton.module.css";
 import { useNavigate } from "react-router-dom";
+import { FiArrowRight } from "react-icons/fi";
+import styles from "./PlayNowButton.module.css";
 
 function PlayNowButton({ game }) {
   const navigate = useNavigate();
 
-  const handlePlay = () => {
+  const handleClick = () => {
+    // Every game opens its own Game Home Page.
+    // Actual gameplay is started from the Game Home Page.
     navigate(`/game/${game.id}`);
   };
+
   return (
     <button
       type="button"
-      className={styles.playButton}
-      onClick={handlePlay}
-      aria-label={`Play ${game.name}`}
+      className={styles.button}
+      onClick={handleClick}
+      aria-label={`Open ${game.name}`}
     >
-      <span>Play Now</span>
-      <span className={styles.arrow}>→</span>
+      <span className={styles.buttonText}>
+        Play Now
+      </span>
+
+      <FiArrowRight className={styles.arrow} />
     </button>
   );
 }

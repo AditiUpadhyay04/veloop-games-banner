@@ -1,130 +1,105 @@
-.playButton {
+.button {
   position: relative;
-  isolation: isolate;
-  overflow: hidden;
-
-  height: 42px;
-  min-width: 128px;
-  padding: 0 15px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
 
-  border: 1px solid rgba(201, 160, 74, 0.45);
-  border-radius: 12px;
+  width: 142px;
+  height: 48px;
+  padding: 0 18px;
 
-  background: linear-gradient(
-    135deg,
-    #d6b15b,
-    #b98a2e
-  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
 
-  color: #17120a;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.35px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 800;
 
   cursor: pointer;
+  overflow: hidden;
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.28),
-    0 2px 6px rgba(201, 160, 74, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.15);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-/* Infinite shimmer */
-
-.playButton::before {
+/* Infinite shine */
+.button::before {
   content: "";
   position: absolute;
   top: 0;
-  left: -80%;
-  width: 45%;
+  left: -120%;
+
+  width: 70%;
   height: 100%;
 
   background: linear-gradient(
     110deg,
     transparent,
-    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.28),
     transparent
   );
 
   transform: skewX(-20deg);
-  animation: shimmer 2.2s infinite;
-  pointer-events: none;
+  animation: shimmer 2.8s infinite;
 }
 
-.playButton span {
-  position: relative;
-  z-index: 2;
-}
-
+.button span,
 .arrow {
-  font-size: 15px;
-  font-weight: 900;
-  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
-.playButton:hover {
+.button:hover {
   transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.32);
+
   box-shadow:
-    0 12px 26px rgba(0, 0, 0, 0.35),
-    0 3px 10px rgba(201, 160, 74, 0.25);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 12px 28px rgba(0, 0, 0, 0.24);
 }
 
-.playButton:hover .arrow {
-  transform: translateX(3px);
-}
-
-.playButton:active {
+.button:active {
   transform: translateY(0) scale(0.97);
 }
 
-.playButton:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 3px;
+.arrow {
+  font-size: 17px;
+  transition: transform 0.3s ease;
+}
+
+.button:hover .arrow {
+  transform: translateX(4px);
 }
 
 @keyframes shimmer {
   0% {
-    left: -80%;
+    left: -120%;
   }
 
-  45%,
+  55%,
   100% {
     left: 140%;
   }
 }
 
-@media (max-width: 420px) {
-  .playButton {
-    height: 39px;
-    min-width: 116px;
-    padding: 0 12px;
-    border-radius: 10px;
-    font-size: 10px;
-  }
-
-  .arrow {
-    font-size: 14px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .playButton {
-    transition: none;
-  }
-
-  .playButton::before {
-    animation: none;
-  }
-
-  .arrow {
-    transition: none;
+@media (max-width: 600px) {
+  .button {
+    width: 132px;
+    height: 44px;
+    font-size: 13px;
   }
 }

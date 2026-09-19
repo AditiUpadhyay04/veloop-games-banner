@@ -1,509 +1,970 @@
-.section {
-  position: relative;
+.page {
   min-height: 100vh;
-  padding: 28px 0 50px;
+  color: #ffffff;
   background:
     radial-gradient(
-      circle at 12% 5%,
-      rgba(91, 104, 174, 0.2),
-      transparent 27%
+      circle at 50% 0%,
+      rgba(75, 72, 255, 0.18),
+      transparent 35%
     ),
-    radial-gradient(
-      circle at 88% 75%,
-      rgba(54, 69, 126, 0.18),
-      transparent 30%
-    ),
-    #111322;
-  color: #ffffff;
-  overflow: hidden;
+    #070b20;
 }
 
-.section::before {
-  content: "";
-  position: absolute;
-  width: 520px;
-  height: 520px;
-  top: -300px;
-  right: -150px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.035);
-  filter: blur(2px);
-  pointer-events: none;
-}
 
-.container {
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
   position: relative;
-  z-index: 1;
-  width: min(1400px, 92%);
-  margin: 0 auto;
+  z-index: 20;
+
+  height: 82px;
+
+  border-bottom: 1px solid rgba(130, 150, 255, 0.18);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8, 14, 42, 0.98),
+      rgba(17, 23, 63, 0.95)
+    );
+
+  backdrop-filter: blur(20px);
 }
 
-/* =========================
-   TOP BAR
-========================= */
+.headerInner {
+  width: min(1500px, calc(100% - 72px));
+  height: 100%;
+  margin: auto;
 
-.topBar {
-  min-height: 66px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 17px;
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 
-/* BRAND */
 
-.brandArea {
+/* LOGO */
+
+.logo {
+  width: 220px;
+}
+
+.logoMain {
+  font-size: 38px;
+  line-height: 0.85;
+  font-weight: 900;
+  letter-spacing: -2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff,
+      #ffffff 45%,
+      #9c6cff,
+      #693dff
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logoSub {
+  margin-top: 8px;
+
+  font-size: 9px;
+  letter-spacing: 7px;
+  font-weight: 700;
+
+  color: #c3aaff;
+}
+
+
+/* NAV */
+
+.nav {
+  height: 100%;
+
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.brandIcon {
-  width: 39px;
-  height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: #ffffff;
-  color: #171827;
-  font-size: 18px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-}
-
-.brandName {
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 900;
-  letter-spacing: 1.2px;
-  line-height: 1;
-}
-
-.brandSub {
-  margin-top: 4px;
-  color: #aeb4ca;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 2.4px;
-}
-
-/* BALANCES */
-
-.balanceArea {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.balanceItem {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.balanceItem img {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.balanceItem div {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.05;
-}
-
-.balanceItem strong {
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 850;
-}
-
-.balanceItem span {
-  margin-top: 3px;
-  color: #858ca4;
-  font-size: 8px;
-  font-weight: 600;
-}
-
-.balanceDivider {
-  width: 1px;
-  height: 27px;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.redeemButton {
-  height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 0 13px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 11px;
-  background: #ffffff;
-  color: #171827;
-  font-size: 11px;
-  font-weight: 850;
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.redeemButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-}
-
-.redeemButton:active {
-  transform: translateY(0) scale(0.97);
-}
-
-/* =========================
-   HEADING
-========================= */
-
-.headingArea {
-  margin: 43px 0 29px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-
-.sectionEyebrow {
-  display: block;
-  margin-bottom: 8px;
-  color: #c9a04a;
-  font-size: 9px;
-  font-weight: 850;
-  letter-spacing: 2.2px;
-}
-
-.heading {
+.navItem {
   position: relative;
-  margin: 0;
-  color: #ffffff;
-  font-size: clamp(32px, 3vw, 42px);
-  font-weight: 900;
-  letter-spacing: -1px;
-  line-height: 1;
-}
 
-.heading::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -10px;
-  width: 48px;
-  height: 4px;
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    #c9a04a,
-    rgba(201, 160, 74, 0.15)
-  );
-}
+  height: 100%;
+  padding: 0 25px;
 
-.subtitle {
-  margin: 17px 0 0;
-  color: #aeb4ca;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.15px;
-}
-
-.desktopHint {
   display: flex;
   align-items: center;
-  gap: 7px;
-  margin-bottom: 3px;
-  color: #777f99;
-  font-size: 10px;
+  gap: 13px;
+
+  border: 0;
+  background: transparent;
+
+  color: #c9cdec;
+
+  font-size: 16px;
   font-weight: 600;
+
+  cursor: pointer;
 }
 
-/* =========================
-   CAROUSEL
-========================= */
-
-.carousel {
-  display: flex;
-  gap: 24px;
-  width: 100%;
-  overflow-x: auto;
-  padding: 13px 5px 30px;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-  scrollbar-width: none;
-  overscroll-behavior-x: contain;
+.navItem svg {
+  font-size: 23px;
 }
 
-.carousel::-webkit-scrollbar {
-  display: none;
+.navItem.active {
+  color: #ffffff;
 }
 
-.card {
-  width: 280px;
-  flex: 0 0 280px;
-  scroll-snap-align: start;
+.navItem.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 18px;
+  right: 18px;
+  bottom: 8px;
+
+  height: 3px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #5d45ff,
+      #c05cff
+    );
+
+  box-shadow:
+    0 0 16px rgba(125, 75, 255, 0.9);
 }
 
-/* =========================
-   DOTS
-========================= */
 
-.dots {
+/* HEADER RIGHT */
+
+.headerRight {
+  margin-left: auto;
+
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 7px;
-  margin-top: 10px;
+  gap: 28px;
 }
 
-.dot {
-  width: 7px;
-  height: 7px;
-  padding: 0;
-  border: none;
+
+/* COINS */
+
+.coinBalance {
+  min-width: 175px;
+  height: 58px;
+
+  padding: 7px 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: 1px solid rgba(139, 103, 255, 0.35);
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(54, 43, 130, 0.45),
+      rgba(17, 20, 60, 0.65)
+    );
+
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.08),
+    0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.coinIcon {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
   border-radius: 50%;
-  background: #565b70;
-  cursor: pointer;
-  transition:
-    width 0.25s ease,
-    background 0.25s ease,
-    transform 0.25s ease;
+
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffe98b,
+      #f2a600 65%,
+      #a75c00
+    );
+
+  border: 2px solid #ffd95c;
+
+  box-shadow:
+    0 0 15px rgba(255, 191, 40, 0.35);
 }
 
-.dot:hover {
-  transform: scale(1.2);
-  background: #858ba2;
+.coinBalance strong {
+  display: block;
+
+  font-size: 16px;
 }
 
-.activeDot {
-  width: 25px;
-  border-radius: 10px;
-  background: #c9a04a;
+.coinBalance span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #aaaed0;
+
+  font-size: 10px;
 }
 
-/* =========================
+
+/* PROFILE */
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profileAvatar {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      #aaa6ff,
+      #5144a7
+    );
+
+  border: 1px solid rgba(183, 170, 255, 0.4);
+
+  box-shadow:
+    0 0 20px rgba(111, 83, 255, 0.25);
+}
+
+.profileAvatar svg {
+  font-size: 25px;
+}
+
+.profileInfo strong,
+.profileInfo span {
+  display: block;
+}
+
+.profileInfo strong {
+  font-size: 14px;
+}
+
+.profileInfo span {
+  margin-top: 3px;
+
+  color: #9b9fbd;
+  font-size: 10px;
+}
+
+.profileArrow {
+  margin-left: 8px;
+
+  color: #d7d9ee;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  position: relative;
+
+  min-height: 320px;
+
+  overflow: hidden;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  display: block;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 8, 28, 0.78) 0%,
+      rgba(5, 9, 31, 0.52) 35%,
+      rgba(5, 8, 28, 0.05) 70%
+    );
+
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+
+  width: min(1500px, calc(100% - 72px));
+
+  min-height: 320px;
+
+  margin: auto;
+
+  padding-top: 55px;
+}
+
+
+/* HERO PILL */
+
+.heroPill {
+  width: fit-content;
+
+  padding: 7px 19px;
+
+  border: 1px solid rgba(151, 117, 255, 0.4);
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(71, 59, 172, 0.5),
+      rgba(101, 55, 175, 0.28)
+    );
+
+  color: #dcd4ff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  box-shadow:
+    0 0 18px rgba(107, 73, 255, 0.18);
+}
+
+.heroPill span {
+  margin: 0 5px;
+
+  color: #c37aff;
+}
+
+
+/* HERO TITLE */
+
+.heroContent h1 {
+  margin: 13px 0 0;
+
+  font-size: clamp(58px, 6vw, 86px);
+
+  line-height: 0.95;
+
+  font-weight: 900;
+  letter-spacing: -4px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #ffffff 15%,
+      #eeeaff 42%,
+      #a66cff 85%
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+
+  text-shadow:
+    0 8px 40px rgba(97, 65, 255, 0.2);
+}
+
+.heroContent p {
+  margin-top: 18px;
+
+  color: #d4d8ed;
+
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   GAMES
+========================================================= */
+
+.gamesWrapper {
+  position: relative;
+  z-index: 5;
+
+  width: min(1500px, calc(100% - 72px));
+
+  margin: -10px auto 0;
+}
+
+.gamesPanel {
+  padding: 27px 28px 32px;
+
+  border: 1px solid rgba(112, 142, 224, 0.28);
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(17, 28, 63, 0.94),
+      rgba(11, 20, 49, 0.91)
+    );
+
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.06),
+    0 20px 70px rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(20px);
+}
+
+
+/* HEADING */
+
+.gamesHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 23px;
+}
+
+.headingLeft {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.gameHeadingIcon {
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6047ff,
+      #9b48ff
+    );
+
+  box-shadow:
+    0 0 24px rgba(103, 66, 255, 0.35);
+}
+
+.gameHeadingIcon svg {
+  font-size: 25px;
+}
+
+.gamesHeading h2 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.gamesHeading p {
+  margin: 4px 0 0;
+
+  color: #9ca4c8;
+
+  font-size: 13px;
+}
+
+.gameCount {
+  padding: 9px 15px;
+
+  border: 1px solid rgba(116, 131, 200, 0.28);
+  border-radius: 999px;
+
+  color: #b9c1e4;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   13 GAME GRID — 3 ROWS ON DESKTOP
+========================================================= */
+
+.gamesGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+  gap: 18px;
+}
+
+.gamesGrid > div {
+  min-width: 0;
+  width: 100%;
+}
+
+.gamesGrid article {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.benefits {
+  width: min(1500px, calc(100% - 72px));
+
+  min-height: 92px;
+
+  margin: 18px auto;
+
+  padding: 14px 35px;
+
+  display: flex;
+  align-items: center;
+
+  border: 1px solid rgba(103, 130, 204, 0.23);
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(19, 31, 67, 0.85),
+      rgba(12, 23, 52, 0.8)
+    );
+
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.benefit {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.benefitIcon {
+  width: 50px;
+  height: 50px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  color: #c5b9ff;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(106, 76, 255, 0.4),
+      rgba(35, 42, 94, 0.55)
+    );
+
+  border: 1px solid rgba(130, 130, 255, 0.25);
+
+  box-shadow:
+    0 0 20px rgba(90, 65, 255, 0.15);
+}
+
+.benefitIcon svg {
+  font-size: 21px;
+}
+
+.benefit strong,
+.benefit span {
+  display: block;
+}
+
+.benefit strong {
+  font-size: 14px;
+}
+
+.benefit span {
+  margin-top: 3px;
+
+  color: #aeb4d0;
+
+  font-size: 12px;
+}
+
+.divider {
+  width: 1px;
+  height: 42px;
+
+  margin: 0 28px;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(126, 139, 203, 0.45),
+      transparent
+    );
+}
+
+.rewardMessage {
+  width: 230px;
+
+  padding-left: 28px;
+
+  text-align: center;
+
+  font-style: italic;
+}
+
+.rewardMessage span,
+.rewardMessage strong {
+  display: block;
+}
+
+.rewardMessage span {
+  color: #9c70ff;
+  font-size: 18px;
+}
+
+.rewardMessage strong {
+  color: #51c9ff;
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+  min-height: 75px;
+
+  padding: 0 max(36px, calc((100vw - 1500px) / 2));
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-top: 1px solid rgba(102, 121, 190, 0.18);
+
+  background:
+    linear-gradient(
+      90deg,
+      #080d25,
+      #101740
+    );
+}
+
+.footerBrand strong {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.footerBrand span {
+  color: #a879ff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 12px;
+
+  color: #aeb3ce;
+
+  font-size: 12px;
+}
+
+.footerLinks b {
+  color: #656b8d;
+}
+
+.footerMessage {
+  color: #bfc4db;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
    TABLET
-========================= */
+========================================================= */
 
-@media (max-width: 900px) {
-  .section {
-    padding-top: 20px;
+@media (max-width: 1200px) {
+
+  .headerInner,
+  .heroContent,
+  .gamesWrapper,
+  .benefits {
+    width: min(100% - 40px, 1100px);
   }
 
-  .container {
-    width: 94%;
+  .logo {
+    width: 170px;
   }
 
-  .headingArea {
-    margin-top: 34px;
+  .logoMain {
+    font-size: 31px;
   }
 
-  .desktopHint {
+  .headerRight {
+    gap: 12px;
+  }
+
+  .profileInfo,
+  .profileArrow {
     display: none;
   }
 
-  .carousel {
-    gap: 20px;
+  .gamesGrid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
   }
 
-  .card {
-    width: min(38vw, 280px);
-    flex-basis: min(38vw, 280px);
+  .rewardMessage {
+    display: none;
   }
 }
 
-/* =========================
+
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
-@media (max-width: 700px) {
-  .section {
-    padding-top: 14px;
-    padding-bottom: 38px;
+@media (max-width: 768px) {
+
+  .header {
+    height: 70px;
   }
 
-  .topBar {
-    min-height: 58px;
-    padding: 8px 9px;
-    border-radius: 15px;
+  .headerInner {
+    width: calc(100% - 24px);
   }
 
-  .brandIcon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    font-size: 15px;
+  .logo {
+    width: auto;
   }
 
-  .brandName {
-    font-size: 12px;
+  .logoMain {
+    font-size: 25px;
   }
 
-  .brandSub {
-    font-size: 6px;
-    letter-spacing: 2px;
+  .logoSub {
+    font-size: 7px;
+    letter-spacing: 4px;
   }
 
-  .balanceArea {
-    gap: 8px;
+  .nav {
+    margin-left: auto;
   }
 
-  .balanceItem img {
-    width: 23px;
-    height: 23px;
+  .navItem {
+    padding: 0 10px;
   }
 
-  .balanceItem strong {
-    font-size: 10px;
-  }
-
-  .balanceItem span {
-    font-size: 6px;
-  }
-
-  .balanceDivider {
-    height: 21px;
-  }
-
-  .redeemButton {
-    width: 35px;
-    height: 34px;
-    padding: 0;
-    border-radius: 10px;
-  }
-
-  .redeemButton span {
+  .navItem span {
     display: none;
   }
 
-  .redeemButton svg {
-    font-size: 14px;
+  .navItem svg {
+    font-size: 22px;
   }
 
-  .headingArea {
-    margin: 29px 0 21px;
+  .coinBalance {
+    min-width: 0;
+    height: 46px;
+
+    padding: 5px 9px;
   }
 
-  .sectionEyebrow {
-    margin-bottom: 6px;
-    font-size: 7px;
+  .coinBalance div:last-child {
+    display: none;
   }
 
-  .heading {
-    font-size: 28px;
-  }
-
-  .subtitle {
-    margin-top: 14px;
-    font-size: 11px;
-  }
-
-  .carousel {
-    gap: 18px;
-    padding-top: 8px;
-    padding-bottom: 22px;
-  }
-
-  .card {
-    width: min(78vw, 280px);
-    flex-basis: min(78vw, 280px);
-  }
-
-  .dots {
-    margin-top: 8px;
-  }
-}
-
-/* =========================
-   SMALL MOBILE
-========================= */
-
-@media (max-width: 420px) {
-  .container {
-    width: 94%;
-  }
-
-  .topBar {
-    padding: 7px 8px;
-  }
-
-  .brandArea {
-    gap: 7px;
-  }
-
-  .brandIcon {
+  .coinIcon {
     width: 32px;
     height: 32px;
   }
 
-  .balanceArea {
-    gap: 6px;
-  }
-
-  .balanceItem {
-    gap: 4px;
-  }
-
-  .balanceItem img {
-    width: 21px;
-    height: 21px;
-  }
-
-  .balanceDivider {
+  .profile {
     display: none;
   }
 
-  .headingArea {
-    margin-top: 25px;
+
+  /* HERO */
+
+  .hero {
+    min-height: 330px;
   }
 
-  .heading {
-    font-size: 25px;
+  .heroContent {
+    width: calc(100% - 32px);
+    min-height: 330px;
+
+    padding-top: 55px;
   }
 
-  .subtitle {
+  .heroImage {
+    object-position: 62% center;
+  }
+
+  .heroOverlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(4, 8, 28, 0.9),
+        rgba(5, 9, 31, 0.5)
+      );
+  }
+
+  .heroContent h1 {
+    font-size: 58px;
+  }
+
+  .heroContent p {
+    font-size: 14px;
+  }
+
+  .heroContent p br {
+    display: none;
+  }
+
+
+  /* GAMES */
+
+  .gamesWrapper {
+    width: calc(100% - 20px);
+  }
+
+  .gamesPanel {
+    padding: 20px 14px;
+    border-radius: 18px;
+  }
+
+  .gamesHeading {
+    align-items: flex-start;
+  }
+
+  .gamesHeading h2 {
+    font-size: 20px;
+  }
+
+  .gamesHeading p {
+    font-size: 11px;
+  }
+
+  .gameCount {
+    display: none;
+  }
+
+  .gamesGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+  }
+
+
+  /* BENEFITS */
+
+  .benefits {
+    width: calc(100% - 20px);
+
+    padding: 15px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .benefit {
+    gap: 10px;
+  }
+
+  .benefitIcon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .benefit strong {
+    font-size: 12px;
+  }
+
+  .benefit span {
     font-size: 10px;
   }
 
-  .carousel {
-    gap: 14px;
-    padding-left: 2px;
-    padding-right: 2px;
+
+  /* FOOTER */
+
+  .footer {
+    padding: 20px;
+
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .card {
-    width: 82vw;
-    flex-basis: 82vw;
-  }
 }
 
-/* =========================
-   REDUCED MOTION
-========================= */
 
-@media (prefers-reduced-motion: reduce) {
-  .carousel {
-    scroll-behavior: auto;
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .gamesGrid {
+    grid-template-columns: 1fr;
   }
 
-  .dot,
-  .redeemButton {
-    transition: none;
+  .heroContent h1 {
+    font-size: 50px;
   }
+
+  .heroPill {
+    font-size: 10px;
+  }
+
+  .gamesHeading {
+    margin-bottom: 15px;
+  }
+
 }

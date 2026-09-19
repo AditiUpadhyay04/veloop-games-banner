@@ -1,12 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiHeart, FiRotateCcw } from "react-icons/fi";
+
+import { FiArrowLeft, FiClock, FiRotateCcw } from "react-icons/fi";
 
 import { useGameCoin } from "../../context/GameCoinContext";
 import styles from "./WordHuntGame.module.css";
 
 const TOTAL_LEVELS = 20;
-const MAX_GRID_SIZE = 7;
+
+/* =========================================================
+   LETTERS + DIRECTIONS
+========================================================= */
+
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const DIRECTIONS = [
   [-1, -1],
@@ -19,1476 +25,1704 @@ const DIRECTIONS = [
   [1, 1],
 ];
 
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-/* ==================================================
-   WORD POOL
-================================================== */
-
-const WORD_POOL = [
-  // 3 LETTER
+const MASTER_WORD_POOL = [
   "CAT",
-  "DOG",
   "SUN",
-  "FUN",
-  "RUN",
-  "WIN",
+  "DOG",
+  "MAP",
   "BOX",
   "RED",
-  "CAR",
-  "BAT",
-  "MAP",
-  "FOX",
   "HAT",
-  "KEY",
-  "ICE",
-  "JOY",
-  "SKY",
-  "DAY",
   "PEN",
   "CUP",
-  "RAT",
-  "BAG",
-  "TOP",
-  "BIG",
-  "HOT",
-  "AIR",
-  "SEA",
-  "WEB",
-  "LOG",
-  "FAN",
-  "GEM",
-  "FIG",
+  "JOY",
+  "FOX",
   "JAM",
-  "ZIP",
-  "HOP",
-
-  // 4 LETTER
-  "GAME",
-  "PLAY",
-  "WORD",
-  "COIN",
-  "STAR",
-  "MOON",
-  "FIRE",
-  "WIND",
-  "TREE",
-  "BALL",
-  "BLUE",
-  "GOLD",
-  "TIME",
-  "FAST",
-  "JUMP",
-  "FIND",
-  "HUNT",
-  "LIFE",
-  "ROCK",
-  "FISH",
-  "WAVE",
-  "KING",
-  "RING",
-  "GLOW",
-  "SNOW",
-  "RAIN",
-  "SHIP",
-  "ROAD",
-  "HOME",
+  "SKY",
+  "ICE",
+  "BUS",
+  "KEY",
+  "BEE",
+  "CAR",
+  "OAK",
+  "PIG",
+  "ANT",
+  "FUN",
+  "LIP",
   "LOVE",
-  "DARK",
-  "BIRD",
-  "FROG",
-  "BEAR",
-  "WALL",
-  "DOOR",
-  "GIFT",
-  "HOPE",
-  "DREAM",
-
-  // 5 LETTER
-  "TOKEN",
+  "WORD",
+  "HUNT",
+  "PLAY",
   "SCORE",
-  "LEVEL",
-  "POINT",
-  "POWER",
-  "SPEED",
-  "BOARD",
-  "QUEST",
-  "WORLD",
-  "NIGHT",
-  "BRAVE",
-  "SMILE",
-  "HEART",
-  "MUSIC",
-  "MAGIC",
-  "WATER",
-  "EARTH",
-  "SPACE",
-  "CROWN",
-  "STORM",
-  "FLAME",
-  "CLOUD",
-  "PLANT",
-  "FRUIT",
-  "GRASS",
-  "STONE",
-  "SWORD",
-  "CHESS",
-  "WORDS",
-  "START",
-  "ROUND",
-  "MATCH",
-  "LUCKY",
-  "PRIZE",
+  "WIN",
   "BONUS",
-  "TOWER",
-  "SNAKE",
-  "RIVER",
-  "OCEAN",
-  "LIGHT",
-  "NORTH",
-  "SOUTH",
-  "GREEN",
-  "BLACK",
-  "WHITE",
-  "HOUSE",
-  "MOUSE",
-  "HORSE",
-  "PLANE",
-  "TRAIN",
-  "DRIVE",
-
-  // 6 LETTER
-  "PLAYER",
-  "WINNER",
-  "PUZZLE",
-  "HIDDEN",
-  "REWARD",
-  "BATTLE",
-  "MASTER",
-  "TARGET",
-  "CHANCE",
-  "CREATE",
-  "ENERGY",
-  "GAMING",
-  "JUNGLE",
-  "PLANET",
-  "SPRING",
-  "SUMMER",
-  "WINTER",
-  "DRAGON",
-  "CASTLE",
-  "SECRET",
-  "FRIEND",
-  "BORDER",
-  "BRIGHT",
-  "GOLDEN",
-  "FROZEN",
-  "ROCKET",
-  "MONKEY",
+  "LEVEL",
+  "POWER",
+  "GAME",
+  "STAR",
+  "FIRE",
+  "BLUE",
+  "BIRD",
+  "TREE",
+  "WIND",
+  "MOON",
+  "FISH",
+  "GOLD",
+  "RAIN",
+  "BOOK",
+  "HOME",
+  "FROG",
+  "WOLF",
+  "APPLE",
   "TIGER",
-  "PIRATE",
-  "FOREST",
-  "ISLAND",
+  "QUEEN",
+  "ROBOT",
+  "TRAIN",
+  "MAGIC",
+  "OCEAN",
+  "CROWN",
+  "DREAM",
+  "NIGHT",
+  "SWEET",
+  "WORLD",
+  "BRAVE",
+  "SHINE",
+  "ROYAL",
+  "FRUIT",
+  "EARTH",
   "FLOWER",
-  "CIRCLE",
-  "NUMBER",
-  "BUTTON",
-  "CHANGE",
-  "VICTORY",
-  "DANGER",
+  "MONEY",
+  "PEARL",
+  "PHONE",
+  "PARTY",
+  "ENERGY",
   "FUTURE",
-  "DESIGN",
-  "CODING",
-  "BRAINY",
-  "HUNTER",
-  "GAMERS",
-
-  // 7 LETTER
-  "MISSION",
-  "WARRIOR",
-  "RAINBOW",
+  "PLANET",
+  "GALAXY",
+  "LEGEND",
+  "MYSTIC",
+  "NATURE",
+  "DIGITAL",
+  "PASSION",
+  "FREEDOM",
+  "BALANCE",
+  "SPIRIT",
+  "VISION",
+  "TRAVEL",
+  "PUZZLE",
+  "TARGET",
+  "GROWTH",
+  "BRIGHT",
   "CRYSTAL",
+  "RAINBOW",
+  "ROCKET",
+  "REWARD",
+  "SUNSET",
   "KINGDOM",
-  "CAPTAIN",
-  "JOURNEY",
-  "FANTASY",
-  "THUNDER",
+  "TREASURE",
+  "ADVENTURE",
+  "VICTORY",
   "SUNRISE",
-  "MONSTER",
-  "PUZZLER",
-  "CHAMPION",
-  "FORTUNE",
+  "FANTASY",
+  "SPARKLE",
+  "CHALLENGE",
   "MYSTERY",
-  "HUNTERS",
-  "PLAYERS",
-  "WINNERS",
-  "TARGETS",
-  "REWARDS",
-  "DRAGONS",
-  "PLANETS",
-  "FLOWERS",
-  "FORESTS",
-  "ROCKETS",
+  "JOURNEY",
+  "DATING",
+  "BRIDE",
+  "GROOM",
+  "HEART",
+  "ADORE",
+  "SMILE",
+  "HAPPY",
+  "KISS",
+  "HUG",
+  "ROSE",
 ];
 
-const UNIQUE_WORD_POOL = [...new Set(WORD_POOL)];
+/* =========================================================
+   LEVEL-SPECIFIC WORD POOLS
+========================================================= */
 
-/* ==================================================
+const LEVEL_WORD_POOLS = {
+  1: ["CAT", "SUN", "DOG", "MAP", "BOX", "RED"],
+  2: ["FOX", "JAM", "SKY", "PEN", "HAT", "ICE"],
+  3: ["BEE", "CAR", "KEY", "OAK", "PIG", "BUS"],
+  4: ["CUP", "ANT", "BAT", "FUN", "JOY", "LIP"],
+
+  5: ["FIRE", "BLUE", "BIRD", "TREE", "WIND", "STAR"],
+  6: ["MOON", "FISH", "GOLD", "RAIN", "BOOK", "HOME"],
+  7: ["FROG", "WOLF", "RAIN", "STAR", "MOON", "GOLD"],
+  8: ["FISH", "HOME", "BLUE", "FIRE", "TREE", "WIND"],
+
+  9: ["APPLE", "TIGER", "QUEEN", "ROBOT", "TRAIN", "MAGIC"],
+  10: ["OCEAN", "POWER", "CROWN", "DREAM", "NIGHT", "SWEET"],
+  11: ["WORLD", "SCORE", "BRAVE", "SHINE", "ROYAL", "FRUIT"],
+  12: ["EARTH", "FLOWER", "MONEY", "PEARL", "PHONE", "PARTY"],
+
+  13: ["ENERGY", "FUTURE", "PLANET", "GALAXY", "LEGEND", "MYSTIC"],
+  14: ["NATURE", "DIGITAL", "PASSION", "FREEDOM", "BALANCE", "SPIRIT"],
+  15: ["CRYSTAL", "RAINBOW", "ROCKET", "REWARD", "SUNSET", "KINGDOM"],
+  16: ["VISION", "TRAVEL", "PUZZLE", "TARGET", "GROWTH", "BRIGHT"],
+
+  17: [
+    "TREASURE",
+    "ADVENTURE",
+    "VICTORY",
+    "SUNRISE",
+    "KINGDOM",
+    "FANTASY",
+    "SPARK",
+  ],
+  18: [
+    "CHALLENGE",
+    "MYSTERY",
+    "CRYSTAL",
+    "JOURNEY",
+    "BALANCE",
+    "LEGEND",
+    "FREEDOM",
+  ],
+  19: [
+    "FANTASY",
+    "RAINBOW",
+    "DIGITAL",
+    "PASSION",
+    "ENERGY",
+    "TREASURE",
+    "VICTORY",
+  ],
+  20: [
+    "ADVENTURE",
+    "CHALLENGE",
+    "SPARKLE",
+    "SUNRISE",
+    "VICTORY",
+    "KINGDOM",
+    "TREASURE",
+  ],
+};
+
+/* =========================================================
    LEVEL SETTINGS
-================================================== */
+========================================================= */
 
 function getGridSize(level) {
-  return Math.min(level + 2, MAX_GRID_SIZE);
+  if (level <= 2) return 5;
+  if (level <= 5) return 6;
+  if (level <= 8) return 7;
+  if (level <= 11) return 8;
+  if (level <= 15) return 9;
+  if (level <= 18) return 10;
+  if (level === 19) return 11;
+  return 12;
+}
+
+function getGridRows(level) {
+  return getGridSize(level);
+}
+
+function getGridCols(level) {
+  return getGridSize(level);
 }
 
 function getWordCount(level) {
-  return Math.min(level + 1, 10);
+  if (level <= 2) return 3;
+  if (level <= 4) return 4;
+  if (level <= 7) return 5;
+  if (level <= 10) return 6;
+  if (level <= 13) return 7;
+  if (level <= 16) return 8;
+  if (level <= 18) return 9;
+  if (level === 19) return 10;
+  return 12;
 }
 
 function getGameTime(level) {
-  if (level <= 3) return 60;
-  if (level <= 7) return 55;
-  if (level <= 12) return 50;
-  if (level <= 16) return 45;
+  if (level === 1) return 90;
+  if (level === 2) return 85;
+  if (level <= 4) return 80;
+  if (level <= 6) return 75;
+  if (level <= 8) return 70;
+  if (level <= 10) return 65;
+  if (level <= 13) return 60;
+  if (level <= 15) return 55;
+  if (level <= 17) return 50;
+  if (level <= 19) return 45;
   return 40;
 }
 
-function getMinimumWordLength(level) {
-  if (level <= 5) return 3;
-  if (level <= 15) return 4;
-  return 5;
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+    2,
+    "0",
+  )}`;
 }
 
-/* ==================================================
-   GET WORDS
-================================================== */
-
-function getWordsForLevel(level) {
-  const gridSize = getGridSize(level);
-  const wordCount = getWordCount(level);
-  const minimumLength = getMinimumWordLength(level);
-
-  const candidates = UNIQUE_WORD_POOL.filter(
-    (word) =>
-      word.length >= minimumLength &&
-      word.length <= gridSize,
-  );
-
-  const shuffled = [...candidates].sort(
-    () => Math.random() - 0.5,
-  );
-
-  shuffled.sort((a, b) => {
-    const aScore =
-      a.length * level * 0.01 + Math.random();
-
-    const bScore =
-      b.length * level * 0.01 + Math.random();
-
-    return bScore - aScore;
-  });
-
-  return shuffled.slice(
-    0,
-    Math.min(wordCount, shuffled.length),
-  );
+function getWordLengthRange(level) {
+  if (level <= 2) return { min: 3, max: 4 };
+  if (level <= 4) return { min: 3, max: 5 };
+  if (level <= 7) return { min: 3, max: 6 };
+  if (level <= 10) return { min: 4, max: 7 };
+  if (level <= 13) return { min: 4, max: 8 };
+  if (level <= 16) return { min: 5, max: 9 };
+  if (level <= 18) return { min: 5, max: 10 };
+  if (level === 19) return { min: 6, max: 11 };
+  return { min: 6, max: 12 };
 }
 
-/* ==================================================
-   GRID HELPERS
-================================================== */
+/* =========================================================
+   HELPERS
+========================================================= */
 
-function createEmptyGrid(size) {
-  return Array.from(
-    { length: size },
-    () => Array(size).fill(""),
-  );
-}
+function shuffle(array) {
+  const copy = [...array];
 
-function canPlaceWord(
-  grid,
-  word,
-  row,
-  col,
-  rowDirection,
-  colDirection,
-) {
-  const size = grid.length;
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
 
-  const endRow =
-    row + rowDirection * (word.length - 1);
-
-  const endCol =
-    col + colDirection * (word.length - 1);
-
-  if (
-    endRow < 0 ||
-    endRow >= size ||
-    endCol < 0 ||
-    endCol >= size
-  ) {
-    return false;
+    [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
   }
 
-  for (let index = 0; index < word.length; index++) {
-    const currentRow =
-      row + rowDirection * index;
+  return copy;
+}
 
-    const currentCol =
-      col + colDirection * index;
+function isInside(row, col, rows, cols) {
+  return row >= 0 && row < rows && col >= 0 && col < cols;
+}
 
-    const existing =
-      grid[currentRow][currentCol];
+function getCellKey(row, col) {
+  return `${row}-${col}`;
+}
 
-    if (
-      existing !== "" &&
-      existing !== word[index]
-    ) {
-      return false;
+/* =========================================================
+   PLACE ONE WORD
+========================================================= */
+
+function placeWord(grid, word, rows, cols) {
+  const possiblePlacements = [];
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      for (const direction of DIRECTIONS) {
+        possiblePlacements.push({ row, col, direction });
+      }
     }
   }
 
-  return true;
-}
+  for (const placement of shuffle(possiblePlacements)) {
+    const { row, col, direction } = placement;
+    const cells = [];
+    let valid = true;
 
-function placeWord(
-  grid,
-  word,
-  row,
-  col,
-  rowDirection,
-  colDirection,
-) {
-  const newGrid = grid.map((line) => [...line]);
-  const positions = [];
+    for (let index = 0; index < word.length; index += 1) {
+      const nextRow = row + direction[0] * index;
+      const nextCol = col + direction[1] * index;
 
-  for (let index = 0; index < word.length; index++) {
-    const currentRow =
-      row + rowDirection * index;
-
-    const currentCol =
-      col + colDirection * index;
-
-    newGrid[currentRow][currentCol] =
-      word[index];
-
-    positions.push({
-      row: currentRow,
-      col: currentCol,
-    });
-  }
-
-  return {
-    grid: newGrid,
-    positions,
-  };
-}
-
-/* ==================================================
-   BUILD PUZZLE
-================================================== */
-
-function buildPuzzle(level) {
-  const size = getGridSize(level);
-  const words = getWordsForLevel(level);
-
-  const orderedWords = [...words].sort(
-    (a, b) => b.length - a.length,
-  );
-
-  for (let attempt = 0; attempt < 150; attempt++) {
-    let grid = createEmptyGrid(size);
-    const wordPositions = {};
-    let success = true;
-
-    for (const word of orderedWords) {
-      const placements = [];
-
-      for (let row = 0; row < size; row++) {
-        for (let col = 0; col < size; col++) {
-          for (const [
-            rowDirection,
-            colDirection,
-          ] of DIRECTIONS) {
-            if (
-              canPlaceWord(
-                grid,
-                word,
-                row,
-                col,
-                rowDirection,
-                colDirection,
-              )
-            ) {
-              placements.push({
-                row,
-                col,
-                rowDirection,
-                colDirection,
-              });
-            }
-          }
-        }
-      }
-
-      if (!placements.length) {
-        success = false;
+      if (!isInside(nextRow, nextCol, rows, cols)) {
+        valid = false;
         break;
       }
 
-      const placement =
-        placements[
-          Math.floor(
-            Math.random() * placements.length,
-          )
-        ];
+      const current = grid[nextRow][nextCol];
+      if (current && current !== word[index]) {
+        valid = false;
+        break;
+      }
 
-      const result = placeWord(
-        grid,
-        word,
-        placement.row,
-        placement.col,
-        placement.rowDirection,
-        placement.colDirection,
-      );
-
-      grid = result.grid;
-      wordPositions[word] = result.positions;
+      cells.push({ row: nextRow, col: nextCol });
     }
 
-    if (!success) {
+    if (!valid) continue;
+
+    cells.forEach(({ row: cellRow, col: cellCol }, index) => {
+      grid[cellRow][cellCol] = word[index];
+    });
+
+    return cells;
+  }
+
+  return null;
+}
+
+/* =========================================================
+   BUILD PUZZLE — FIXED REFERENCE GRID: 12 ROWS × 9 COLS
+========================================================= */
+
+function generatePuzzle(level) {
+  const rows = getGridRows(level);
+  const cols = getGridCols(level);
+  const wordCount = getWordCount(level);
+  const { min, max } = getWordLengthRange(level);
+
+  const themePools = [
+    [
+      "LOVE",
+      "HEART",
+      "ADORE",
+      "SMILE",
+      "DATING",
+      "BRIDE",
+      "GROOM",
+      "HUG",
+      "ROSE",
+      "HAPPY",
+      "JOY",
+      "KISS",
+    ],
+    [
+      "WORD",
+      "HUNT",
+      "PLAY",
+      "SCORE",
+      "WIN",
+      "BONUS",
+      "FUN",
+      "LEVEL",
+      "POWER",
+      "REWARD",
+      "GAME",
+      "STAR",
+    ],
+    [
+      "CAT",
+      "TIGER",
+      "LION",
+      "HORSE",
+      "BEAR",
+      "WOLF",
+      "PANDA",
+      "ZEBRA",
+      "EAGLE",
+      "SHARK",
+      "FROG",
+      "BIRD",
+    ],
+    [
+      "SUN",
+      "MOON",
+      "STAR",
+      "SKY",
+      "RAIN",
+      "CLOUD",
+      "LIGHT",
+      "SPACE",
+      "EARTH",
+      "OCEAN",
+      "WAVE",
+      "WIND",
+    ],
+  ];
+
+  const themePool = themePools[(level - 1) % themePools.length];
+
+  const filteredThemeWords = themePool.filter(
+    (word) => word.length >= min && word.length <= Math.min(max, rows, cols),
+  );
+
+  const filteredMasterWords = MASTER_WORD_POOL.filter(
+    (word) => word.length >= min && word.length <= Math.min(max, rows, cols),
+  );
+
+  const usableWords = [
+    ...new Set([...filteredThemeWords, ...filteredMasterWords]),
+  ];
+
+  for (let attempt = 0; attempt < 600; attempt += 1) {
+    const selectedWords = shuffle(usableWords).slice(0, wordCount);
+
+    if (selectedWords.length !== wordCount) {
       continue;
     }
 
-    const filledGrid = grid.map((row) =>
-      row.map(
-        (cell) =>
-          cell ||
-          ALPHABET[
-            Math.floor(
-              Math.random() * ALPHABET.length,
-            )
-          ],
-      ),
-    );
+    const grid = Array.from({ length: rows }, () => Array(cols).fill(""));
 
-    return {
-      grid: filledGrid,
-      words,
-      wordPositions,
-      size,
-    };
-  }
+    const placements = {};
+    let failed = false;
 
-  /* Safe fallback */
-  const fallbackGrid = createEmptyGrid(size);
-  const fallbackWords = orderedWords.slice(
-    0,
-    Math.min(3, orderedWords.length),
-  );
+    // Longer words first makes dense boards much more reliable.
+    const wordsToPlace = [...selectedWords].sort((a, b) => b.length - a.length);
 
-  const fallbackPositions = {};
+    for (const word of wordsToPlace) {
+      const cells = placeWord(grid, word, rows, cols);
 
-  fallbackWords.forEach((word, index) => {
-    const row = Math.min(index, size - 1);
-
-    if (word.length <= size) {
-      const result = placeWord(
-        fallbackGrid,
-        word,
-        row,
-        0,
-        0,
-        1,
-      );
-
-      fallbackPositions[word] =
-        result.positions;
-    }
-  });
-
-  const filledGrid = fallbackGrid.map((row) =>
-    row.map(
-      (cell) =>
-        cell ||
-        ALPHABET[
-          Math.floor(
-            Math.random() * ALPHABET.length,
-          )
-        ],
-    ),
-  );
-
-  return {
-    grid: filledGrid,
-    words: fallbackWords,
-    wordPositions: fallbackPositions,
-    size,
-  };
-}
-
-/* ==================================================
-   WORD HUNT GAME
-================================================== */
-
-function WordHuntGame() {
-  const navigate = useNavigate();
-  const { addGameCoins } = useGameCoin();
-
-  const [level, setLevel] = useState(1);
-
-  const initialPuzzle = useMemo(
-    () => buildPuzzle(1),
-    [],
-  );
-
-  const [puzzle, setPuzzle] =
-    useState(initialPuzzle);
-
-  const [foundWords, setFoundWords] =
-    useState([]);
-
-  const [selectedCells, setSelectedCells] =
-    useState([]);
-
-  const [isSelecting, setIsSelecting] =
-    useState(false);
-
-  const [timeLeft, setTimeLeft] =
-    useState(getGameTime(1));
-
-  const [gameOver, setGameOver] =
-    useState(false);
-
-  const [showRevive, setShowRevive] =
-    useState(false);
-
-  const [revived, setRevived] =
-    useState(false);
-
-  const [levelComplete, setLevelComplete] =
-    useState(false);
-
-  const [finalComplete, setFinalComplete] =
-    useState(false);
-
-  const rewardGrantedRef = useRef(false);
-  const gridRef = useRef(null);
-  const selectingRef = useRef(false);
-  const selectedCellsRef = useRef([]);
-  const directionRef = useRef(null);
-
-  const { grid, words, wordPositions, size } =
-    puzzle;
-
-  const totalWords = words.length;
-  const isLastLevel =
-    level === TOTAL_LEVELS;
-
-  const reward = foundWords.length * 10;
-
-  /* ==================================================
-     TIMER
-  ================================================== */
-
-  useEffect(() => {
-    if (
-      gameOver ||
-      levelComplete ||
-      finalComplete
-    ) {
-      return;
-    }
-
-    if (timeLeft <= 0) {
-      setGameOver(true);
-
-      if (!revived) {
-        setShowRevive(true);
-      } else if (!rewardGrantedRef.current) {
-        rewardGrantedRef.current = true;
-        addGameCoins(reward);
-      }
-
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft(
-        (previous) => previous - 1,
-      );
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [
-    timeLeft,
-    gameOver,
-    levelComplete,
-    finalComplete,
-    revived,
-  ]);
-
-  /* ==================================================
-     CELL HELPERS
-  ================================================== */
-
-  const isCellSelected = (row, col) =>
-    selectedCells.some(
-      (cell) =>
-        cell.row === row &&
-        cell.col === col,
-    );
-
-  const isCellInFoundWord = (row, col) =>
-    foundWords.some((word) =>
-      wordPositions[word]?.some(
-        (cell) =>
-          cell.row === row &&
-          cell.col === col,
-      ),
-    );
-
-  const getSelectedWord = (cells) =>
-    cells
-      .map((cell) => grid[cell.row][cell.col])
-      .join("");
-
-  /* ==================================================
-     SELECTION
-  ================================================== */
-
-  const canContinueSelection = (cell) => {
-    const current =
-      selectedCellsRef.current;
-
-    if (current.length === 0) {
-      return true;
-    }
-
-    const lastCell =
-      current[current.length - 1];
-
-    const rowDifference =
-      cell.row - lastCell.row;
-
-    const colDifference =
-      cell.col - lastCell.col;
-
-    if (
-      rowDifference === 0 &&
-      colDifference === 0
-    ) {
-      return false;
-    }
-
-    if (!directionRef.current) {
-      const rowStep =
-        Math.sign(rowDifference);
-
-      const colStep =
-        Math.sign(colDifference);
-
-      const validDirection =
-        DIRECTIONS.find(
-          ([rowDirection, colDirection]) =>
-            rowDirection === rowStep &&
-            colDirection === colStep,
-        );
-
-      if (!validDirection) {
-        return false;
-      }
-
-      directionRef.current =
-        validDirection;
-    }
-
-    return (
-      Math.sign(rowDifference) ===
-        directionRef.current[0] &&
-      Math.sign(colDifference) ===
-        directionRef.current[1]
-    );
-  };
-
-  const addCellToSelection = (
-    row,
-    col,
-  ) => {
-    const cell = { row, col };
-
-    const current =
-      selectedCellsRef.current;
-
-    if (
-      current.some(
-        (item) =>
-          item.row === row &&
-          item.col === col,
-      )
-    ) {
-      return;
-    }
-
-    if (
-      !canContinueSelection(cell)
-    ) {
-      return;
-    }
-
-    const next = [...current, cell];
-
-    selectedCellsRef.current = next;
-    setSelectedCells(next);
-  };
-
-  const addCellsBetween = (
-    targetRow,
-    targetCol,
-  ) => {
-    const current =
-      selectedCellsRef.current;
-
-    if (!current.length) {
-      addCellToSelection(
-        targetRow,
-        targetCol,
-      );
-      return;
-    }
-
-    const last =
-      current[current.length - 1];
-
-    const rowDifference =
-      targetRow - last.row;
-
-    const colDifference =
-      targetCol - last.col;
-
-    const rowStep =
-      Math.sign(rowDifference);
-
-    const colStep =
-      Math.sign(colDifference);
-
-    if (
-      Math.abs(rowDifference) !==
-        Math.abs(colDifference) &&
-      rowDifference !== 0 &&
-      colDifference !== 0
-    ) {
-      return;
-    }
-
-    if (
-      directionRef.current &&
-      (rowStep !==
-        directionRef.current[0] ||
-        colStep !==
-          directionRef.current[1])
-    ) {
-      return;
-    }
-
-    if (!directionRef.current) {
-      const validDirection =
-        DIRECTIONS.find(
-          ([r, c]) =>
-            r === rowStep &&
-            c === colStep,
-        );
-
-      if (!validDirection) {
-        return;
-      }
-
-      directionRef.current =
-        validDirection;
-    }
-
-    const distance = Math.max(
-      Math.abs(rowDifference),
-      Math.abs(colDifference),
-    );
-
-    for (
-      let step = 1;
-      step <= distance;
-      step++
-    ) {
-      const nextRow =
-        last.row + rowStep * step;
-
-      const nextCol =
-        last.col + colStep * step;
-
-      if (
-        nextRow < 0 ||
-        nextRow >= size ||
-        nextCol < 0 ||
-        nextCol >= size
-      ) {
+      if (!cells) {
+        failed = true;
         break;
       }
 
-      const alreadySelected =
-        selectedCellsRef.current.some(
-          (item) =>
-            item.row === nextRow &&
-            item.col === nextCol,
-        );
+      placements[word] = cells;
+    }
 
-      if (alreadySelected) {
-        continue;
+    if (failed) {
+      continue;
+    }
+
+    for (let row = 0; row < rows; row += 1) {
+      for (let col = 0; col < cols; col += 1) {
+        if (!grid[row][col]) {
+          grid[row][col] =
+            ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+        }
       }
-
-      const next = [
-        ...selectedCellsRef.current,
-        {
-          row: nextRow,
-          col: nextCol,
-        },
-      ];
-
-      selectedCellsRef.current = next;
-      setSelectedCells(next);
-    }
-  };
-
-  /* ==================================================
-     POINTER DOWN
-  ================================================== */
-
-  const handleCellPointerDown = (
-    event,
-    row,
-    col,
-  ) => {
-    if (
-      gameOver ||
-      levelComplete ||
-      finalComplete
-    ) {
-      return;
     }
 
-    event.preventDefault();
+    return {
+      rows,
+      cols,
+      words: selectedWords,
+      grid,
+      placements,
+    };
+  }
 
-    selectingRef.current = true;
+  // Guaranteed fallback: place each word horizontally.
+  const fallbackWords = shuffle(usableWords).slice(0, wordCount);
 
-    directionRef.current = null;
+  const grid = Array.from({ length: rows }, () => Array(cols).fill(""));
 
-    const firstCell = [
-      {
+  const placements = {};
+
+  fallbackWords.forEach((word, wordIndex) => {
+    const row = wordIndex % rows;
+    const safeWord = word.slice(0, cols);
+    const cells = [];
+
+    for (let index = 0; index < safeWord.length; index += 1) {
+      grid[row][index] = safeWord[index];
+
+      cells.push({
         row,
-        col,
-      },
-    ];
-
-    selectedCellsRef.current =
-      firstCell;
-
-    setSelectedCells(firstCell);
-
-    try {
-      event.currentTarget.setPointerCapture(
-        event.pointerId,
-      );
-    } catch {
-      // Pointer capture may not be supported
-      // in every browser environment.
+        col: index,
+      });
     }
+
+    placements[word] = cells;
+  });
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      if (!grid[row][col]) {
+        grid[row][col] = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+      }
+    }
+  }
+
+  return {
+    rows,
+    cols,
+    words: fallbackWords,
+    grid,
+    placements,
   };
+}
 
-  /* ==================================================
-     POINTER MOVE
-  ================================================== */
+/* =========================================================
+   REWARD
+========================================================= */
 
-  const handleGridPointerMove = (
-    event,
-  ) => {
-    if (
-      !selectingRef.current ||
-      gameOver ||
-      levelComplete ||
-      finalComplete
-    ) {
-      return;
-    }
+function getReward(level, score) {
+  return 5 + level * 2 + Math.floor(score / 50);
+}
 
-    event.preventDefault();
+/* =========================================================
+   COMPONENT
+========================================================= */
 
-    const element =
-      document.elementFromPoint(
-        event.clientX,
-        event.clientY,
-      );
+function WordHuntGame() {
+  const navigate = useNavigate();
 
-    const cellElement =
-      element?.closest(
-        "[data-row][data-col]",
-      );
+  const { addGameCoins, gameCoins } = useGameCoin();
 
-    if (!cellElement) {
-      return;
-    }
+  const [level, setLevel] = useState(1);
 
-    const row = Number(
-      cellElement.dataset.row,
-    );
+  const [puzzle, setPuzzle] = useState(() => generatePuzzle(1));
 
-    const col = Number(
-      cellElement.dataset.col,
-    );
+  const [timeLeft, setTimeLeft] = useState(getGameTime(1));
 
-    if (
-      Number.isNaN(row) ||
-      Number.isNaN(col)
-    ) {
-      return;
-    }
+  const [score, setScore] = useState(0);
 
-    addCellsBetween(row, col);
-  };
+  const [foundWords, setFoundWords] = useState([]);
 
-  /* ==================================================
-     FINISH SELECTION
-  ================================================== */
+  const [foundCells, setFoundCells] = useState([]);
 
-  const finishSelection = () => {
-    if (!selectingRef.current) {
-      return;
-    }
+  // Maps each completed word to a neon palette index.
+  const [foundWordColors, setFoundWordColors] = useState({});
 
-    selectingRef.current = false;
+  const [revealedCells, setRevealedCells] = useState([]);
 
-    const cells =
-      selectedCellsRef.current;
+  const [selectedCells, setSelectedCells] = useState([]);
 
-    if (cells.length < 3) {
-      selectedCellsRef.current = [];
-      setSelectedCells([]);
-      directionRef.current = null;
-      return;
-    }
+  const [isSelecting, setIsSelecting] = useState(false);
 
-    const selectedWord =
-      getSelectedWord(cells);
+  const [showGuide, setShowGuide] = useState(true);
 
-    const reversedWord = selectedWord
-      .split("")
-      .reverse()
-      .join("");
+  const [levelComplete, setLevelComplete] = useState(false);
 
-    const matchedWord =
-      words.find(
-        (word) =>
-          !foundWords.includes(word) &&
-          (word === selectedWord ||
-            word === reversedWord),
-      );
+  const [gameOver, setGameOver] = useState(false);
 
-    if (matchedWord) {
-      setFoundWords(
-        (previous) => [
-          ...previous,
-          matchedWord,
-        ],
-      );
-    }
+  const [showRevive, setShowRevive] = useState(false);
 
-    selectedCellsRef.current = [];
-    setSelectedCells([]);
-    directionRef.current = null;
-  };
+  const [revived, setRevived] = useState(false);
 
-  /* ==================================================
-     LEVEL COMPLETE
-  ================================================== */
+  const [finalComplete, setFinalComplete] = useState(false);
+
+  const [earnedCoins, setEarnedCoins] = useState(0);
+
+  const gridRef = useRef(null);
+
+  const earnedCoinsRef = useRef(0);
+
+  const rewardBankedRef = useRef(false);
+
+  const finishHandledRef = useRef(false);
+
+  const isSelectingRef = useRef(false);
+
+  const selectedCellsRef = useRef([]);
+
+  // Direction is locked after the first meaningful drag.
+  // Allowed: horizontal, vertical, and all four diagonals.
+  const selectionDirectionRef = useRef(null);
+
+  const puzzleRef = useRef(puzzle);
+
+  const foundWordsRef = useRef(foundWords);
+
+  const revivedRef = useRef(revived);
+
+  const levelCompleteRef = useRef(levelComplete);
+
+  const gameOverRef = useRef(gameOver);
 
   useEffect(() => {
+    puzzleRef.current = puzzle;
+  }, [puzzle]);
+
+  useEffect(() => {
+    foundWordsRef.current = foundWords;
+  }, [foundWords]);
+
+  useEffect(() => {
+    revivedRef.current = revived;
+  }, [revived]);
+
+  useEffect(() => {
+    levelCompleteRef.current = levelComplete;
+  }, [levelComplete]);
+
+  useEffect(() => {
+    gameOverRef.current = gameOver;
+  }, [gameOver]);
+
+  const currentWords = useMemo(() => puzzle.words, [puzzle.words]);
+
+  const missedWords = useMemo(
+    () => currentWords.filter((word) => !foundWords.includes(word)),
+    [currentWords, foundWords],
+  );
+
+  const progress = currentWords.length
+    ? Math.round((foundWords.length / currentWords.length) * 100)
+    : 0;
+
+  const currentReward = getReward(level, score);
+
+  /* =========================================================
+     REVEAL MISSED WORDS
+========================================================= */
+
+  const revealMissedWords = useCallback(() => {
+    const currentPuzzle = puzzleRef.current;
+
+    const currentFound = foundWordsRef.current;
+
+    const missed = currentPuzzle.words.filter(
+      (word) => !currentFound.includes(word),
+    );
+
+    const revealSet = new Set();
+
+    missed.forEach((word) => {
+      const placement = currentPuzzle.placements[word];
+
+      if (!placement) {
+        return;
+      }
+
+      placement.forEach(({ row, col }) => {
+        revealSet.add(getCellKey(row, col));
+      });
+    });
+
+    setRevealedCells([...revealSet]);
+  }, []);
+
+  /* =========================================================
+     TIMER
+========================================================= */
+
+  useEffect(() => {
+    if (showGuide || levelComplete || gameOver || finalComplete) {
+      return undefined;
+    }
+
+    const timerId = window.setInterval(() => {
+      setTimeLeft((previous) => {
+        if (previous <= 1) {
+          window.clearInterval(timerId);
+
+          revealMissedWords();
+
+          setGameOver(true);
+
+          if (!revivedRef.current) {
+            setShowRevive(true);
+          }
+
+          return 0;
+        }
+
+        return previous - 1;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(timerId);
+  }, [showGuide, levelComplete, gameOver, finalComplete, revealMissedWords]);
+
+  /* =========================================================
+     LEVEL COMPLETE
+========================================================= */
+
+  useEffect(() => {
+    if (currentWords.length === 0) {
+      return;
+    }
+
     if (
-      foundWords.length !== totalWords ||
-      totalWords === 0
+      foundWords.length === currentWords.length &&
+      !levelComplete &&
+      !gameOver
     ) {
+      const reward = getReward(level, score);
+
+      if (!rewardBankedRef.current) {
+        rewardBankedRef.current = true;
+
+        earnedCoinsRef.current += reward;
+
+        setEarnedCoins(earnedCoinsRef.current);
+      }
+
+      setLevelComplete(true);
+    }
+  }, [foundWords, currentWords.length, level, score, levelComplete, gameOver]);
+
+  /* =========================================================
+     FIND CELL FROM POINTER
+========================================================= */
+
+  const getCellFromPoint = useCallback((clientX, clientY) => {
+    const grid = gridRef.current;
+
+    if (!grid) {
+      return null;
+    }
+
+    const rect = grid.getBoundingClientRect();
+
+    const rows = puzzleRef.current.rows;
+    const cols = puzzleRef.current.cols;
+
+    const cellWidth = rect.width / cols;
+    const cellHeight = rect.height / rows;
+
+    const col = Math.floor((clientX - rect.left) / cellWidth);
+
+    const row = Math.floor((clientY - rect.top) / cellHeight);
+
+    if (!isInside(row, col, rows, cols)) {
+      return null;
+    }
+
+    return {
+      row,
+      col,
+    };
+  }, []);
+
+  /* =========================================================
+     SELECTION WORD
+========================================================= */
+
+  const getSelectionWord = useCallback((cells) => {
+    const currentPuzzle = puzzleRef.current;
+
+    return cells.map(({ row, col }) => currentPuzzle.grid[row][col]).join("");
+  }, []);
+
+  /* =========================================================
+     START SELECTION
+========================================================= */
+
+  const handlePointerDown = (event, row, col) => {
+    if (showGuide || levelComplete || gameOver || finalComplete) {
       return;
     }
 
-    if (rewardGrantedRef.current) {
+    event.preventDefault();
+
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      // Safe fallback for browsers
+      // that do not support capture.
+    }
+
+    const initialCell = {
+      row,
+      col,
+    };
+
+    // Every new drag starts with no direction.
+    // The first meaningful movement chooses one of the
+    // 8 straight directions and that direction stays locked.
+    selectionDirectionRef.current = null;
+
+    isSelectingRef.current = true;
+
+    selectedCellsRef.current = [initialCell];
+
+    setIsSelecting(true);
+    setSelectedCells([initialCell]);
+  };
+
+  /* =========================================================
+     STRAIGHT-LINE SELECTION
+
+     The selection is always one continuous line.
+
+     Allowed directions:
+       ←  ↖  ↑  ↗
+       →  ↙  ↓  ↘
+
+     Once the direction is chosen from the first meaningful
+     pointer movement, it is LOCKED for the rest of the drag.
+     This makes diagonal dragging forgiving while guaranteeing
+     that an L-shape / bend / zig-zag can never be selected.
+  ========================================================= */
+
+  const getClosestDirection = useCallback((rowDiff, colDiff) => {
+    if (rowDiff === 0 && colDiff === 0) {
+      return null;
+    }
+
+    const length = Math.hypot(rowDiff, colDiff);
+    const unitRow = rowDiff / length;
+    const unitCol = colDiff / length;
+
+    const directions = [
+      { rowStep: -1, colStep: -1 }, // ↖
+      { rowStep: -1, colStep: 0 }, // ↑
+      { rowStep: -1, colStep: 1 }, // ↗
+      { rowStep: 0, colStep: -1 }, // ←
+      { rowStep: 0, colStep: 1 }, // →
+      { rowStep: 1, colStep: -1 }, // ↙
+      { rowStep: 1, colStep: 0 }, // ↓
+      { rowStep: 1, colStep: 1 }, // ↘
+    ];
+
+    let best = directions[0];
+    let bestScore = -Infinity;
+
+    directions.forEach((direction) => {
+      const directionLength = Math.hypot(direction.rowStep, direction.colStep);
+
+      const score =
+        (unitRow * direction.rowStep + unitCol * direction.colStep) /
+        directionLength;
+
+      if (score > bestScore) {
+        bestScore = score;
+        best = direction;
+      }
+    });
+
+    return best;
+  }, []);
+
+  const buildLockedStraightSelection = useCallback(
+    (start, current, direction) => {
+      if (!direction) {
+        return [start];
+      }
+
+      const rowDiff = current.row - start.row;
+      const colDiff = current.col - start.col;
+
+      // Project the pointer movement onto the locked line.
+      // For diagonals, divide by 2 because both row and col
+      // contribute to the projection.
+      const diagonal = direction.rowStep !== 0 && direction.colStep !== 0;
+
+      let steps = diagonal
+        ? Math.round(
+            (rowDiff * direction.rowStep + colDiff * direction.colStep) / 2,
+          )
+        : direction.rowStep !== 0
+          ? Math.round(rowDiff * direction.rowStep)
+          : Math.round(colDiff * direction.colStep);
+
+      // Never allow the pointer to make the selection reverse
+      // after the direction has been locked.
+      steps = Math.max(0, steps);
+
+      const rows = puzzleRef.current.rows;
+      const cols = puzzleRef.current.cols;
+
+      // Stop at the board edge.
+      const maxRowSteps =
+        direction.rowStep > 0
+          ? rows - 1 - start.row
+          : direction.rowStep < 0
+            ? start.row
+            : Infinity;
+
+      const maxColSteps =
+        direction.colStep > 0
+          ? cols - 1 - start.col
+          : direction.colStep < 0
+            ? start.col
+            : Infinity;
+
+      steps = Math.min(steps, maxRowSteps, maxColSteps);
+
+      const cells = [];
+
+      for (let index = 0; index <= steps; index += 1) {
+        cells.push({
+          row: start.row + direction.rowStep * index,
+          col: start.col + direction.colStep * index,
+        });
+      }
+
+      return cells;
+    },
+    [],
+  );
+
+  const isStraightContinuation = useCallback((cells) => {
+    if (!cells || cells.length <= 2) {
+      return true;
+    }
+
+    const firstStep = {
+      row: cells[1].row - cells[0].row,
+      col: cells[1].col - cells[0].col,
+    };
+
+    for (let index = 2; index < cells.length; index += 1) {
+      const step = {
+        row: cells[index].row - cells[index - 1].row,
+        col: cells[index].col - cells[index - 1].col,
+      };
+
+      if (step.row !== firstStep.row || step.col !== firstStep.col) {
+        return false;
+      }
+    }
+
+    return (
+      Math.abs(firstStep.row) <= 1 &&
+      Math.abs(firstStep.col) <= 1 &&
+      (firstStep.row !== 0 || firstStep.col !== 0)
+    );
+  }, []);
+
+  /* =========================================================
+     MOVE SELECTION
+  ========================================================= */
+
+  const handlePointerMove = (event) => {
+    if (!isSelectingRef.current) {
       return;
     }
 
-    rewardGrantedRef.current = true;
+    event.preventDefault();
 
-    selectingRef.current = false;
-    selectedCellsRef.current = [];
+    const currentCell = getCellFromPoint(event.clientX, event.clientY);
+
+    if (!currentCell) {
+      return;
+    }
+
+    const start = selectedCellsRef.current[0];
+
+    if (!start) {
+      return;
+    }
+
+    const rowDiff = currentCell.row - start.row;
+
+    const colDiff = currentCell.col - start.col;
+
+    // Choose the direction exactly once.
+    if (!selectionDirectionRef.current) {
+      if (rowDiff === 0 && colDiff === 0) {
+        return;
+      }
+
+      selectionDirectionRef.current = getClosestDirection(rowDiff, colDiff);
+    }
+
+    const nextCells = buildLockedStraightSelection(
+      start,
+      currentCell,
+      selectionDirectionRef.current,
+    );
+
+    if (!isStraightContinuation(nextCells)) {
+      return;
+    }
+
+    selectedCellsRef.current = nextCells;
+    setSelectedCells(nextCells);
+  };
+
+  /* =========================================================
+     FINISH SELECTION
+========================================================= */
+
+  const finishSelection = () => {
+    if (!isSelectingRef.current) {
+      return;
+    }
+
+    isSelectingRef.current = false;
 
     setIsSelecting(false);
-    setSelectedCells([]);
-    setLevelComplete(true);
 
-    addGameCoins(reward);
+    const selection = selectedCellsRef.current;
 
-    if (isLastLevel) {
-      setFinalComplete(true);
+    selectedCellsRef.current = [];
+    selectionDirectionRef.current = null;
+
+    if (!selection.length) {
+      setSelectedCells([]);
+      return;
     }
-  }, [
-    foundWords,
-    totalWords,
-    reward,
-    addGameCoins,
-    isLastLevel,
-  ]);
 
-  /* ==================================================
+    /*
+      Defensive validation:
+      every consecutive cell must continue with
+      the exact same one-cell step.
+    */
+    if (!isStraightContinuation(selection)) {
+      selectionDirectionRef.current = null;
+      setSelectedCells([]);
+      return;
+    }
+
+    const selectedWord = getSelectionWord(selection);
+
+    const reversedWord = selectedWord.split("").reverse().join("");
+
+    const matchedWord = puzzleRef.current.words.find(
+      (word) =>
+        !foundWordsRef.current.includes(word) &&
+        (word === selectedWord || word === reversedWord),
+    );
+
+    if (matchedWord) {
+      const colorIndex = foundWordsRef.current.length % 10;
+
+      setFoundWordColors((previous) => ({
+        ...previous,
+        [matchedWord]: colorIndex,
+      }));
+
+      setFoundWords((previous) => {
+        if (previous.includes(matchedWord)) {
+          return previous;
+        }
+
+        const next = [...previous, matchedWord];
+
+        foundWordsRef.current = next;
+
+        return next;
+      });
+
+      setFoundCells((previous) => {
+        const next = [...previous];
+
+        selection.forEach(({ row, col }) => {
+          const key = getCellKey(row, col);
+
+          if (!next.includes(key)) {
+            next.push(key);
+          }
+        });
+
+        return next;
+      });
+
+      setScore((previous) => previous + 10 + matchedWord.length * 2);
+    }
+
+    setSelectedCells([]);
+  };
+
+  /* =========================================================
+     RESTART
+========================================================= */
+
+  const restartGame = () => {
+    const freshPuzzle = generatePuzzle(level);
+
+    setPuzzle(freshPuzzle);
+
+    setTimeLeft(getGameTime(level));
+
+    setScore(0);
+
+    setFoundWords([]);
+
+    foundWordsRef.current = [];
+
+    setFoundCells([]);
+    setFoundWordColors({});
+
+    setRevealedCells([]);
+
+    setSelectedCells([]);
+
+    selectedCellsRef.current = [];
+    selectionDirectionRef.current = null;
+
+    isSelectingRef.current = false;
+
+    setIsSelecting(false);
+
+    setLevelComplete(false);
+
+    setGameOver(false);
+
+    setShowRevive(false);
+
+    setRevived(false);
+
+    revivedRef.current = false;
+
+    setFinalComplete(false);
+
+    rewardBankedRef.current = false;
+
+    finishHandledRef.current = false;
+
+    setShowGuide(true);
+    setHintsLeft(2);
+  };
+
+  /* =========================================================
      NEXT LEVEL
-  ================================================== */
+========================================================= */
 
   const handleNextLevel = () => {
-    if (isLastLevel) {
+    if (level >= TOTAL_LEVELS) {
+      setLevelComplete(false);
+      setFinalComplete(true);
+      setGameOver(false);
       return;
     }
 
     const nextLevel = level + 1;
-    const nextPuzzle =
-      buildPuzzle(nextLevel);
 
-    rewardGrantedRef.current = false;
-
-    selectedCellsRef.current = [];
-    directionRef.current = null;
-    selectingRef.current = false;
+    const nextPuzzle = generatePuzzle(nextLevel);
 
     setLevel(nextLevel);
+
     setPuzzle(nextPuzzle);
+
+    setTimeLeft(getGameTime(nextLevel));
+
+    setScore(0);
+
     setFoundWords([]);
+
+    foundWordsRef.current = [];
+
+    setFoundCells([]);
+    setFoundWordColors({});
+
+    setRevealedCells([]);
+
     setSelectedCells([]);
+
+    selectedCellsRef.current = [];
+    selectionDirectionRef.current = null;
+
+    isSelectingRef.current = false;
+
     setIsSelecting(false);
-    setTimeLeft(
-      getGameTime(nextLevel),
-    );
-    setGameOver(false);
-    setShowRevive(false);
-    setRevived(false);
+
     setLevelComplete(false);
+
+    setGameOver(false);
+
+    setShowRevive(false);
+
+    setRevived(false);
+
+    revivedRef.current = false;
+
+    rewardBankedRef.current = false;
+
+    finishHandledRef.current = false;
+
     setFinalComplete(false);
+
+    setShowGuide(false);
+    setHintsLeft(2);
   };
 
-  /* ==================================================
+  /* =========================================================
      REVIVE
-  ================================================== */
+========================================================= */
 
   const handleRevive = () => {
-    if (revived) {
+    setShowRevive(false);
+
+    setGameOver(false);
+
+    setRevived(true);
+
+    revivedRef.current = true;
+
+    /*
+      The user gets a second chance,
+      so hide the answer reveal again.
+    */
+    setRevealedCells([]);
+
+    setTimeLeft(25);
+
+    setSelectedCells([]);
+
+    selectedCellsRef.current = [];
+    selectionDirectionRef.current = null;
+
+    isSelectingRef.current = false;
+
+    setIsSelecting(false);
+  };
+
+  const handleNoThanks = () => {
+    setShowRevive(false);
+
+    /*
+      Keep the revealed answers visible.
+    */
+    revealMissedWords();
+
+    setGameOver(true);
+  };
+
+  /* =========================================================
+     FINISH GAME
+========================================================= */
+
+  const finishGame = () => {
+    if (finishHandledRef.current) {
       return;
     }
 
-    selectedCellsRef.current = [];
-    directionRef.current = null;
-    selectingRef.current = false;
+    finishHandledRef.current = true;
 
-    setSelectedCells([]);
-    setIsSelecting(false);
+    let reward = earnedCoinsRef.current;
 
-    setRevived(true);
-    setShowRevive(false);
-    setGameOver(false);
-    setTimeLeft(30);
-  };
-
-  /* ==================================================
-     NO THANKS / FINISH
-  ================================================== */
-
-  const finishGame = () => {
-    if (!rewardGrantedRef.current) {
-      rewardGrantedRef.current = true;
-      addGameCoins(reward);
+    if (!rewardBankedRef.current) {
+      reward += currentReward;
     }
 
-    setShowRevive(false);
-    setGameOver(true);
+    if (reward > 0) {
+      addGameCoins(reward);
+    }
 
     navigate("/game/8");
   };
 
-  const handleNoThanks = () => {
-    finishGame();
+  const [hintsLeft, setHintsLeft] = useState(2);
+
+  const useHint = () => {
+    if (hintsLeft <= 0 || levelComplete || gameOver) return;
+    const missed = currentWords.find((word) => !foundWords.includes(word));
+    const placement = missed ? puzzleRef.current.placements[missed] : null;
+    if (!placement || !placement.length) return;
+    const target = placement[0];
+    const key = getCellKey(target.row, target.col);
+    setRevealedCells((previous) =>
+      previous.includes(key) ? previous : [...previous, key],
+    );
+    setHintsLeft((previous) => Math.max(0, previous - 1));
   };
 
-  /* ==================================================
-     RESTART
-  ================================================== */
+  const addTime = () => {
+    if (gameOver || levelComplete || finalComplete) return;
+    setTimeLeft((previous) => previous + 30);
+  };
 
-  const handleRestart = () => {
-    rewardGrantedRef.current = false;
-
-    selectedCellsRef.current = [];
-    directionRef.current = null;
-    selectingRef.current = false;
-
-    setPuzzle(buildPuzzle(level));
+  const shuffleBoard = () => {
+    if (gameOver || levelComplete || finalComplete) return;
+    const freshPuzzle = generatePuzzle(level);
+    setPuzzle(freshPuzzle);
     setFoundWords([]);
+    foundWordsRef.current = [];
+    setFoundCells([]);
+    setFoundWordColors({});
+    setRevealedCells([]);
     setSelectedCells([]);
+    selectedCellsRef.current = [];
+    isSelectingRef.current = false;
     setIsSelecting(false);
-    setTimeLeft(getGameTime(level));
-    setGameOver(false);
-    setShowRevive(false);
-    setRevived(false);
-    setLevelComplete(false);
-    setFinalComplete(false);
   };
 
-  /* ==================================================
-     UI
-  ================================================== */
+  /* =========================================================
+     RENDER — PREMIUM VELOOP WORD HUNT REFERENCE UI
+  ========================================================= */
+
+  const activeWordCount = currentWords.length;
 
   return (
     <div className={styles.page}>
-      {/* HEADER */}
+      <header className={styles.topHeader}>
+        <div className={styles.brand}>
+          <div className={styles.brandMark}>∞</div>
+          <div>
+            <strong>VELOOP</strong>
+            <span>REWARDS</span>
+          </div>
+        </div>
 
-      <header className={styles.header}>
         <button
           type="button"
           className={styles.backButton}
-          onClick={() =>
-            navigate("/game/8")
-          }
-          aria-label="Back to Word Hunt"
+          onClick={() => navigate("/game/8")}
         >
           <FiArrowLeft />
+          <span>Back to Games</span>
         </button>
 
-        <div className={styles.headerTitle}>
-          <span>WORD HUNT</span>
-
-          <strong>
-            Level {level} / {TOTAL_LEVELS}
-          </strong>
-        </div>
-
-        <div className={styles.timer}>
-          <FiHeart />
-
-          <strong>
-            {timeLeft}s
-          </strong>
+        <div className={styles.headerActions}>
+          <div className={styles.coinBalance}>
+            <span className={styles.coinIcon}>🪙</span>
+            <strong>{Number(gameCoins || 0).toLocaleString()}</strong>
+            <button type="button" onClick={() => navigate("/redeem")}>
+              Redeem
+            </button>
+          </div>
+          <button
+            type="button"
+            className={styles.settingsButton}
+            aria-label="Settings"
+          >
+            ⚙
+          </button>
         </div>
       </header>
 
-      {/* MAIN */}
+      <section className={styles.heroBanner}>
+        <div className={styles.heroOrb} />
+        <div className={styles.floatingLetter}>A</div>
+        <div className={`${styles.floatingLetter} ${styles.floatB}`}>B</div>
+        <div className={`${styles.floatingLetter} ${styles.floatC}`}>C</div>
 
-      <main className={styles.main}>
-        {/* LEVEL COMPLETE POPUP */}
-
-        {levelComplete && (
-          <div
-            className={
-              styles.levelCompleteOverlay
-            }
-          >
-            <div
-              className={
-                styles.levelCompletePopup
-              }
-            >
-              <div
-                className={styles.completeIcon}
-              >
-                {finalComplete
-                  ? "🏆"
-                  : "🎉"}
-              </div>
-
-              <span
-                className={
-                  styles.completeLabel
-                }
-              >
-                {finalComplete
-                  ? "CHALLENGE COMPLETE"
-                  : "LEVEL COMPLETE"}
-              </span>
-
-              <h2>
-                {finalComplete
-                  ? "All 20 Levels Complete!"
-                  : `Level ${level} Complete!`}
-              </h2>
-
-              <p>
-                You found all{" "}
-                {totalWords} words.
-              </p>
-
-              <strong
-                className={
-                  styles.completeReward
-                }
-              >
-                +{reward} Game Coins
-              </strong>
-
-              {!finalComplete ? (
-                <>
-                  <button
-                    type="button"
-                    className={
-                      styles.nextLevelButton
-                    }
-                    onClick={
-                      handleNextLevel
-                    }
-                  >
-                    Next Level →
-                  </button>
-
-                  <button
-                    type="button"
-                    className={
-                      styles.stayButton
-                    }
-                    onClick={() =>
-                      setLevelComplete(
-                        false,
-                      )
-                    }
-                  >
-                    Stay on this level
-                  </button>
-                </>
-              ) : (
-                <button
-                  type="button"
-                  className={
-                    styles.nextLevelButton
-                  }
-                  onClick={() =>
-                    navigate("/game/8")
-                  }
-                >
-                  Continue
-                </button>
-              )}
-            </div>
+        <div className={styles.heroContent}>
+          <div className={styles.heroCrown}>♛</div>
+          <h1>WORD HUNT</h1>
+          <div className={styles.heroSubline}>
+            FIND <i /> SWIPE <i /> SCORE <i /> WIN
           </div>
-        )}
+          <div className={styles.heroTag}>WORD SEARCH, BIGGER REWARDS</div>
+        </div>
+      </section>
 
-        <section
-          className={styles.gameContainer}
+      <section className={styles.gameStats}>
+        <div className={styles.statBlock}>
+          <span className={styles.statIcon}>▥</span>
+          <div>
+            <strong>LEVEL {level}</strong>
+            <small>
+              {getGridRows(level)}×{getGridCols(level)} GRID
+            </small>
+          </div>
+        </div>
+        <div className={styles.statDivider} />
+        <div className={styles.statBlock}>
+          <span className={styles.statIcon}>⏱</span>
+          <div>
+            <strong>{formatTime(timeLeft)}</strong>
+            <small>TIME LEFT</small>
+          </div>
+        </div>
+        <div className={styles.statDivider} />
+        <div className={styles.statBlock}>
+          <span className={styles.statIcon}>★</span>
+          <div>
+            <strong>{score}</strong>
+            <small>SCORE</small>
+          </div>
+        </div>
+        <button
+          type="button"
+          className={styles.hintTopButton}
+          onClick={useHint}
         >
-          {/* LEVEL INFO */}
+          <span>💡</span> Hint ({hintsLeft})
+        </button>
+      </section>
 
-          <div className={styles.levelInfo}>
-            <div>
-              <span>LEVEL</span>
-              <strong>{level}</strong>
-            </div>
-
-            <div>
-              <span>GRID</span>
-
-              <strong>
-                {size} × {size}
-              </strong>
-            </div>
-
-            <div>
-              <span>WORDS</span>
-
-              <strong>
-                {foundWords.length}/
-                {totalWords}
-              </strong>
+      <main className={styles.gameLayout}>
+        <aside className={styles.leftPanel}>
+          <div className={styles.panelTitle}>
+            <span>◉</span> FIND THESE WORDS
+          </div>
+          <div className={styles.wordList}>
+            {currentWords.map((word) => {
+              const found = foundWords.includes(word);
+              return (
+                <div
+                  key={word}
+                  className={`${styles.wordItem} ${
+                    found
+                      ? `${styles.wordFound} ${
+                          styles[`wordColor${foundWordColors[word] ?? 0}`]
+                        }`
+                      : ""
+                  }`}
+                >
+                  <span>{word}</span>
+                  <b>{found ? "✓" : "○"}</b>
+                </div>
+              );
+            })}
+          </div>
+          <div className={styles.foundCounter}>
+            <strong>
+              {foundWords.length} / {activeWordCount}
+            </strong>
+            <span>WORDS FOUND</span>
+            <div className={styles.miniProgress}>
+              <i style={{ width: `${progress}%` }} />
             </div>
           </div>
+        </aside>
 
-          {/* GRID */}
-
-          <div
-            ref={gridRef}
-            className={styles.gridWrapper}
-            onPointerMove={
-              handleGridPointerMove
-            }
-            onPointerUp={
-              finishSelection
-            }
-            onPointerCancel={
-              finishSelection
-            }
-            onPointerLeave={(event) => {
-              if (
-                selectingRef.current &&
-                event.pointerType === "mouse"
-              ) {
-                // Don't finish selection here.
-                // Pointer can leave a cell while
-                // continuing across the board.
-              }
-            }}
-          >
+        <section className={styles.centerGame}>
+          <div className={styles.boardShell}>
+            <div className={styles.boardGlow} />
             <div
+              ref={gridRef}
               className={styles.grid}
+              onContextMenu={(event) => event.preventDefault()}
               style={{
-                gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
+                gridTemplateColumns: `repeat(${puzzle.cols}, minmax(0, 1fr))`,
+                gridTemplateRows: `repeat(${puzzle.rows}, minmax(0, 1fr))`,
+                touchAction: "none",
+                userSelect: "none",
+                WebkitUserSelect: "none",
+              }}
+              onPointerMove={handlePointerMove}
+              onPointerUp={finishSelection}
+              onPointerCancel={finishSelection}
+              onLostPointerCapture={finishSelection}
+              onPointerLeave={(event) => {
+                if (isSelectingRef.current) handlePointerMove(event);
               }}
             >
-              {grid.map(
-                (row, rowIndex) =>
-                  row.map(
-                    (letter, colIndex) => {
-                      const selected =
-                        isCellSelected(
-                          rowIndex,
-                          colIndex,
-                        );
+              {puzzle.grid.map((row, rowIndex) =>
+                row.map((letter, colIndex) => {
+                  const key = getCellKey(rowIndex, colIndex);
+                  const isSelected = selectedCells.some(
+                    (cell) => cell.row === rowIndex && cell.col === colIndex,
+                  );
+                  const isFound = foundCells.includes(key);
 
-                      const found =
-                        isCellInFoundWord(
-                          rowIndex,
-                          colIndex,
-                        );
+                  const foundWordForCell = foundWords.find((word) =>
+                    puzzle.placements[word]?.some(
+                      (cell) => getCellKey(cell.row, cell.col) === key,
+                    ),
+                  );
 
-                      return (
-                        <button
-                          type="button"
-                          key={`${rowIndex}-${colIndex}`}
-                          data-row={rowIndex}
-                          data-col={colIndex}
-                          className={[
-                            styles.cell,
-                            selected
-                              ? styles.selected
-                              : "",
-                            found
-                              ? styles.found
-                              : "",
-                          ].join(" ")}
-                          onPointerDown={(
-                            event,
-                          ) =>
-                            handleCellPointerDown(
-                              event,
-                              rowIndex,
-                              colIndex,
-                            )
-                          }
-                          aria-label={`Letter ${letter}`}
-                        >
-                          {letter}
-                        </button>
-                      );
-                    },
-                  ),
+                  const foundColorIndex = foundWordForCell
+                    ? (foundWordColors[foundWordForCell] ?? 0)
+                    : 0;
+
+                  const isRevealed = revealedCells.includes(key);
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`${styles.cell} ${
+                        isSelected ? styles.selectedCell : ""
+                      } ${
+                        isFound
+                          ? `${styles.foundCell} ${
+                              styles[`foundColor${foundColorIndex}`]
+                            }`
+                          : ""
+                      } ${isRevealed && !isFound ? styles.revealedCell : ""}`}
+                      onPointerDown={(event) =>
+                        handlePointerDown(event, rowIndex, colIndex)
+                      }
+                      aria-label={`Letter ${letter}`}
+                    >
+                      {letter}
+                    </button>
+                  );
+                }),
               )}
             </div>
           </div>
 
-          {/* INSTRUCTIONS */}
-
-          <div
-            className={styles.instructions}
+          <button
+            type="button"
+            className={styles.submitButton}
+            onClick={finishSelection}
           >
-            <strong>
-              How to play
-            </strong>
+            SUBMIT WORD
+          </button>
 
-            <span>
-              Drag across letters in a
-              straight line to find a
-              word.
-            </span>
+          <div className={styles.bottomNav}>
+            <span>PLAY</span>
+            <i /> <span>EARN</span>
+            <i /> <span>REDEEM</span>
+            <i /> <span>REPEAT</span>
           </div>
         </section>
 
-        {/* GAME OVER */}
+        <aside className={styles.rightPanel}>
+          <div className={styles.panelTitle}>
+            <span>🎮</span> HOW TO PLAY
+          </div>
+          <p className={styles.instruction}>
+            Swipe to select letters in a <strong>straight line</strong> —
+            Horizontal, Vertical or Diagonal.
+          </p>
+          <div className={styles.straightBadge}>
+            ✓{" "}
+            <span>
+              Only straight lines
+              <br />
+              <small>No bends or turns</small>
+            </span>
+          </div>
 
-        {gameOver &&
-          !levelComplete &&
-          !finalComplete &&
-          !showRevive && (
-            <section
-              className={styles.resultCard}
-            >
-              <div
-                className={styles.resultIcon}
-              >
-                !
-              </div>
-
-              <h2>Game Over</h2>
-
-              <p>
-                You found{" "}
-                {foundWords.length} of{" "}
-                {totalWords} words on
-                Level {level}.
-              </p>
-
-              <strong
-                className={
-                  styles.rewardText
-                }
-              >
-                +{reward} Game Coins
-              </strong>
-
-              <button
-                type="button"
-                className={
-                  styles.primaryButton
-                }
-                onClick={handleRestart}
-              >
-                <FiRotateCcw />
-                Try Again
-              </button>
-            </section>
-          )}
+          <div className={styles.powerTitle}>POWER-UPS</div>
+          <button
+            type="button"
+            className={styles.powerButton}
+            onClick={useHint}
+            disabled={hintsLeft <= 0}
+          >
+            <span>💡</span>
+            <div>
+              <strong>Hint</strong>
+              <small>Reveal a letter</small>
+            </div>
+            <b>{hintsLeft}</b>
+          </button>
+          <button
+            type="button"
+            className={styles.powerButton}
+            onClick={addTime}
+          >
+            <span>⏱</span>
+            <div>
+              <strong>Time +30s</strong>
+              <small>Get more time</small>
+            </div>
+            <b>1</b>
+          </button>
+          <button
+            type="button"
+            className={styles.powerButton}
+            onClick={shuffleBoard}
+          >
+            <span>🔀</span>
+            <div>
+              <strong>Shuffle</strong>
+              <small>Shuffle the board</small>
+            </div>
+            <b>1</b>
+          </button>
+        </aside>
       </main>
 
-      {/* REVIVE MODAL */}
+      <div className={styles.actionsRow}>
+        <button
+          type="button"
+          className={styles.restartButton}
+          onClick={restartGame}
+        >
+          <FiRotateCcw /> Restart
+        </button>
+        <span className={styles.rewardPreview}>
+          🪙 +{currentReward} <small>possible reward</small>
+        </span>
+      </div>
+
+      {showGuide && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.guideModal}>
+            <span className={styles.modalBadge}>WORD HUNT</span>
+            <h2>Find the hidden words</h2>
+            <p>
+              Swipe across letters in one straight line to find every hidden
+              word.
+            </p>
+            <div className={styles.guideSteps}>
+              <div>
+                <b>01</b>
+                <span>Find a hidden word.</span>
+              </div>
+              <div>
+                <b>02</b>
+                <span>Swipe across connected letters.</span>
+              </div>
+              <div>
+                <b>03</b>
+                <span>Horizontal, vertical or diagonal.</span>
+              </div>
+              <div>
+                <b>04</b>
+                <span>No bends or turns.</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={() => setShowGuide(false)}
+            >
+              START GAME
+            </button>
+          </div>
+        </div>
+      )}
+
+      {levelComplete && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.resultModal}>
+            <div className={styles.successIcon}>✓</div>
+            <span className={styles.modalBadge}>LEVEL COMPLETE</span>
+            <h2>Great work!</h2>
+            <div className={styles.resultStats}>
+              <div>
+                <small>SCORE</small>
+                <strong>{score}</strong>
+              </div>
+              <div>
+                <small>REWARD</small>
+                <strong>🪙 +{getReward(level, score)}</strong>
+              </div>
+            </div>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={handleNextLevel}
+            >
+              {level >= TOTAL_LEVELS ? "VIEW RESULTS" : "NEXT LEVEL →"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {finalComplete && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.resultModal}>
+            <div className={styles.successIcon}>★</div>
+            <span className={styles.modalBadge}>ALL LEVELS COMPLETE</span>
+            <h2>Word Hunt Master!</h2>
+            <p>You completed all {TOTAL_LEVELS} levels.</p>
+            <div className={styles.finalReward}>
+              <span>GAME COINS EARNED</span>
+              <strong>🪙 {earnedCoins}</strong>
+            </div>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={finishGame}
+            >
+              COLLECT REWARD
+            </button>
+          </div>
+        </div>
+      )}
 
       {showRevive && (
-        <div
-          className={
-            styles.modalOverlay
-          }
-        >
-          <div className={styles.modal}>
-            <div
-              className={styles.modalIcon}
-            >
-              ❤️
-            </div>
-
-            <h2>Time's Up!</h2>
-
+        <div className={styles.modalOverlay}>
+          <div className={styles.reviveModal}>
+            <div className={styles.reviveIcon}>⏱</div>
+            <span className={styles.modalBadge}>TIME'S UP</span>
+            <h2>Keep playing?</h2>
             <p>
-              Want another chance to
-              continue Level {level}?
+              The remaining hidden words have been revealed. Revive once and get
+              25 more seconds.
             </p>
-
             <button
               type="button"
-              className={
-                styles.primaryButton
-              }
+              className={styles.primaryButton}
               onClick={handleRevive}
             >
-              Revive
+              REVIVE
             </button>
-
             <button
               type="button"
-              className={
-                styles.secondaryButton
-              }
+              className={styles.secondaryButton}
               onClick={handleNoThanks}
             >
-              No Thanks
+              NO THANKS
+            </button>
+          </div>
+        </div>
+      )}
+
+      {gameOver && !showRevive && !levelComplete && !finalComplete && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.resultModal}>
+            <div className={styles.failIcon}>!</div>
+            <span className={styles.modalBadge}>TIME'S UP</span>
+            <h2>Time's Up!</h2>
+            <p>
+              You found <strong>{foundWords.length}</strong> of{" "}
+              <strong>{currentWords.length}</strong> hidden words.
+            </p>
+            <div className={styles.resultStats}>
+              <div>
+                <small>SCORE</small>
+                <strong>{score}</strong>
+              </div>
+              <div>
+                <small>REWARD</small>
+                <strong>🪙 +{earnedCoins}</strong>
+              </div>
+            </div>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={finishGame}
+            >
+              COLLECT & EXIT
+            </button>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={restartGame}
+            >
+              PLAY AGAIN
             </button>
           </div>
         </div>
