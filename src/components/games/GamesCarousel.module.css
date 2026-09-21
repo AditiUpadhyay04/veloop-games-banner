@@ -1,11 +1,18 @@
+/* =========================================================
+   VELOOP REWARDS — GAMES HOME
+========================================================= */
+
 .page {
   min-height: 100vh;
-  color: #ffffff;
+  overflow-x: hidden;
+
+  color: #fff;
+
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(75, 72, 255, 0.18),
-      transparent 35%
+      rgba(91, 70, 255, 0.2),
+      transparent 32%
     ),
     #070b20;
 }
@@ -17,25 +24,27 @@
 
 .header {
   position: relative;
-  z-index: 20;
+  z-index: 50;
 
-  height: 82px;
+  height: 76px;
 
-  border-bottom: 1px solid rgba(130, 150, 255, 0.18);
+  border-bottom: 1px solid
+    rgba(130, 150, 255, 0.16);
 
   background:
     linear-gradient(
       90deg,
       rgba(8, 14, 42, 0.98),
-      rgba(17, 23, 63, 0.95)
+      rgba(17, 23, 63, 0.96)
     );
 
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(22px);
 }
 
 .headerInner {
-  width: min(1500px, calc(100% - 72px));
+  width: min(1500px, calc(100% - 48px));
   height: 100%;
+
   margin: auto;
 
   display: flex;
@@ -43,80 +52,110 @@
 }
 
 
-/* LOGO */
+/* =========================================================
+   LOGO
+========================================================= */
 
 .logo {
-  width: 220px;
+  width: 190px;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
 }
 
 .logoMain {
-  font-size: 38px;
+  display: block;
+
+  font-size: 31px;
   line-height: 0.85;
+
   font-weight: 900;
+
   letter-spacing: -2px;
 
   background:
     linear-gradient(
       90deg,
-      #ffffff,
-      #ffffff 45%,
-      #9c6cff,
-      #693dff
+      #fff,
+      #fff 42%,
+      #a16cff,
+      #6b42ff
     );
 
   -webkit-background-clip: text;
   background-clip: text;
+
   color: transparent;
 }
 
 .logoSub {
-  margin-top: 8px;
+  display: block;
 
-  font-size: 9px;
-  letter-spacing: 7px;
-  font-weight: 700;
+  margin-top: 7px;
 
   color: #c3aaff;
+
+  font-size: 8px;
+
+  font-weight: 700;
+
+  letter-spacing: 6px;
 }
 
 
-/* NAV */
+/* =========================================================
+   NAV
+========================================================= */
 
 .nav {
   height: 100%;
 
   display: flex;
   align-items: center;
-  gap: 10px;
+
+  gap: 4px;
 }
 
 .navItem {
   position: relative;
 
   height: 100%;
-  padding: 0 25px;
+
+  padding: 0 21px;
 
   display: flex;
   align-items: center;
-  gap: 13px;
+
+  gap: 10px;
 
   border: 0;
+
   background: transparent;
 
-  color: #c9cdec;
+  color: #aeb5d5;
 
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 650;
 
   cursor: pointer;
+
+  transition: color 0.25s ease;
+}
+
+.navItem:hover,
+.navItem.active {
+  color: #fff;
 }
 
 .navItem svg {
-  font-size: 23px;
-}
-
-.navItem.active {
-  color: #ffffff;
+  font-size: 20px;
 }
 
 .navItem.active::after {
@@ -124,11 +163,11 @@
 
   position: absolute;
 
-  left: 18px;
-  right: 18px;
-  bottom: 8px;
+  left: 16px;
+  right: 16px;
+  bottom: 6px;
 
-  height: 3px;
+  height: 2px;
 
   border-radius: 999px;
 
@@ -140,58 +179,69 @@
     );
 
   box-shadow:
-    0 0 16px rgba(125, 75, 255, 0.9);
+    0 0 15px
+      rgba(125, 75, 255, 0.85);
 }
 
 
-/* HEADER RIGHT */
+/* =========================================================
+   HEADER RIGHT
+========================================================= */
 
 .headerRight {
   margin-left: auto;
 
   display: flex;
   align-items: center;
-  gap: 28px;
+
+  gap: 16px;
 }
 
 
-/* COINS */
+/* =========================================================
+   COINS
+========================================================= */
 
 .coinBalance {
-  min-width: 175px;
-  height: 58px;
+  min-width: 145px;
+  height: 48px;
 
-  padding: 7px 16px;
+  padding: 5px 12px;
 
   display: flex;
   align-items: center;
-  gap: 12px;
 
-  border: 1px solid rgba(139, 103, 255, 0.35);
-  border-radius: 17px;
+  gap: 10px;
+
+  border: 1px solid
+    rgba(139, 103, 255, 0.35);
+
+  border-radius: 14px;
 
   background:
     linear-gradient(
       135deg,
       rgba(54, 43, 130, 0.45),
-      rgba(17, 20, 60, 0.65)
+      rgba(17, 20, 60, 0.7)
     );
 
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.08),
-    0 8px 25px rgba(0, 0, 0, 0.25);
+  color: #fff;
+
+  cursor: pointer;
+
+  text-align: left;
 }
 
 .coinIcon {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
 
   display: grid;
   place-items: center;
 
   border-radius: 50%;
-
-  color: #ffffff;
 
   background:
     radial-gradient(
@@ -204,37 +254,75 @@
   border: 2px solid #ffd95c;
 
   box-shadow:
-    0 0 15px rgba(255, 191, 40, 0.35);
+    0 0 15px
+      rgba(255, 191, 40, 0.3);
+}
+
+.coinBalance strong,
+.coinBalance span {
+  display: block;
 }
 
 .coinBalance strong {
-  display: block;
-
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .coinBalance span {
-  display: block;
-
-  margin-top: 2px;
+  margin-top: 3px;
 
   color: #aaaed0;
 
-  font-size: 10px;
+  font-size: 9px;
 }
 
 
-/* PROFILE */
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profileWrapper {
+  position: relative;
+
+  z-index: 120;
+}
 
 .profile {
+  min-height: 48px;
+
+  padding: 4px 6px;
+
   display: flex;
   align-items: center;
-  gap: 12px;
+
+  gap: 9px;
+
+  border: 1px solid transparent;
+
+  border-radius: 14px;
+
+  background: transparent;
+
+  color: #fff;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.profile:hover,
+.profileActive {
+  border-color:
+    rgba(139, 103, 255, 0.25);
+
+  background:
+    rgba(108, 83, 255, 0.08);
 }
 
 .profileAvatar {
-  width: 46px;
-  height: 46px;
+  width: 38px;
+  height: 38px;
 
   display: grid;
   place-items: center;
@@ -248,36 +336,534 @@
       #5144a7
     );
 
-  border: 1px solid rgba(183, 170, 255, 0.4);
-
-  box-shadow:
-    0 0 20px rgba(111, 83, 255, 0.25);
+  border: 1px solid
+    rgba(183, 170, 255, 0.4);
 }
 
 .profileAvatar svg {
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .profileInfo strong,
 .profileInfo span {
   display: block;
+
+  text-align: left;
 }
 
 .profileInfo strong {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .profileInfo span {
   margin-top: 3px;
 
   color: #9b9fbd;
-  font-size: 10px;
+
+  font-size: 9px;
 }
 
 .profileArrow {
-  margin-left: 8px;
+  margin-left: 4px;
 
-  color: #d7d9ee;
+  transition: transform 0.2s ease;
+}
+
+.profileArrowOpen {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   PROFILE BACKDROP
+========================================================= */
+
+.profileBackdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 90;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: default;
+}
+
+
+/* =========================================================
+   PROFILE DIALOG
+========================================================= */
+
+.profileDialog {
+  position: absolute;
+
+  z-index: 130;
+
+  top: calc(100% + 13px);
+  right: 0;
+
+  width: 315px;
+
+  padding: 12px;
+
+  border: 1px solid
+    rgba(142, 116, 255, 0.32);
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(22, 30, 70, 0.99),
+      rgba(8, 15, 39, 0.99)
+    );
+
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.48),
+    0 0 35px
+      rgba(104, 73, 255, 0.12);
+
+  backdrop-filter: blur(22px);
+}
+
+
+/* =========================================================
+   DIALOG HEADER
+========================================================= */
+
+.dialogHeader {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 7px 6px 12px;
+}
+
+.dialogUser {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 0;
+}
+
+.dialogAvatar {
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7967ff,
+      #5043b2
+    );
+
+  color: #fff;
+}
+
+.dialogAvatar svg {
+  font-size: 21px;
+}
+
+.dialogUser strong,
+.dialogUser span {
+  display: block;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.dialogUser strong {
+  font-size: 13px;
+}
+
+.dialogUser span {
+  max-width: 190px;
+
+  margin-top: 3px;
+
+  color: #858ead;
+
+  font-size: 8px;
+}
+
+.closeDialog {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid
+    rgba(132, 145, 195, 0.2);
+
+  border-radius: 9px;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  color: #8e97b5;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   COIN SUMMARY
+========================================================= */
+
+.dialogCoins {
+  min-height: 62px;
+
+  padding: 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  border: 1px solid
+    rgba(142, 119, 255, 0.18);
+
+  border-radius: 13px;
+
+  background:
+    rgba(81, 61, 180, 0.12);
+}
+
+.smallCoin {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffe98b,
+      #f2a600 65%,
+      #a75c00
+    );
+
+  border: 2px solid #ffd95c;
+}
+
+.dialogCoins > div:nth-child(2) {
+  flex: 1;
+}
+
+.dialogCoins span,
+.dialogCoins strong {
+  display: block;
+}
+
+.dialogCoins span {
+  color: #828cab;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+.dialogCoins strong {
+  margin-top: 3px;
+
+  font-size: 15px;
+}
+
+.dialogCoins > button {
+  padding: 7px 10px;
+
+  border: 1px solid
+    rgba(146, 119, 255, 0.28);
+
+  border-radius: 8px;
+
+  background:
+    rgba(109, 78, 255, 0.12);
+
+  color: #bcaeff;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   PROFILE OPTIONS
+========================================================= */
+
+.profileOptions {
+  margin-top: 9px;
+}
+
+.profileOption {
+  width: 100%;
+
+  min-height: 57px;
+
+  padding: 7px 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  border: 0;
+
+  border-radius: 11px;
+
+  background: transparent;
+
+  color: #fff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.profileOption:hover {
+  background:
+    rgba(119, 91, 255, 0.09);
+
+  transform: translateX(2px);
+}
+
+.optionIcon {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+}
+
+.profileOptionIcon {
+  color: #ad9bff;
+
+  background:
+    rgba(110, 82, 255, 0.13);
+}
+
+.redeemOptionIcon {
+  color: #ffd56a;
+
+  background:
+    rgba(255, 190, 65, 0.09);
+}
+
+.optionText {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.optionText strong,
+.optionText span {
+  display: block;
+}
+
+.optionText strong {
+  font-size: 10px;
+}
+
+.optionText span {
+  margin-top: 3px;
+
+  color: #777f9d;
+
+  font-size: 7px;
+}
+
+.optionArrow {
+  color: #69718e;
+
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   PROFILE DETAILS
+========================================================= */
+
+.profileDetails {
+  overflow: hidden;
+
+  margin: 2px 6px 8px;
+
+  padding: 8px;
+
+  border: 1px solid
+    rgba(130, 110, 255, 0.18);
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(72, 57, 150, 0.16),
+      rgba(22, 27, 65, 0.45)
+    );
+}
+
+.profileDetailRow {
+  min-height: 47px;
+
+  padding: 7px 5px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  border-bottom: 1px solid
+    rgba(140, 150, 200, 0.08);
+}
+
+.profileDetailRow:last-child {
+  border-bottom: none;
+}
+
+.detailIcon {
+  width: 31px;
+  height: 31px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 9px;
+
+  color: #b7a8ff;
+
+  background:
+    rgba(103, 78, 255, 0.13);
+}
+
+.profileDetailRow > div:last-child {
+  min-width: 0;
+}
+
+.profileDetailRow span,
+.profileDetailRow strong {
+  display: block;
+}
+
+.profileDetailRow span {
+  color: #858eaf;
+
+  font-size: 7px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.profileDetailRow strong {
+  margin-top: 2px;
+
+  max-width: 185px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   SIGN OUT
+========================================================= */
+
+.dialogDivider {
+  height: 1px;
+
+  margin: 4px 5px;
+
+  background:
+    rgba(127, 140, 190, 0.16);
+}
+
+.signOutButton {
+  width: 100%;
+
+  height: 43px;
+
+  padding: 0 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #d889a8;
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.signOutButton:hover {
+  background:
+    rgba(219, 91, 133, 0.08);
+
+  color: #f19bb8;
 }
 
 
@@ -288,79 +874,80 @@
 .hero {
   position: relative;
 
-  min-height: 320px;
+  min-height: 285px;
 
   overflow: hidden;
+
+  isolation: isolate;
 }
 
 .heroImage {
   position: absolute;
+
   inset: 0;
 
   width: 100%;
   height: 100%;
 
   object-fit: cover;
-  object-position: center;
 
   display: block;
+
+  transform: scale(1.01);
 }
 
 .heroOverlay {
   position: absolute;
+
   inset: 0;
+
+  z-index: 1;
 
   background:
     linear-gradient(
       90deg,
-      rgba(4, 8, 28, 0.78) 0%,
-      rgba(5, 9, 31, 0.52) 35%,
-      rgba(5, 8, 28, 0.05) 70%
+      rgba(4, 8, 28, 0.86),
+      rgba(5, 9, 31, 0.64) 35%,
+      rgba(5, 8, 28, 0.16) 75%,
+      rgba(5, 8, 28, 0.22)
     );
-
-  pointer-events: none;
 }
 
 .heroContent {
   position: relative;
-  z-index: 2;
 
-  width: min(1500px, calc(100% - 72px));
+  z-index: 5;
 
-  min-height: 320px;
+  width:
+    min(1500px, calc(100% - 48px));
+
+  min-height: 285px;
 
   margin: auto;
 
-  padding-top: 55px;
+  padding-top: 48px;
 }
-
-
-/* HERO PILL */
 
 .heroPill {
   width: fit-content;
 
-  padding: 7px 19px;
+  padding: 6px 15px;
 
-  border: 1px solid rgba(151, 117, 255, 0.4);
+  border: 1px solid
+    rgba(151, 117, 255, 0.4);
+
   border-radius: 999px;
 
   background:
-    linear-gradient(
-      90deg,
-      rgba(71, 59, 172, 0.5),
-      rgba(101, 55, 175, 0.28)
-    );
+    rgba(71, 59, 172, 0.5);
 
   color: #dcd4ff;
 
-  font-size: 12px;
+  font-size: 10px;
+
   font-weight: 700;
 
-  letter-spacing: 2px;
-
-  box-shadow:
-    0 0 18px rgba(107, 73, 255, 0.18);
+  letter-spacing: 1.8px;
 }
 
 .heroPill span {
@@ -369,23 +956,22 @@
   color: #c37aff;
 }
 
-
-/* HERO TITLE */
-
 .heroContent h1 {
-  margin: 13px 0 0;
+  margin: 11px 0 0;
 
-  font-size: clamp(58px, 6vw, 86px);
+  font-size:
+    clamp(54px, 6vw, 80px);
 
   line-height: 0.95;
 
   font-weight: 900;
+
   letter-spacing: -4px;
 
   background:
     linear-gradient(
       100deg,
-      #ffffff 15%,
+      #fff 15%,
       #eeeaff 42%,
       #a66cff 85%
     );
@@ -394,18 +980,268 @@
   background-clip: text;
 
   color: transparent;
-
-  text-shadow:
-    0 8px 40px rgba(97, 65, 255, 0.2);
 }
 
 .heroContent p {
-  margin-top: 18px;
+  margin-top: 14px;
 
   color: #d4d8ed;
 
-  font-size: 17px;
-  line-height: 1.55;
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   HERO ANIMATIONS
+========================================================= */
+
+.heroGlowOne,
+.heroGlowTwo {
+  position: absolute;
+
+  z-index: 2;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(35px);
+
+  animation:
+    glowPulse 5s ease-in-out infinite;
+}
+
+.heroGlowOne {
+  width: 320px;
+  height: 320px;
+
+  top: -150px;
+  right: 22%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(115, 76, 255, 0.28),
+      transparent 70%
+    );
+}
+
+.heroGlowTwo {
+  width: 260px;
+  height: 260px;
+
+  right: 4%;
+  bottom: -130px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 194, 255, 0.18),
+      transparent 70%
+    );
+
+  animation-delay: 1.5s;
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    opacity: 0.45;
+
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+
+    transform: scale(1.12);
+  }
+}
+
+
+/* LIGHT SWEEP */
+
+.heroSweep {
+  position: absolute;
+
+  z-index: 4;
+
+  top: -80%;
+  left: -35%;
+
+  width: 25%;
+  height: 260%;
+
+  pointer-events: none;
+
+  transform: rotate(18deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.055),
+      rgba(132, 105, 255, 0.09),
+      transparent
+    );
+
+  filter: blur(8px);
+
+  animation:
+    heroLightSweep 8s
+    ease-in-out
+    infinite;
+}
+
+@keyframes heroLightSweep {
+
+  0% {
+    left: -35%;
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  75% {
+    opacity: 0.2;
+  }
+
+  100% {
+    left: 125%;
+    opacity: 0;
+  }
+}
+
+
+/* PARTICLES */
+
+.particles {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 3;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: #b8c8ff;
+
+  opacity: 0;
+
+  box-shadow:
+    0 0 7px
+      rgba(150, 180, 255, 0.9),
+    0 0 14px
+      rgba(105, 110, 255, 0.5);
+
+  animation:
+    particleFloat 6s
+    ease-in-out
+    infinite;
+}
+
+@keyframes particleFloat {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate3d(0, 18px, 0)
+      scale(0.6);
+  }
+
+  20% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+
+    transform:
+      translate3d(8px, -8px, 0)
+      scale(1);
+  }
+
+  80% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate3d(-5px, -30px, 0)
+      scale(0.5);
+  }
+}
+
+
+/* FLOATING ICONS */
+
+.floatingIcon {
+  position: absolute;
+
+  z-index: 5;
+
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid
+    rgba(169, 147, 255, 0.35);
+
+  border-radius: 15px;
+
+  background:
+    rgba(43, 35, 110, 0.35);
+
+  color: #c1b4ff;
+
+  box-shadow:
+    0 0 25px
+      rgba(105, 73, 255, 0.2);
+
+  backdrop-filter: blur(10px);
+
+  pointer-events: none;
+}
+
+.floatingIcon svg {
+  font-size: 21px;
+}
+
+.floatingIconOne {
+  top: 25%;
+  right: 18%;
+}
+
+.floatingIconTwo {
+  right: 8%;
+  bottom: 18%;
+
+  color: #75dfff;
 }
 
 
@@ -415,60 +1251,62 @@
 
 .gamesWrapper {
   position: relative;
-  z-index: 5;
 
-  width: min(1500px, calc(100% - 72px));
+  z-index: 10;
 
-  margin: -10px auto 0;
+  width:
+    min(1500px, calc(100% - 48px));
+
+  margin: -12px auto 0;
 }
 
 .gamesPanel {
-  padding: 27px 28px 32px;
+  padding: 21px 22px 25px;
 
-  border: 1px solid rgba(112, 142, 224, 0.28);
-  border-radius: 22px;
+  border: 1px solid
+    rgba(112, 142, 224, 0.28);
+
+  border-radius: 20px;
 
   background:
     linear-gradient(
       135deg,
-      rgba(17, 28, 63, 0.94),
-      rgba(11, 20, 49, 0.91)
+      rgba(17, 28, 63, 0.96),
+      rgba(11, 20, 49, 0.94)
     );
 
   box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.06),
-    0 20px 70px rgba(0, 0, 0, 0.35);
-
-  backdrop-filter: blur(20px);
+    inset 0 1px
+      rgba(255, 255, 255, 0.06),
+    0 20px 70px
+      rgba(0, 0, 0, 0.35);
 }
-
-
-/* HEADING */
 
 .gamesHeading {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
-  margin-bottom: 23px;
+  margin-bottom: 17px;
 }
 
 .headingLeft {
   display: flex;
+
   align-items: center;
-  gap: 15px;
+
+  gap: 12px;
 }
 
 .gameHeadingIcon {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
 
   display: grid;
   place-items: center;
 
-  border-radius: 14px;
-
-  color: #ffffff;
+  border-radius: 12px;
 
   background:
     linear-gradient(
@@ -478,46 +1316,53 @@
     );
 
   box-shadow:
-    0 0 24px rgba(103, 66, 255, 0.35);
+    0 0 24px
+      rgba(103, 66, 255, 0.3);
 }
 
 .gameHeadingIcon svg {
-  font-size: 25px;
+  font-size: 22px;
 }
 
 .gamesHeading h2 {
   margin: 0;
 
-  font-size: 24px;
+  font-size: 21px;
+
   font-weight: 800;
 }
 
 .gamesHeading p {
-  margin: 4px 0 0;
+  margin: 3px 0 0;
 
   color: #9ca4c8;
 
-  font-size: 13px;
+  font-size: 11px;
 }
 
 .gameCount {
-  padding: 9px 15px;
+  padding: 7px 11px;
 
-  border: 1px solid rgba(116, 131, 200, 0.28);
+  border: 1px solid
+    rgba(116, 131, 200, 0.28);
+
   border-radius: 999px;
 
   color: #b9c1e4;
 
-  background: rgba(255, 255, 255, 0.035);
+  background:
+    rgba(255, 255, 255, 0.035);
 
-  font-size: 11px;
+  font-size: 9px;
+
   font-weight: 700;
+
   letter-spacing: 1px;
 }
 
 
 /* =========================================================
-   13 GAME GRID — 3 ROWS ON DESKTOP
+   GAME GRID + ANIMATION
 ========================================================= */
 
 .gamesGrid {
@@ -526,16 +1371,54 @@
   grid-template-columns:
     repeat(5, minmax(0, 1fr));
 
-  gap: 18px;
+  gap: 13px;
 }
 
 .gamesGrid > div {
+  position: relative;
+
   min-width: 0;
+
   width: 100%;
+
+  transition:
+    filter 0.35s ease;
+}
+
+.gamesGrid > div::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -4px;
+
+  z-index: -1;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(108, 74, 255, 0.45),
+      rgba(0, 195, 255, 0.15),
+      transparent 65%
+    );
+
+  opacity: 0;
+
+  filter: blur(12px);
+
+  transition:
+    opacity 0.35s ease;
+}
+
+.gamesGrid > div:hover::before {
+  opacity: 0.75;
 }
 
 .gamesGrid article {
   width: 100% !important;
+
   min-width: 0 !important;
 }
 
@@ -545,19 +1428,23 @@
 ========================================================= */
 
 .benefits {
-  width: min(1500px, calc(100% - 72px));
+  width:
+    min(1500px, calc(100% - 48px));
 
-  min-height: 92px;
+  min-height: 78px;
 
-  margin: 18px auto;
+  margin: 15px auto;
 
-  padding: 14px 35px;
+  padding: 11px 25px;
 
   display: flex;
+
   align-items: center;
 
-  border: 1px solid rgba(103, 130, 204, 0.23);
-  border-radius: 20px;
+  border: 1px solid
+    rgba(103, 130, 204, 0.23);
+
+  border-radius: 18px;
 
   background:
     linear-gradient(
@@ -565,22 +1452,21 @@
       rgba(19, 31, 67, 0.85),
       rgba(12, 23, 52, 0.8)
     );
-
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .benefit {
   flex: 1;
 
   display: flex;
+
   align-items: center;
-  gap: 16px;
+
+  gap: 12px;
 }
 
 .benefitIcon {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 
   display: grid;
   place-items: center;
@@ -597,15 +1483,10 @@
       rgba(106, 76, 255, 0.4),
       rgba(35, 42, 94, 0.55)
     );
-
-  border: 1px solid rgba(130, 130, 255, 0.25);
-
-  box-shadow:
-    0 0 20px rgba(90, 65, 255, 0.15);
 }
 
 .benefitIcon svg {
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .benefit strong,
@@ -614,22 +1495,22 @@
 }
 
 .benefit strong {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .benefit span {
-  margin-top: 3px;
+  margin-top: 2px;
 
   color: #aeb4d0;
 
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .divider {
   width: 1px;
-  height: 42px;
+  height: 34px;
 
-  margin: 0 28px;
+  margin: 0 22px;
 
   background:
     linear-gradient(
@@ -640,9 +1521,9 @@
 }
 
 .rewardMessage {
-  width: 230px;
+  width: 190px;
 
-  padding-left: 28px;
+  padding-left: 20px;
 
   text-align: center;
 
@@ -656,12 +1537,14 @@
 
 .rewardMessage span {
   color: #9c70ff;
-  font-size: 18px;
+
+  font-size: 15px;
 }
 
 .rewardMessage strong {
   color: #51c9ff;
-  font-size: 20px;
+
+  font-size: 17px;
 }
 
 
@@ -670,15 +1553,21 @@
 ========================================================= */
 
 .footer {
-  min-height: 75px;
+  min-height: 62px;
 
-  padding: 0 max(36px, calc((100vw - 1500px) / 2));
+  padding:
+    0 max(
+      24px,
+      calc((100vw - 1500px) / 2)
+    );
 
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
-  border-top: 1px solid rgba(102, 121, 190, 0.18);
+  border-top: 1px solid
+    rgba(102, 121, 190, 0.18);
 
   background:
     linear-gradient(
@@ -689,23 +1578,46 @@
 }
 
 .footerBrand strong {
-  color: #ffffff;
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .footerBrand span {
   color: #a879ff;
-  font-size: 11px;
+
+  font-size: 9px;
+
   font-weight: 700;
 }
 
 .footerLinks {
   display: flex;
-  gap: 12px;
+
+  align-items: center;
+
+  gap: 9px;
 
   color: #aeb3ce;
 
-  font-size: 12px;
+  font-size: 10px;
+}
+
+.footerLinks button,
+.footerLinks span {
+  border: 0;
+
+  padding: 0;
+
+  background: transparent;
+
+  color: inherit;
+
+  font-size: inherit;
+
+  cursor: pointer;
+}
+
+.footerLinks button:hover {
+  color: #fff;
 }
 
 .footerLinks b {
@@ -715,7 +1627,7 @@
 .footerMessage {
   color: #bfc4db;
 
-  font-size: 12px;
+  font-size: 10px;
 }
 
 
@@ -729,19 +1641,19 @@
   .heroContent,
   .gamesWrapper,
   .benefits {
-    width: min(100% - 40px, 1100px);
+    width:
+      min(
+        calc(100% - 32px),
+        1100px
+      );
   }
 
   .logo {
-    width: 170px;
+    width: 150px;
   }
 
   .logoMain {
-    font-size: 31px;
-  }
-
-  .headerRight {
-    gap: 12px;
+    font-size: 27px;
   }
 
   .profileInfo,
@@ -751,7 +1663,7 @@
 
   .gamesGrid {
     grid-template-columns:
-      repeat(3, minmax(0, 1fr));
+      repeat(4, minmax(0, 1fr));
   }
 
   .rewardMessage {
@@ -761,13 +1673,13 @@
 
 
 /* =========================================================
-   MOBILE
+   SMALL LAPTOP
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
   .header {
-    height: 70px;
+    height: 68px;
   }
 
   .headerInner {
@@ -775,16 +1687,72 @@
   }
 
   .logo {
-    width: auto;
+    width: 135px;
   }
 
   .logoMain {
-    font-size: 25px;
+    font-size: 24px;
   }
 
   .logoSub {
     font-size: 7px;
+
     letter-spacing: 4px;
+  }
+
+  .navItem {
+    padding: 0 13px;
+
+    font-size: 12px;
+  }
+
+  .coinBalance {
+    min-width: 116px;
+  }
+
+  .gamesGrid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .gamesWrapper {
+    width: calc(100% - 24px);
+  }
+
+  .gamesPanel {
+    padding: 18px 15px 21px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 680px) {
+
+  .header {
+    height: 62px;
+  }
+
+  .headerInner {
+    width: calc(100% - 14px);
+  }
+
+  .logo {
+    width: auto;
+  }
+
+  .logoMain {
+    font-size: 21px;
+  }
+
+  .logoSub {
+    margin-top: 5px;
+
+    font-size: 5px;
+
+    letter-spacing: 3px;
   }
 
   .nav {
@@ -792,7 +1760,7 @@
   }
 
   .navItem {
-    padding: 0 10px;
+    padding: 0 8px;
   }
 
   .navItem span {
@@ -800,65 +1768,95 @@
   }
 
   .navItem svg {
-    font-size: 22px;
+    font-size: 20px;
+  }
+
+  .headerRight {
+    gap: 5px;
   }
 
   .coinBalance {
     min-width: 0;
-    height: 46px;
 
-    padding: 5px 9px;
+    width: 43px;
+    height: 42px;
+
+    padding: 4px;
+
+    justify-content: center;
   }
 
-  .coinBalance div:last-child {
+  .coinText {
     display: none;
   }
 
-  .coinIcon {
-    width: 32px;
-    height: 32px;
+  .profileInfo,
+  .profileArrow {
+    display: none;
   }
 
-  .profile {
-    display: none;
+  .profileAvatar {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  /* PROFILE */
+
+  .profileDialog {
+    position: fixed;
+
+    top: 68px;
+    right: 8px;
+
+    width:
+      min(
+        315px,
+        calc(100vw - 16px)
+      );
+
+    max-height:
+      calc(100vh - 82px);
+
+    overflow-y: auto;
   }
 
 
   /* HERO */
 
   .hero {
-    min-height: 330px;
+    min-height: 245px;
   }
 
   .heroContent {
-    width: calc(100% - 32px);
-    min-height: 330px;
+    width: calc(100% - 28px);
 
-    padding-top: 55px;
-  }
+    min-height: 245px;
 
-  .heroImage {
-    object-position: 62% center;
-  }
-
-  .heroOverlay {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(4, 8, 28, 0.9),
-        rgba(5, 9, 31, 0.5)
-      );
+    padding-top: 37px;
   }
 
   .heroContent h1 {
-    font-size: 58px;
+    font-size: 50px;
+
+    letter-spacing: -3px;
   }
 
   .heroContent p {
-    font-size: 14px;
+    font-size: 11px;
   }
 
   .heroContent p br {
+    display: none;
+  }
+
+  .heroPill {
+    padding: 5px 11px;
+
+    font-size: 8px;
+  }
+
+  .floatingIcon {
     display: none;
   }
 
@@ -866,24 +1864,30 @@
   /* GAMES */
 
   .gamesWrapper {
-    width: calc(100% - 20px);
+    width: calc(100% - 14px);
   }
 
   .gamesPanel {
-    padding: 20px 14px;
-    border-radius: 18px;
+    padding: 16px 10px 18px;
+
+    border-radius: 17px;
   }
 
   .gamesHeading {
-    align-items: flex-start;
+    margin-bottom: 13px;
+  }
+
+  .gameHeadingIcon {
+    width: 37px;
+    height: 37px;
   }
 
   .gamesHeading h2 {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .gamesHeading p {
-    font-size: 11px;
+    font-size: 9px;
   }
 
   .gameCount {
@@ -894,21 +1898,23 @@
     grid-template-columns:
       repeat(2, minmax(0, 1fr));
 
-    gap: 12px;
+    gap: 9px;
   }
 
 
   /* BENEFITS */
 
   .benefits {
-    width: calc(100% - 20px);
+    width: calc(100% - 14px);
 
-    padding: 15px;
+    padding: 13px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
 
-    gap: 15px;
+    grid-template-columns:
+      1fr 1fr;
+
+    gap: 12px;
   }
 
   .divider {
@@ -916,55 +1922,1076 @@
   }
 
   .benefit {
-    gap: 10px;
+    gap: 8px;
   }
 
   .benefitIcon {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
   }
 
   .benefit strong {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .benefit span {
-    font-size: 10px;
+    font-size: 8px;
   }
 
 
   /* FOOTER */
 
   .footer {
-    padding: 20px;
+    padding: 17px;
 
     flex-direction: column;
-    gap: 10px;
-  }
 
+    gap: 7px;
+  }
 }
 
 
 /* =========================================================
-   SMALL PHONES
+   VERY SMALL PHONES
 ========================================================= */
 
-@media (max-width: 430px) {
+@media (max-width: 390px) {
 
   .gamesGrid {
     grid-template-columns: 1fr;
   }
 
   .heroContent h1 {
-    font-size: 50px;
+    font-size: 46px;
   }
 
-  .heroPill {
+  .profileDialog {
+    right: 5px;
+
+    width:
+      calc(100vw - 10px);
+  }
+
+  .profileDetailRow strong {
+    max-width: 150px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+  .heroGlowOne,
+  .heroGlowTwo,
+  .heroSweep,
+  .particle,
+  .floatingIcon {
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE SYSTEM
+   Desktop → Laptop → Tablet → Mobile
+========================================================= */
+
+
+/* =========================================================
+   LARGE DESKTOP
+   1440px+
+========================================================= */
+
+@media (min-width: 1440px) {
+
+  .headerInner,
+  .heroContent,
+  .gamesWrapper,
+  .benefits {
+    width: min(1500px, calc(100% - 64px));
+  }
+
+  .hero {
+    min-height: 320px;
+  }
+
+  .heroContent {
+    min-height: 320px;
+    padding-top: 58px;
+  }
+
+  .gamesWrapper {
+    margin-top: -18px;
+  }
+
+  .gamesGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 15px;
+  }
+}
+
+
+/* =========================================================
+   NORMAL DESKTOP
+   1200px – 1439px
+========================================================= */
+
+@media (min-width: 1200px) and (max-width: 1439px) {
+
+  .headerInner,
+  .heroContent,
+  .gamesWrapper,
+  .benefits {
+    width: calc(100% - 48px);
+  }
+
+  .gamesGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+
+/* =========================================================
+   LAPTOP
+   992px – 1199px
+========================================================= */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+  .headerInner,
+  .heroContent,
+  .gamesWrapper,
+  .benefits {
+    width: calc(100% - 32px);
+  }
+
+  /* Header */
+
+  .logo {
+    width: 155px;
+  }
+
+  .logoMain {
+    font-size: 27px;
+  }
+
+  .navItem {
+    padding: 0 15px;
+  }
+
+  .coinBalance {
+    min-width: 125px;
+  }
+
+  .profileInfo {
+    display: none;
+  }
+
+  /* Hero */
+
+  .hero {
+    min-height: 275px;
+  }
+
+  .heroContent {
+    min-height: 275px;
+    padding-top: 45px;
+  }
+
+  .heroContent h1 {
+    font-size: 68px;
+  }
+
+  /* Games */
+
+  .gamesGrid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    gap: 11px;
+  }
+
+  /* Benefits */
+
+  .rewardMessage {
+    width: 150px;
+  }
+}
+
+
+/* =========================================================
+   TABLET LANDSCAPE
+   768px – 991px
+========================================================= */
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+  .header {
+    height: 68px;
+  }
+
+  .headerInner,
+  .heroContent,
+  .gamesWrapper,
+  .benefits {
+    width: calc(100% - 28px);
+  }
+
+
+  /* ---------------- HEADER ---------------- */
+
+  .logo {
+    width: 125px;
+  }
+
+  .logoMain {
+    font-size: 24px;
+  }
+
+  .logoSub {
+    font-size: 6px;
+    letter-spacing: 4px;
+  }
+
+  .navItem {
+    padding: 0 11px;
+    gap: 7px;
+  }
+
+  .navItem svg {
+    font-size: 18px;
+  }
+
+  .navItem span {
+    font-size: 11px;
+  }
+
+  .headerRight {
+    gap: 7px;
+  }
+
+  .coinBalance {
+    min-width: 105px;
+    height: 43px;
+  }
+
+  .coinIcon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .coinBalance strong {
+    font-size: 13px;
+  }
+
+  .coinBalance span {
+    font-size: 8px;
+  }
+
+  .profileInfo {
+    display: none;
+  }
+
+  .profileArrow {
+    display: none;
+  }
+
+
+  /* ---------------- HERO ---------------- */
+
+  .hero {
+    min-height: 260px;
+  }
+
+  .heroContent {
+    min-height: 260px;
+    padding-top: 40px;
+  }
+
+  .heroContent h1 {
+    font-size: 60px;
+    letter-spacing: -3px;
+  }
+
+  .heroContent p {
+    font-size: 12px;
+  }
+
+  .heroImage {
+    object-position: 62% center;
+  }
+
+  .floatingIconOne {
+    right: 22%;
+  }
+
+  .floatingIconTwo {
+    right: 5%;
+  }
+
+
+  /* ---------------- GAMES ---------------- */
+
+  .gamesWrapper {
+    margin-top: -10px;
+  }
+
+  .gamesPanel {
+    padding: 18px 15px 20px;
+    border-radius: 18px;
+  }
+
+  .gamesGrid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+  .gamesHeading h2 {
+    font-size: 19px;
+  }
+
+  .gamesHeading p {
     font-size: 10px;
   }
 
-  .gamesHeading {
-    margin-bottom: 15px;
+
+  /* ---------------- BENEFITS ---------------- */
+
+  .benefits {
+    padding: 12px 15px;
   }
 
+  .benefit {
+    gap: 8px;
+  }
+
+  .benefitIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .benefit strong {
+    font-size: 10px;
+  }
+
+  .benefit span {
+    font-size: 8px;
+  }
+
+  .divider {
+    margin: 0 10px;
+  }
+
+  .rewardMessage {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   TABLET PORTRAIT / LARGE MOBILE
+   576px – 767px
+========================================================= */
+
+@media (min-width: 576px) and (max-width: 767px) {
+
+  .header {
+    height: 64px;
+  }
+
+  .headerInner {
+    width: calc(100% - 20px);
+  }
+
+
+  /* HEADER */
+
+  .logo {
+    width: 110px;
+  }
+
+  .logoMain {
+    font-size: 22px;
+  }
+
+  .logoSub {
+    font-size: 5px;
+    letter-spacing: 3px;
+  }
+
+  .nav {
+    margin-left: 5px;
+  }
+
+  .navItem {
+    padding: 0 9px;
+  }
+
+  .navItem span {
+    display: none;
+  }
+
+  .navItem svg {
+    font-size: 20px;
+  }
+
+  .headerRight {
+    gap: 5px;
+  }
+
+  .coinBalance {
+    min-width: 43px;
+    width: 43px;
+    height: 40px;
+    padding: 4px;
+    justify-content: center;
+  }
+
+  .coinText {
+    display: none;
+  }
+
+  .profileInfo,
+  .profileArrow {
+    display: none;
+  }
+
+  .profileAvatar {
+    width: 35px;
+    height: 35px;
+  }
+
+
+  /* HERO */
+
+  .hero {
+    min-height: 250px;
+  }
+
+  .heroImage {
+    object-position: 62% center;
+  }
+
+  .heroContent {
+    width: calc(100% - 28px);
+    min-height: 250px;
+    padding-top: 35px;
+  }
+
+  .heroContent h1 {
+    font-size: 52px;
+    letter-spacing: -3px;
+  }
+
+  .heroContent p {
+    max-width: 350px;
+    font-size: 11px;
+  }
+
+  .heroPill {
+    padding: 5px 11px;
+    font-size: 8px;
+  }
+
+  .floatingIcon {
+    display: none;
+  }
+
+
+  /* GAMES */
+
+  .gamesWrapper {
+    width: calc(100% - 18px);
+    margin-top: -8px;
+  }
+
+  .gamesPanel {
+    padding: 15px 10px 18px;
+    border-radius: 16px;
+  }
+
+  .gamesHeading {
+    margin-bottom: 12px;
+  }
+
+  .gameHeadingIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .gamesHeading h2 {
+    font-size: 17px;
+  }
+
+  .gamesHeading p {
+    font-size: 8px;
+  }
+
+  .gameCount {
+    display: none;
+  }
+
+  .gamesGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 9px;
+  }
+
+
+  /* BENEFITS */
+
+  .benefits {
+    width: calc(100% - 18px);
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px;
+
+    padding: 12px;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .rewardMessage {
+    display: none;
+  }
+
+
+  /* PROFILE */
+
+  .profileDialog {
+    position: fixed;
+
+    top: 72px;
+    right: 10px;
+
+    width: min(
+      315px,
+      calc(100vw - 20px)
+    );
+
+    max-height:
+      calc(100vh - 85px);
+
+    overflow-y: auto;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   0px – 575px
+========================================================= */
+
+@media (max-width: 575px) {
+
+  /* ---------------- PAGE ---------------- */
+
+  .page {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* ---------------- HEADER ---------------- */
+
+  .header {
+    height: 62px;
+  }
+
+  .headerInner {
+    width: calc(100% - 12px);
+    gap: 4px;
+  }
+
+  .logo {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .logoMain {
+    font-size: 20px;
+    letter-spacing: -1.5px;
+  }
+
+  .logoSub {
+    margin-top: 4px;
+    font-size: 5px;
+    letter-spacing: 3px;
+  }
+
+  .nav {
+    margin-left: 5px;
+    gap: 0;
+  }
+
+  .navItem {
+    width: 40px;
+    padding: 0;
+
+    justify-content: center;
+  }
+
+  .navItem span {
+    display: none;
+  }
+
+  .navItem svg {
+    font-size: 19px;
+  }
+
+  .navItem.active::after {
+    left: 7px;
+    right: 7px;
+    bottom: 4px;
+  }
+
+  .headerRight {
+    gap: 3px;
+  }
+
+  .coinBalance {
+    min-width: 40px;
+    width: 40px;
+    height: 38px;
+
+    padding: 3px;
+
+    justify-content: center;
+
+    border-radius: 11px;
+  }
+
+  .coinIcon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .coinText {
+    display: none;
+  }
+
+  .profile {
+    padding: 3px;
+  }
+
+  .profileAvatar {
+    width: 35px;
+    height: 35px;
+  }
+
+  .profileInfo,
+  .profileArrow {
+    display: none;
+  }
+
+
+  /* ---------------- HERO ---------------- */
+
+  .hero {
+    min-height: 225px;
+  }
+
+  .heroImage {
+    object-position: 64% center;
+
+    transform: scale(1.04);
+  }
+
+  .heroOverlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(4, 8, 28, 0.9),
+        rgba(5, 9, 31, 0.6) 55%,
+        rgba(5, 8, 28, 0.25)
+      );
+  }
+
+  .heroContent {
+    width: calc(100% - 24px);
+
+    min-height: 225px;
+
+    padding-top: 30px;
+  }
+
+  .heroPill {
+    padding: 5px 10px;
+
+    font-size: 7px;
+
+    letter-spacing: 1.3px;
+  }
+
+  .heroPill span {
+    margin: 0 3px;
+  }
+
+  .heroContent h1 {
+    margin-top: 12px;
+
+    font-size: 46px;
+
+    letter-spacing: -2.5px;
+  }
+
+  .heroContent p {
+    max-width: 260px;
+
+    margin-top: 10px;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+  }
+
+  .heroContent p br {
+    display: none;
+  }
+
+
+  /* Smaller animation */
+
+  .heroGlowOne {
+    width: 180px;
+    height: 180px;
+
+    right: -30px;
+    top: -80px;
+  }
+
+  .heroGlowTwo {
+    width: 150px;
+    height: 150px;
+
+    right: -40px;
+    bottom: -80px;
+  }
+
+  .floatingIcon {
+    display: none;
+  }
+
+  .particle {
+    width: 2px;
+    height: 2px;
+  }
+
+
+  /* ---------------- GAMES ---------------- */
+
+  .gamesWrapper {
+    width: calc(100% - 10px);
+
+    margin-top: -7px;
+  }
+
+  .gamesPanel {
+    padding: 14px 8px 16px;
+
+    border-radius: 15px;
+  }
+
+  .gamesHeading {
+    margin-bottom: 11px;
+  }
+
+  .headingLeft {
+    gap: 8px;
+  }
+
+  .gameHeadingIcon {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 9px;
+  }
+
+  .gameHeadingIcon svg {
+    font-size: 18px;
+  }
+
+  .gamesHeading h2 {
+    font-size: 16px;
+  }
+
+  .gamesHeading p {
+    margin-top: 2px;
+
+    font-size: 8px;
+  }
+
+  .gameCount {
+    display: none;
+  }
+
+  .gamesGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 7px;
+  }
+
+  .gamesGrid > div:hover {
+    transform: none;
+  }
+
+  .gamesGrid > div::before {
+    display: none;
+  }
+
+
+  /* ---------------- BENEFITS ---------------- */
+
+  .benefits {
+    width: calc(100% - 10px);
+
+    min-height: auto;
+
+    margin: 10px auto;
+
+    padding: 11px;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    border-radius: 14px;
+  }
+
+  .benefit {
+    gap: 7px;
+  }
+
+  .benefitIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .benefitIcon svg {
+    font-size: 15px;
+  }
+
+  .benefit strong {
+    font-size: 9px;
+  }
+
+  .benefit span {
+    margin-top: 1px;
+
+    font-size: 7px;
+  }
+
+  .divider,
+  .rewardMessage {
+    display: none;
+  }
+
+
+  /* ---------------- FOOTER ---------------- */
+
+  .footer {
+    min-height: auto;
+
+    padding: 16px 12px;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    text-align: center;
+  }
+
+  .footerBrand strong {
+    font-size: 15px;
+  }
+
+  .footerBrand span {
+    font-size: 8px;
+  }
+
+  .footerLinks {
+    gap: 7px;
+
+    font-size: 9px;
+  }
+
+  .footerMessage {
+    font-size: 8px;
+  }
+
+
+  /* ---------------- PROFILE ---------------- */
+
+  .profileDialog {
+    position: fixed;
+
+    top: 69px;
+
+    right: 6px;
+    left: 6px;
+
+    width: auto;
+
+    max-height:
+      calc(100vh - 80px);
+
+    overflow-y: auto;
+
+    border-radius: 16px;
+  }
+
+  .dialogUser span {
+    max-width:
+      calc(100vw - 130px);
+  }
+
+  .profileDetailRow strong {
+    max-width:
+      calc(100vw - 155px);
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   360px and below
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .headerInner {
+    width: calc(100% - 8px);
+  }
+
+  .logoMain {
+    font-size: 18px;
+  }
+
+  .logoSub {
+    font-size: 4px;
+    letter-spacing: 2px;
+  }
+
+  .navItem {
+    width: 34px;
+  }
+
+  .navItem svg {
+    font-size: 17px;
+  }
+
+  .coinBalance {
+    width: 36px;
+    min-width: 36px;
+  }
+
+  .profileAvatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hero {
+    min-height: 210px;
+  }
+
+  .heroContent {
+    min-height: 210px;
+
+    padding-top: 27px;
+  }
+
+  .heroContent h1 {
+    font-size: 42px;
+  }
+
+  .heroContent p {
+    max-width: 225px;
+    font-size: 9px;
+  }
+
+  .gamesGrid {
+    gap: 6px;
+  }
+
+  .gamesPanel {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
+
+/* =========================================================
+   LANDSCAPE MOBILE
+========================================================= */
+
+@media (max-width: 767px) and (orientation: landscape) {
+
+  .hero {
+    min-height: 220px;
+  }
+
+  .heroContent {
+    min-height: 220px;
+
+    padding-top: 25px;
+  }
+
+  .heroContent h1 {
+    font-size: 45px;
+  }
+
+  .profileDialog {
+    max-height: 80vh;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+  .heroGlowOne,
+  .heroGlowTwo,
+  .heroSweep,
+  .particle,
+  .floatingIcon {
+    animation: none !important;
+  }
 }

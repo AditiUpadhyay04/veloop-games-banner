@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
+
 import styles from "./GameCard.module.css";
 import PlayNowButton from "./PlayNowButton";
 import TokenCost from "./TokenCost";
@@ -31,7 +33,7 @@ function GameCard({ game }) {
   };
 
   return (
-    <article
+    <motion.article
       className={styles.card}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -39,10 +41,20 @@ function GameCard({ game }) {
         "--mouse-x": `${mousePosition.x}%`,
         "--mouse-y": `${mousePosition.y}%`,
       }}
+      whileHover={{
+        y: -6,
+        scale: 1.012,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 22,
+      }}
     >
-      {/* Premium light reflection */}
+      {/* premium cursor reflection */}
       <div className={styles.cardReflection} />
 
+      {/* image */}
       <div className={styles.imageWrap}>
         <img
           src={game.image}
@@ -54,12 +66,20 @@ function GameCard({ game }) {
 
         <div className={styles.imageOverlay} />
 
-        {/* Top-left status */}
-        <div className={styles.statusBadge}>
-          {isPlayable ? "NEW" : "COMING SOON"}
+        {/* subtle image glow */}
+        <div className={styles.imageGlow} />
+
+        {/* status */}
+        <div
+          className={`${styles.statusBadge} ${
+            isPlayable ? styles.playableBadge : styles.comingSoonBadge
+          }`}
+        >
+          <span className={styles.statusDot} />
+          {isPlayable ? "PLAYABLE" : "COMING SOON"}
         </div>
 
-        {/* Game information */}
+        {/* game info */}
         <div className={styles.gameInfo}>
           <span className={styles.gameType}>
             {game.type}
@@ -69,7 +89,7 @@ function GameCard({ game }) {
         </div>
       </div>
 
-      {/* Bottom glass panel */}
+      {/* bottom */}
       <div className={styles.bottom}>
         <TokenCost
           cost={game.cost}
@@ -78,7 +98,7 @@ function GameCard({ game }) {
 
         <PlayNowButton game={game} />
       </div>
-    </article>
+    </motion.article>
   );
 }
 

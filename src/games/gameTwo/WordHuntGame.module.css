@@ -1082,3 +1082,767 @@
 .foundCell {
   animation: foundWordGlow 2.3s ease-in-out infinite;
 }
+
+/* =========================================================
+   RESPONSIVE MOBILE OVERRIDES
+   Preserves the existing neon UI while preventing overflow.
+========================================================= */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.topHeader,
+.heroBanner,
+.gameStats,
+.gameLayout,
+.actionsRow,
+.centerGame,
+.leftPanel,
+.rightPanel,
+.boardShell,
+.grid,
+.bottomNav {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 1050px) and (min-width: 821px) {
+  .gameLayout {
+    width: calc(100% - 24px);
+    grid-template-columns: 190px minmax(0, 1fr) 190px;
+    gap: 10px;
+  }
+
+  .grid {
+    height: min(62vw, 610px);
+  }
+
+  .gameStats {
+    width: calc(100% - 24px);
+  }
+}
+
+@media (max-width: 820px) {
+  .topHeader {
+    width: 100%;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .gameStats {
+    width: calc(100% - 20px);
+    max-width: 680px;
+    gap: 8px;
+  }
+
+  .gameLayout {
+    width: calc(100% - 20px);
+    max-width: 680px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .leftPanel {
+    order: 2;
+  }
+  .centerGame {
+    order: 1;
+    width: 100%;
+  }
+  .rightPanel {
+    order: 3;
+  }
+
+  .leftPanel,
+  .rightPanel {
+    width: 100%;
+  }
+
+  .boardShell {
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .grid {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1.28;
+    max-height: 690px;
+  }
+
+  .bottomNav {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .page {
+    width: 100vw;
+    max-width: 100vw;
+    padding-bottom: 18px;
+  }
+
+  .topHeader {
+    min-height: 58px;
+    height: auto;
+    padding: 8px 10px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 6px;
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .backButton {
+    min-width: 40px;
+    padding: 9px 11px;
+    justify-content: center;
+  }
+
+  .backButton span {
+    display: none;
+  }
+
+  .headerActions {
+    min-width: 0;
+    gap: 5px;
+  }
+
+  .coinBalance {
+    min-width: 0;
+    max-width: 118px;
+    padding: 5px 7px;
+    gap: 5px;
+  }
+
+  .coinIcon {
+    width: 27px;
+    height: 27px;
+    flex: 0 0 27px;
+    font-size: 15px;
+  }
+
+  .coinBalance strong {
+    min-width: 0;
+    font-size: 14px;
+  }
+
+  .coinBalance button {
+    padding: 7px 8px;
+    font-size: 10px;
+  }
+
+  .settingsButton {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    font-size: 18px;
+  }
+
+  .heroBanner {
+    width: 100%;
+    height: 165px;
+    min-height: 165px;
+  }
+
+  .heroContent {
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .heroCrown {
+    font-size: 35px;
+  }
+
+  .heroContent h1 {
+    margin-top: 7px;
+    font-size: clamp(31px, 12vw, 48px);
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .heroSubline {
+    font-size: 9px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  .heroSubline i {
+    width: 4px;
+    height: 4px;
+    margin: 0 6px;
+  }
+
+  .heroTag {
+    max-width: calc(100% - 30px);
+    padding: 5px 12px;
+    font-size: 8px;
+    white-space: nowrap;
+  }
+
+  .floatingLetter {
+    font-size: 38px;
+    left: 5%;
+    top: 25%;
+  }
+
+  .floatB {
+    left: 14%;
+    top: 68%;
+    font-size: 30px;
+  }
+
+  .floatC {
+    right: 6%;
+    left: auto;
+    top: 25%;
+    font-size: 36px;
+  }
+
+  .gameStats {
+    width: calc(100% - 16px);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 8px;
+    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .statBlock {
+    min-width: 0;
+    width: 100%;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .statIcon {
+    font-size: 21px;
+  }
+
+  .statBlock strong {
+    font-size: 13px;
+  }
+
+  .statBlock small {
+    font-size: 7px;
+    white-space: nowrap;
+  }
+
+  .statDivider {
+    display: none;
+  }
+
+  .hintTopButton {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 2px 0 0;
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+
+  .gameLayout {
+    width: calc(100% - 16px);
+    max-width: 680px;
+    margin-top: 10px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .centerGame {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .boardShell {
+    width: 100%;
+    max-width: 100%;
+    padding: 5px;
+    border-radius: 17px;
+  }
+
+  .boardGlow {
+    inset: -4px;
+    border-radius: 19px;
+  }
+
+  .grid {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1.28;
+    max-height: none;
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .cell {
+    min-width: 0;
+    min-height: 0;
+    font-size: clamp(12px, 4.4vw, 19px);
+    line-height: 1;
+  }
+
+  .selectedCell {
+    transform: scale(0.92);
+  }
+
+  .submitButton {
+    width: min(390px, 94%);
+    max-width: 100%;
+    height: 48px;
+    margin-top: 9px;
+    font-size: 14px;
+  }
+
+  .bottomNav {
+    width: 100%;
+    min-width: 0;
+    padding: 8px 10px;
+    gap: 9px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .leftPanel,
+  .rightPanel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .panelTitle {
+    font-size: 12px;
+  }
+
+  .wordList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 10px;
+  }
+
+  .wordItem {
+    min-width: 0;
+    height: 34px;
+    font-size: 12px;
+    overflow: hidden;
+  }
+
+  .wordItem span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .wordItem b {
+    font-size: 15px;
+    flex: 0 0 auto;
+  }
+
+  .instruction {
+    font-size: 12px;
+    margin: 12px 0;
+  }
+
+  .straightBadge {
+    padding: 8px;
+    gap: 7px;
+    font-size: 18px;
+  }
+
+  .straightBadge span {
+    font-size: 10px;
+  }
+  .straightBadge small {
+    font-size: 9px;
+  }
+
+  .powerTitle {
+    margin-top: 14px;
+    font-size: 11px;
+  }
+
+  .powerButton {
+    grid-template-columns: 32px minmax(0, 1fr) 25px;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .powerButton strong {
+    font-size: 11px;
+  }
+  .powerButton small {
+    font-size: 8px;
+  }
+
+  .actionsRow {
+    width: calc(100% - 16px);
+    margin-top: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .restartButton {
+    padding: 9px 13px;
+    font-size: 11px;
+  }
+
+  .rewardPreview {
+    font-size: 12px;
+  }
+
+  .modalOverlay {
+    padding: 10px;
+  }
+
+  .guideModal,
+  .resultModal,
+  .reviveModal {
+    width: 100%;
+    max-width: 430px;
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+    padding: 22px 16px;
+    border-radius: 18px;
+  }
+
+  .guideModal h2,
+  .resultModal h2,
+  .reviveModal h2 {
+    font-size: 21px;
+  }
+
+  .guideModal p,
+  .resultModal p,
+  .reviveModal p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .topHeader {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .coinBalance {
+    max-width: 104px;
+  }
+  .coinBalance button {
+    display: none;
+  }
+
+  .heroBanner {
+    height: 150px;
+    min-height: 150px;
+  }
+
+  .heroContent h1 {
+    font-size: clamp(28px, 11vw, 40px);
+  }
+
+  .heroSubline {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .gameStats {
+    width: calc(100% - 12px);
+  }
+  .gameLayout {
+    width: calc(100% - 12px);
+  }
+  .grid {
+    padding: 5px;
+  }
+  .cell {
+    font-size: clamp(11px, 4vw, 17px);
+  }
+  .wordList {
+    grid-template-columns: 1fr;
+  }
+  .bottomNav {
+    font-size: 7px;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroBanner::before,
+  .heroBanner::after,
+  .floatingLetter,
+  .submitButton,
+  .foundCell {
+    animation: none !important;
+  }
+}
+/* =========================================================
+   FINAL MOBILE OVERFLOW / CENTERING FIX
+   Fixes 360px / 375px / 390px / 412px screens
+========================================================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden !important;
+}
+
+.page {
+  position: relative;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow-x: hidden !important;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 820px) {
+
+  .topHeader {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    box-sizing: border-box;
+  }
+
+  .heroBanner {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    box-sizing: border-box;
+  }
+
+  .gameStats {
+    width: calc(100% - 16px) !important;
+    max-width: 680px !important;
+    min-width: 0 !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    box-sizing: border-box;
+  }
+
+  .gameLayout {
+    width: calc(100% - 16px) !important;
+    max-width: 680px !important;
+    min-width: 0 !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+
+    gap: 10px;
+    box-sizing: border-box;
+  }
+
+  .centerGame {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box;
+  }
+
+  .boardShell {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 0 auto !important;
+    padding: 5px;
+
+    box-sizing: border-box;
+  }
+
+  .grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    height: auto !important;
+
+    aspect-ratio: 1 / 1.28;
+
+    box-sizing: border-box;
+  }
+
+  .leftPanel,
+  .rightPanel {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+
+    box-sizing: border-box;
+  }
+
+  .bottomNav {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box;
+  }
+
+  .actionsRow {
+    width: calc(100% - 16px) !important;
+    max-width: 680px !important;
+    min-width: 0 !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    box-sizing: border-box;
+  }
+}
+
+
+/* =========================================================
+   360px SPECIFIC
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .page {
+    width: 100vw !important;
+    max-width: 100vw !important;
+
+    overflow-x: clip !important;
+  }
+
+  .topHeader {
+    width: 100vw !important;
+  }
+
+  .heroBanner {
+    width: 100vw !important;
+    height: 150px !important;
+    min-height: 150px !important;
+  }
+
+  .heroContent {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding-left: 8px;
+    padding-right: 8px;
+
+    box-sizing: border-box;
+  }
+
+  .gameStats {
+    width: calc(100vw - 12px) !important;
+  }
+
+  .gameLayout {
+    width: calc(100vw - 12px) !important;
+    max-width: calc(100vw - 12px) !important;
+  }
+
+  .boardShell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .grid {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    aspect-ratio: 1 / 1.28;
+
+    height: auto !important;
+  }
+
+  .cell {
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    font-size: clamp(11px, 4vw, 17px) !important;
+  }
+}
+
+
+/* =========================================================
+   320px EXTRA SAFETY
+========================================================= */
+
+@media (max-width: 340px) {
+
+  .topHeader {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .gameStats {
+    width: calc(100vw - 10px) !important;
+  }
+
+  .gameLayout {
+    width: calc(100vw - 10px) !important;
+    max-width: calc(100vw - 10px) !important;
+  }
+
+  .boardShell {
+    padding: 4px;
+  }
+
+  .grid {
+    padding: 4px;
+  }
+
+  .cell {
+    font-size: 12px !important;
+  }
+}

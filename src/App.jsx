@@ -1,49 +1,117 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { useEffect } from "react";
 
 import GamesCarousel from "./components/games/GamesCarousel";
-
+import LoginPage from "./pages/LoginPage";
 import GameHomePage from "./pages/GameHomePage";
 import RedeemPage from "./pages/RedeemPage";
 
 import WordHuntGame from "./games/gameTwo/WordHuntGame";
 import MergeMasterGame from "./games/gameOne/MergeMasterGame";
 
+
+function isLoggedIn() {
+  try {
+    const user = JSON.parse(
+      localStorage.getItem("veloopUser")
+    );
+
+    return Boolean(user?.loggedIn && user?.email);
+  } catch {
+    return false;
+  }
+}
+
+
+function ProtectedRoute({ children }) {
+  return isLoggedIn()
+    ? children
+    : <Navigate to="/login" replace />;
+}
+
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
+
 function App() {
   return (
     <BrowserRouter>
+
+      <ScrollToTop />
+
       <Routes>
 
-        {/* MAIN GAMES PAGE */}
+        <Route
+          path="/login"
+          element={<LoginPage />}
+        />
+
         <Route
           path="/"
-          element={<GamesCarousel />}
+          element={
+            <ProtectedRoute>
+              <GamesCarousel />
+            </ProtectedRoute>
+          }
         />
 
-        {/* REDEEM */}
         <Route
           path="/redeem"
-          element={<RedeemPage />}
+          element={
+            <ProtectedRoute>
+              <RedeemPage />
+            </ProtectedRoute>
+          }
         />
 
-        {/* ALL GAME HOME PAGES */}
         <Route
           path="/game/:gameId"
-          element={<GameHomePage />}
+          element={
+            <ProtectedRoute>
+              <GameHomePage />
+            </ProtectedRoute>
+          }
         />
 
-        {/* PLAYABLE GAME 1 */}
         <Route
           path="/game/8/play"
-          element={<WordHuntGame />}
+          element={
+            <ProtectedRoute>
+              <WordHuntGame />
+            </ProtectedRoute>
+          }
         />
 
-        {/* PLAYABLE GAME 2 */}
         <Route
           path="/game/10/play"
-          element={<MergeMasterGame />}
+          element={
+            <ProtectedRoute>
+              <MergeMasterGame />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
         />
 
       </Routes>
+
     </BrowserRouter>
   );
 }

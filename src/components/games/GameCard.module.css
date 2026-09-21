@@ -1,356 +1,56 @@
 .card {
-  position: relative;
- min-width: 0;
-  width: 100%;
-
-  overflow: hidden;
-
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 26px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.12),
-      rgba(255, 255, 255, 0.035)
-    );
-
-  box-shadow:
-    0 24px 55px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  scroll-snap-align: start;
-
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
-}
-
-.card:hover {
-  transform: translateY(-7px);
-
-  border-color: rgba(255, 255, 255, 0.28);
-
-  box-shadow:
-    0 32px 70px rgba(0, 0, 0, 0.42),
-    0 0 30px rgba(120, 130, 255, 0.08);
-}
-
-/* ---------------- IMAGE ---------------- */
-
-.imageWrap {
-  position: relative;
-
-  width: 100%;
-  height: 420px;
-
-  overflow: hidden;
-
-  background: #0c0e18;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-
-  display: block;
-
-  object-fit: cover;
-  object-position: top center;
-
-  user-select: none;
-
-  transition:
-    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1),
-    filter 0.35s ease;
-}
-
-.card:hover .image {
-  transform: scale(1.035);
-}
-
-/* Dark cinematic gradient */
-
-.imageOverlay {
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(9, 11, 19, 0.97) 0%,
-      rgba(9, 11, 19, 0.72) 22%,
-      rgba(9, 11, 19, 0.18) 52%,
-      rgba(9, 11, 19, 0.02) 75%
-    );
-}
-
-/* ---------------- STATUS ---------------- */
-
-.statusBadge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-
-  z-index: 3;
-
-  padding: 7px 11px;
-
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-
-  background: rgba(10, 12, 20, 0.58);
-
-  color: #ffffff;
-
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card:nth-child(odd) .statusBadge {
-  color: #ffffff;
-}
-
-.card:has(.statusBadge:not(:empty)) {
-  isolation: isolate;
-}
-
-/* ---------------- GAME INFO ---------------- */
-
-.gameInfo {
-  position: absolute;
-
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-
-  z-index: 3;
-}
-
-.gameType {
-  display: inline-block;
-
-  margin-bottom: 7px;
-
-  color: #8ee7ff;
-
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.8px;
-}
-
-.gameInfo h3 {
-  margin: 0;
-
-  color: #ffffff;
-
-  font-size: 29px;
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.8px;
-
-  text-shadow:
-    0 3px 15px rgba(0, 0, 0, 0.45);
-}
-
-/* ---------------- BOTTOM ---------------- */
-
-.bottom {
-  min-height: 82px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 14px;
-
-  padding: 15px 16px;
-
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.075),
-      rgba(255, 255, 255, 0.025)
-    );
-
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-/* ---------------- RESPONSIVE ---------------- */
-
-@media (max-width: 1200px) {
-  .card {
-    flex-basis: 360px;
-    width: 360px;
-  }
-
-  .imageWrap {
-    height: 400px;
-  }
-}
-
-@media (max-width: 800px) {
-  .card {
-    flex-basis: 330px;
-    width: 330px;
-
-    border-radius: 22px;
-  }
-
-  .imageWrap {
-    height: 380px;
-  }
-
-  .gameInfo {
-    left: 17px;
-    right: 17px;
-    bottom: 17px;
-  }
-
-  .gameInfo h3 {
-    font-size: 25px;
-  }
-
-  .bottom {
-    min-height: 76px;
-    padding: 13px;
-  }
-}
-
-@media (max-width: 520px) {
-  .card {
-    flex-basis: min(86vw, 330px);
-    width: min(86vw, 330px);
-  }
-
-  .imageWrap {
-    height: min(105vw, 375px);
-  }
-
-  .statusBadge {
-    top: 12px;
-    left: 12px;
-
-    padding: 6px 9px;
-
-    font-size: 8px;
-  }
-
-  .gameType {
-    font-size: 9px;
-  }
-
-  .gameInfo h3 {
-    font-size: 23px;
-  }
-
-  .bottom {
-    gap: 8px;
-  }
-}
-
-@media (max-width: 360px) {
-  .card {
-    flex-basis: 292px;
-    width: 292px;
-  }
-
-  .imageWrap {
-    height: 340px;
-  }
-
-  .gameInfo h3 {
-    font-size: 21px;
-  }
-}/* =========================================
-   CARD
-========================================= */
-
-.card {
   --mouse-x: 50%;
   --mouse-y: 50%;
 
   position: relative;
 
-  flex: 0 0 390px;
-
-  width: 390px;
+  width: 100%;
+  min-width: 0;
 
   overflow: hidden;
 
-  border: 1px solid rgba(255, 255, 255, 0.18);
-
-  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(255, 255, 255, 0.13),
-      rgba(255, 255, 255, 0.035)
+      rgba(255, 255, 255, 0.105),
+      rgba(255, 255, 255, 0.025)
     );
 
   box-shadow:
-    0 24px 55px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    0 18px 40px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  scroll-snap-align: start;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 
   isolation: isolate;
 
-  transform: translateZ(0);
-
   transition:
-    transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.45s ease,
-    border-color 0.35s ease;
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
-
-
-/* =========================================
-   HOVER
-========================================= */
 
 .card:hover {
-  transform: translateY(-7px) scale(1.008);
-
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(156, 136, 255, 0.42);
 
   box-shadow:
-    0 34px 75px rgba(0, 0, 0, 0.46),
-    0 0 35px rgba(120, 130, 255, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+    0 25px 52px rgba(0, 0, 0, 0.42),
+    0 0 25px rgba(111, 79, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
-
-/* =========================================
-   MOUSE LIGHT REFLECTION
-========================================= */
+/* =========================================================
+   MOUSE REFLECTION
+========================================================= */
 
 .cardReflection {
   position: absolute;
-
   inset: 0;
 
-  z-index: 5;
+  z-index: 8;
 
   pointer-events: none;
 
@@ -359,35 +59,33 @@
   background:
     radial-gradient(
       circle at var(--mouse-x) var(--mouse-y),
-      rgba(255, 255, 255, 0.13),
-      transparent 24%
+      rgba(255, 255, 255, 0.12),
+      transparent 28%
     );
 
-  transition: opacity 0.35s ease;
-
   mix-blend-mode: screen;
+
+  transition: opacity 0.3s ease;
 }
 
 .card:hover .cardReflection {
   opacity: 1;
 }
 
-
-/* =========================================
+/* =========================================================
    IMAGE
-========================================= */
+========================================================= */
 
 .imageWrap {
   position: relative;
 
   width: 100%;
-  height: 420px;
+  height: 250px;
 
   overflow: hidden;
 
   background: #0c0e18;
 }
-
 
 .image {
   width: 100%;
@@ -396,35 +94,23 @@
   display: block;
 
   object-fit: cover;
-
   object-position: top center;
 
   user-select: none;
 
-  transform: scale(1);
-
-  filter: saturate(1);
-
   transition:
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
-    filter 0.5s ease;
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.45s ease;
 }
-
 
 .card:hover .image {
-  transform: scale(1.035);
+  transform: scale(1.045);
 
-  filter: saturate(1.06);
+  filter: saturate(1.08);
 }
-
-
-/* =========================================
-   IMAGE OVERLAY
-========================================= */
 
 .imageOverlay {
   position: absolute;
-
   inset: 0;
 
   pointer-events: none;
@@ -432,180 +118,195 @@
   background:
     linear-gradient(
       to top,
-      rgba(9, 11, 19, 0.97) 0%,
-      rgba(9, 11, 19, 0.78) 23%,
-      rgba(9, 11, 19, 0.2) 54%,
-      rgba(9, 11, 19, 0.02) 76%
+      rgba(7, 9, 18, 0.98) 0%,
+      rgba(7, 9, 18, 0.78) 26%,
+      rgba(7, 9, 18, 0.16) 62%,
+      rgba(7, 9, 18, 0.02) 78%
     );
 }
 
+.imageGlow {
+  position: absolute;
 
-/* =========================================
-   TOP STATUS BADGE
-========================================= */
+  width: 140px;
+  height: 140px;
+
+  right: -60px;
+  top: -60px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(118, 82, 255, 0.3),
+      transparent 68%
+    );
+
+  filter: blur(12px);
+
+  pointer-events: none;
+
+  transition:
+    transform 0.6s ease,
+    opacity 0.4s ease;
+}
+
+.card:hover .imageGlow {
+  transform: scale(1.25);
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
 
 .statusBadge {
   position: absolute;
 
-  top: 16px;
-  left: 16px;
+  top: 11px;
+  left: 11px;
 
-  z-index: 8;
+  z-index: 10;
 
   display: inline-flex;
-
   align-items: center;
-  justify-content: center;
 
-  padding: 7px 12px;
+  gap: 5px;
 
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 5px 8px;
 
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
 
   background:
-    linear-gradient(
-      135deg,
-      rgba(10, 12, 20, 0.72),
-      rgba(10, 12, 20, 0.45)
-    );
+    rgba(8, 10, 20, 0.65);
 
   color: #ffffff;
 
-  font-size: 9px;
-
+  font-size: 7px;
   font-weight: 900;
 
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
 
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.playableBadge {
+  border-color: rgba(96, 220, 255, 0.35);
+}
+
+.comingSoonBadge {
+  border-color: rgba(173, 148, 255, 0.3);
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #8cecff;
 
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-  transition:
-    transform 0.3s ease,
-    background 0.3s ease,
-    border-color 0.3s ease;
+    0 0 8px rgba(116, 228, 255, 0.9);
 }
 
+.comingSoonBadge .statusDot {
+  background: #a78bff;
 
-.card:hover .statusBadge {
-  transform: translateY(-1px);
-
-  border-color: rgba(255, 255, 255, 0.3);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(20, 22, 34, 0.78),
-      rgba(20, 22, 34, 0.5)
-    );
+  box-shadow:
+    0 0 8px rgba(167, 139, 255, 0.8);
 }
 
-
-/* =========================================
+/* =========================================================
    GAME INFO
-========================================= */
+========================================================= */
 
 .gameInfo {
   position: absolute;
 
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
+  left: 13px;
+  right: 13px;
+  bottom: 13px;
 
-  z-index: 8;
+  z-index: 9;
 }
-
 
 .gameType {
   display: inline-block;
 
-  margin-bottom: 7px;
+  margin-bottom: 5px;
 
   color: #8ee7ff;
 
-  font-size: 10px;
+  font-size: 7px;
 
-  font-weight: 800;
+  font-weight: 850;
 
-  letter-spacing: 1.8px;
-
-  text-shadow:
-    0 2px 12px rgba(142, 231, 255, 0.2);
+  letter-spacing: 1.35px;
 }
-
 
 .gameInfo h3 {
   margin: 0;
 
   color: #ffffff;
 
-  font-size: 29px;
+  font-size: clamp(17px, 1.55vw, 23px);
 
-  font-weight: 700;
+  font-weight: 750;
 
   line-height: 1.05;
 
-  letter-spacing: -0.8px;
+  letter-spacing: -0.4px;
 
   text-shadow:
-    0 3px 15px rgba(0, 0, 0, 0.45);
+    0 3px 15px rgba(0, 0, 0, 0.55);
 
   transition:
-    transform 0.35s ease,
-    text-shadow 0.35s ease;
+    transform 0.3s ease,
+    text-shadow 0.3s ease;
 }
-
 
 .card:hover .gameInfo h3 {
   transform: translateX(2px);
 
   text-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.6);
+    0 4px 20px rgba(0, 0, 0, 0.7);
 }
 
-
-/* =========================================
-   BOTTOM GLASS PANEL
-========================================= */
+/* =========================================================
+   BOTTOM
+========================================================= */
 
 .bottom {
   position: relative;
 
-  z-index: 10;
+  z-index: 12;
 
-  min-height: 82px;
+  min-height: 60px;
 
   display: flex;
 
   align-items: center;
-
   justify-content: space-between;
 
-  gap: 14px;
+  gap: 8px;
 
-  padding: 15px 16px;
+  padding: 9px 10px;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 
   background:
     linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.07),
       rgba(255, 255, 255, 0.025)
     );
 
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
-
 
 .bottom::before {
   content: "";
@@ -613,9 +314,9 @@
   position: absolute;
 
   top: 0;
-  left: 15%;
+  left: 18%;
 
-  width: 70%;
+  width: 64%;
   height: 1px;
 
   background:
@@ -625,91 +326,110 @@
       rgba(255, 255, 255, 0.16),
       transparent
     );
-
-  pointer-events: none;
 }
 
-
-/* =========================================
+/* =========================================================
    TABLET
-========================================= */
+========================================================= */
 
-@media (max-width: 900px) {
-  .card {
-    flex-basis: 360px;
-
-    width: 360px;
-  }
-
+@media (max-width: 1200px) {
   .imageWrap {
-    height: 400px;
-  }
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 600px) {
-  .card {
-    flex-basis: 330px;
-
-    width: 330px;
-
-    border-radius: 24px;
-  }
-
-  .imageWrap {
-    height: 380px;
-  }
-
-  .gameInfo {
-    left: 18px;
-    right: 18px;
-    bottom: 18px;
+    height: 245px;
   }
 
   .gameInfo h3 {
-    font-size: 26px;
+    font-size: 21px;
+  }
+}
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .imageWrap {
+    height: 230px;
   }
 
-  .statusBadge {
-    top: 14px;
-    left: 14px;
+  .gameInfo h3 {
+    font-size: 19px;
   }
 
   .bottom {
-    min-height: 76px;
-
-    padding: 13px 14px;
+    min-height: 57px;
   }
 }
 
+/* =========================================================
+   MOBILE
+========================================================= */
 
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media (max-width: 380px) {
+@media (max-width: 680px) {
   .card {
-    flex-basis: 300px;
-
-    width: 300px;
+    border-radius: 15px;
   }
 
   .imageWrap {
-    height: 350px;
+    height: 190px;
+  }
+
+  .statusBadge {
+    top: 8px;
+    left: 8px;
+
+    padding: 4px 6px;
+
+    font-size: 6px;
+  }
+
+  .statusDot {
+    width: 4px;
+    height: 4px;
+  }
+
+  .gameInfo {
+    left: 9px;
+    right: 9px;
+    bottom: 9px;
+  }
+
+  .gameType {
+    margin-bottom: 4px;
+
+    font-size: 6px;
+    letter-spacing: 1px;
   }
 
   .gameInfo h3 {
-    font-size: 24px;
+    font-size: 17px;
+  }
+
+  .bottom {
+    min-height: 54px;
+
+    padding: 8px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL
+========================================================= */
+
+@media (max-width: 390px) {
+  .imageWrap {
+    height: 205px;
+  }
+
+  .gameInfo h3 {
+    font-size: 19px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .image {
+  .image,
+  .imageGlow,
+  .gameInfo h3 {
     transition: none;
   }
 }

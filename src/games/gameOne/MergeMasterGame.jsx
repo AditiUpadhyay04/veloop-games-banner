@@ -1,415 +1,288 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  FiArrowLeft,
-  FiAward,
-  FiClock,
-  FiGift,
-  FiRotateCcw,
-  FiX,
-  FiZap,
-} from "react-icons/fi";
-
-import { useGameCoin } from "../../context/GameCoinContext";
+  FaArrowLeft,
+  FaCog,
+  FaGamepad,
+  FaGift,
+  FaLightbulb,
+  FaPause,
+  FaPlay,
+  FaStar,
+  FaTrophy,
+  FaBullseye,
+} from "react-icons/fa";
 import styles from "./MergeMasterGame.module.css";
 
-const SIZE = 4;
-const START_TIME = 90;
-const REVIVE_TIME = 30;
+const SIZE = 5;
+const STARTING_TILES = 4;
 
-function emptyBoard() {
-  return Array(SIZE * SIZE).fill(0);
-}
+const TILE_COLORS = {
+  2: "tile2",
+  4: "tile4",
+  8: "tile8",
+  16: "tile16",
+  32: "tile32",
+  64: "tile64",
+  128: "tile128",
+  256: "tile256",
+  512: "tile512",
+  1024: "tile1024",
+  2048: "tile2048",
+};
 
-function addRandomTile(board) {
-  const next = [...board];
+const EMPTY_BOARD = () =>
+  Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
 
-  const empty = next
-    .map((value, index) =>
-      value === 0 ? index : -1
-    )
-    .filter((index) => index !== -1);
-
-  if (!empty.length) {
-    return next;
-  }
-
-  const index =
-    empty[Math.floor(Math.random() * empty.length)];
-
-  next[index] =
-    Math.random() < 0.9 ? 2 : 4;
-
-  return next;
-}
-
-function createBoard() {
-  let board = emptyBoard();
-
-  board = addRandomTile(board);
-  board = addRandomTile(board);
-
-  return board;
-}
-
-function slide(line) {
-  const values = line.filter(
-    (value) => value !== 0
+const randomEmptyCell = (board) => {
+  const empty = [];
+  board.forEach((row, r) =>
+    row.forEach((value, c) => {
+      if (!value) empty.push([r, c]);
+    })
   );
+  return empty.length
+    ? empty[Math.floor(Math.random() * empty.length)]
+    : null;
+};
 
+const addRandomTile = (board) => {
+  const next = board.map((row) => [...row]);
+  const cell = randomEmptyCell(next);
+  if (!cell) return next;
+
+  const [r, c] = cell;
+  next[r][c] = Math.random() < 0.9 ? 2 : 4;
+  return next;
+};
+
+const createInitialBoard = () => {
+  let board = EMPTY_BOARD();
+  for (let i = 0; i < STARTING_TILES; i += 1) {
+    board = addRandomTile(board);
+  }
+  return board;
+};
+
+const slideLine = (line) => {
+  const values = line.filter(Boolean);
   const result = [];
   let gained = 0;
 
-  for (let i = 0; i < values.length; i++) {
-    if (
-      i < values.length - 1 &&
-      values[i] === values[i + 1]
-    ) {
+  for (let i = 0; i < values.length; i += 1) {
+    if (values[i] === values[i + 1]) {
       const merged = values[i] * 2;
-
       result.push(merged);
       gained += merged;
-
-      i++;
+      i += 1;
     } else {
       result.push(values[i]);
     }
   }
 
-  while (result.length < SIZE) {
-    result.push(0);
-  }
+  while (result.length < SIZE) result.push(0);
+  return { line: result, gained };
+};
 
-  return {
-    line: result,
-    gained,
-  };
-}
-
-function moveBoard(board, direction) {
-  const next = emptyBoard();
+const moveBoard = (board, direction) => {
+  const next = EMPTY_BOARD();
   let gained = 0;
 
-  const indexOf = (row, col) =>
-    row * SIZE + col;
+  if (direction === "left" || direction === "right") {
+    for (let r = 0; r < SIZE; r += 1) {
+      let line = [...board[r]];
+      if (direction === "right") line.reverse();
 
-  if (
-    direction === "left" ||
-    direction === "right"
-  ) {
-    for (let row = 0; row < SIZE; row++) {
-      let line = [];
+      const moved = slideLine(line);
+      gained += moved.gained;
+      line = moved.line;
 
-      for (let i = 0; i < SIZE; i++) {
-        const col =
-          direction === "left"
-            ? i
-            : SIZE - 1 - i;
+      if (direction === "right") line.reverse();
+      next[r] = line;
+    }
+  } else {
+    for (let c = 0; c < SIZE; c += 1) {
+      let line = board.map((row) => row[c]);
+      if (direction === "down") line.reverse();
 
-        line.push(
-          board[indexOf(row, col)]
-        );
-      }
+      const moved = slideLine(line);
+      gained += moved.gained;
+      line = moved.line;
 
-      const result = slide(line);
+      if (direction === "down") line.reverse();
 
-      gained += result.gained;
-
-      if (direction === "right") {
-        result.line.reverse();
-      }
-
-      for (let col = 0; col < SIZE; col++) {
-        const actualCol =
-          direction === "left"
-            ? col
-            : SIZE - 1 - col;
-
-        next[indexOf(row, actualCol)] =
-          result.line[col];
+      for (let r = 0; r < SIZE; r += 1) {
+        next[r][c] = line[r];
       }
     }
   }
 
-  if (
-    direction === "up" ||
-    direction === "down"
-  ) {
-    for (let col = 0; col < SIZE; col++) {
-      let line = [];
+  const changed = JSON.stringify(board) !== JSON.stringify(next);
+  return { board: changed ? addRandomTile(next) : board, gained, changed };
+};
 
-      for (let i = 0; i < SIZE; i++) {
-        const row =
-          direction === "up"
-            ? i
-            : SIZE - 1 - i;
+const canMove = (board) => {
+  if (board.some((row) => row.some((value) => value === 0))) return true;
 
-        line.push(
-          board[indexOf(row, col)]
-        );
-      }
-
-      const result = slide(line);
-
-      gained += result.gained;
-
-      if (direction === "down") {
-        result.line.reverse();
-      }
-
-      for (let row = 0; row < SIZE; row++) {
-        const actualRow =
-          direction === "up"
-            ? row
-            : SIZE - 1 - row;
-
-        next[indexOf(actualRow, col)] =
-          result.line[row];
-      }
-    }
-  }
-
-  return {
-    board: next,
-    gained,
-  };
-}
-
-function canMove(board) {
-  if (board.some((value) => value === 0)) {
-    return true;
-  }
-
-  for (let row = 0; row < SIZE; row++) {
-    for (let col = 0; col < SIZE; col++) {
-      const index = row * SIZE + col;
-
-      if (
-        col < SIZE - 1 &&
-        board[index] === board[index + 1]
-      ) {
-        return true;
-      }
-
-      if (
-        row < SIZE - 1 &&
-        board[index] ===
-          board[index + SIZE]
-      ) {
-        return true;
-      }
+  for (let r = 0; r < SIZE; r += 1) {
+    for (let c = 0; c < SIZE; c += 1) {
+      const value = board[r][c];
+      if (r < SIZE - 1 && board[r + 1][c] === value) return true;
+      if (c < SIZE - 1 && board[r][c + 1] === value) return true;
     }
   }
 
   return false;
-}
+};
 
-function getReward(score) {
-  if (score >= 1500) return 40;
-  if (score >= 1000) return 30;
-  if (score >= 500) return 20;
+const highestTile = (board) =>
+  Math.max(...board.flat(), 0);
 
-  return 10;
-}
+const MergeMasterGame = ({
+  gameCoins = 108,
+  onBack,
+  onRedeem,
+}) => {
+  const [board, setBoard] = useState(createInitialBoard);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(() => {
+    const saved = Number(localStorage.getItem("mergeMasterBestScore") || 0);
+    return Number.isFinite(saved) ? saved : 0;
+  });
+  const [bestTile, setBestTile] = useState(4);
+  const [hintCount, setHintCount] = useState(2);
+  const [paused, setPaused] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [message, setMessage] = useState("");
+  const [touchStart, setTouchStart] = useState(null);
+  const [rewardProgress, setRewardProgress] = useState(0);
 
-function MergeMasterGame() {
-  const navigate = useNavigate();
-  const { addGameCoins } = useGameCoin();
-
-  const [board, setBoard] =
-    useState(createBoard);
-
-  const [score, setScore] =
-    useState(0);
-
-  const [moves, setMoves] =
-    useState(0);
-
-  const [timeLeft, setTimeLeft] =
-    useState(START_TIME);
-
-  const [showGuide, setShowGuide] =
-    useState(true);
-
-  const [showRevive, setShowRevive] =
-    useState(false);
-
-  const [gameOver, setGameOver] =
-    useState(false);
-
-  const [reviveUsed, setReviveUsed] =
-    useState(false);
-
-  const [rewardAdded, setRewardAdded] =
-    useState(false);
-
-  const reward = getReward(score);
-
-  /* =========================================
-     TIMER
-  ========================================= */
+  const goal = useMemo(() => {
+    const max = highestTile(board);
+    if (max < 512) return 512;
+    if (max < 1024) return 1024;
+    if (max < 2048) return 2048;
+    return 4096;
+  }, [board]);
 
   useEffect(() => {
-    if (
-      showGuide ||
-      showRevive ||
-      gameOver
-    ) {
-      return undefined;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft((current) => {
-        if (current <= 1) {
-          clearInterval(timer);
-
-          setShowRevive(true);
-
-          return 0;
-        }
-
-        return current - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [
-    showGuide,
-    showRevive,
-    gameOver,
-  ]);
-
-  /* =========================================
-     FINISH
-  ========================================= */
-
-  const finishGame = useCallback(() => {
-    if (!rewardAdded) {
-      addGameCoins(reward);
-      setRewardAdded(true);
-    }
-
-    setShowRevive(false);
-    setGameOver(true);
-  }, [
-    addGameCoins,
-    reward,
-    rewardAdded,
-  ]);
-
-  /* =========================================
-     MOVE
-  ========================================= */
-
-  const handleMove = useCallback(
-    (direction) => {
-      if (
-        showGuide ||
-        showRevive ||
-        gameOver
-      ) {
-        return;
-      }
-
-      const result =
-        moveBoard(
-          board,
-          direction
-        );
-
-      const changed =
-        JSON.stringify(board) !==
-        JSON.stringify(result.board);
-
-      if (!changed) {
-        if (!canMove(board)) {
-          setShowRevive(true);
-        }
-
-        return;
-      }
-
-      const updatedBoard =
-        addRandomTile(
-          result.board
-        );
-
-      setBoard(updatedBoard);
-
-      setScore(
-        (current) =>
-          current + result.gained
-      );
-
-      setMoves(
-        (current) => current + 1
-      );
-
-      if (!canMove(updatedBoard)) {
-        setShowRevive(true);
-      }
-    },
-    [
-      board,
-      gameOver,
-      showGuide,
-      showRevive,
-    ]
-  );
-
-  /* =========================================
-     KEYBOARD
-  ========================================= */
+    localStorage.setItem("mergeMasterBestScore", String(bestScore));
+  }, [bestScore]);
 
   useEffect(() => {
-    const onKeyDown = (event) => {
+    const handleKey = (event) => {
+      if (paused || gameOver) return;
+
       const map = {
         ArrowLeft: "left",
         ArrowRight: "right",
         ArrowUp: "up",
         ArrowDown: "down",
-        a: "left",
-        d: "right",
-        w: "up",
-        s: "down",
       };
 
-      const direction =
-        map[event.key];
+      if (map[event.key]) {
+        event.preventDefault();
+        performMove(map[event.key]);
+      }
+    };
 
-      if (!direction) {
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  });
+
+  const performMove = useCallback(
+    (direction) => {
+      if (paused || gameOver) return;
+
+      const result = moveBoard(board, direction);
+      if (!result.changed) {
+        setMessage("Try another move");
         return;
       }
 
-      event.preventDefault();
+      const nextScore = score + result.gained;
+      const nextBestTile = highestTile(result.board);
 
-      handleMove(direction);
-    };
-
-    window.addEventListener(
-      "keydown",
-      onKeyDown
-    );
-
-    return () => {
-      window.removeEventListener(
-        "keydown",
-        onKeyDown
+      setBoard(result.board);
+      setScore(nextScore);
+      setBestTile((current) =>
+        Math.max(current, nextBestTile)
       );
-    };
-  }, [handleMove]);
+      setBestScore((current) =>
+        Math.max(current, nextScore)
+      );
 
-  /* =========================================
-     TOUCH
-  ========================================= */
+      if (result.gained >= 64) {
+        setMessage("Great merge!");
+        setRewardProgress((current) =>
+          Math.min(100, current + 14)
+        );
+      } else if (result.gained > 0) {
+        setMessage("Merge!");
+        setRewardProgress((current) =>
+          Math.min(100, current + 5)
+        );
+      } else {
+        setMessage("");
+      }
 
-  const [touchStart, setTouchStart] =
-    useState(null);
+      if (nextBestTile >= goal) {
+        setMessage(`Goal ${goal} reached!`);
+      }
+
+      if (!canMove(result.board)) {
+        setGameOver(true);
+        setMessage("No more moves");
+      }
+    },
+    [board, gameOver, goal, paused, score]
+  );
+
+  const restartGame = () => {
+    setBoard(createInitialBoard());
+    setScore(0);
+    setBestTile(4);
+    setHintCount(2);
+    setPaused(false);
+    setGameOver(false);
+    setMessage("");
+    setRewardProgress(0);
+  };
+
+  const useHint = () => {
+    if (!hintCount || paused || gameOver) return;
+
+    const candidates = [];
+
+    for (let r = 0; r < SIZE; r += 1) {
+      for (let c = 0; c < SIZE; c += 1) {
+        if (!board[r][c]) continue;
+
+        if (
+          c < SIZE - 1 &&
+          board[r][c] === board[r][c + 1]
+        ) {
+          candidates.push([r, c]);
+        }
+
+        if (
+          r < SIZE - 1 &&
+          board[r][c] === board[r + 1][c]
+        ) {
+          candidates.push([r, c]);
+        }
+      }
+    }
+
+    setHintCount((count) => Math.max(0, count - 1));
+    setMessage(
+      candidates.length
+        ? "Try a matching pair!"
+        : "No immediate merge found"
+    );
+  };
 
   const handleTouchStart = (event) => {
-    const touch =
-      event.touches[0];
-
+    const touch = event.touches[0];
     setTouchStart({
       x: touch.clientX,
       y: touch.clientY,
@@ -417,580 +290,273 @@ function MergeMasterGame() {
   };
 
   const handleTouchEnd = (event) => {
-    if (!touchStart) {
-      return;
-    }
+    if (!touchStart) return;
 
-    const touch =
-      event.changedTouches[0];
-
-    const dx =
-      touch.clientX - touchStart.x;
-
-    const dy =
-      touch.clientY - touchStart.y;
-
-    const threshold = 30;
-
-    if (
-      Math.abs(dx) < threshold &&
-      Math.abs(dy) < threshold
-    ) {
-      setTouchStart(null);
-      return;
-    }
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-      handleMove(
-        dx > 0 ? "right" : "left"
-      );
-    } else {
-      handleMove(
-        dy > 0 ? "down" : "up"
-      );
-    }
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - touchStart.x;
+    const dy = touch.clientY - touchStart.y;
 
     setTouchStart(null);
-  };
 
-  /* =========================================
-     RESET
-  ========================================= */
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 28) return;
 
-  const resetGame = () => {
-    setBoard(createBoard());
-    setScore(0);
-    setMoves(0);
-    setTimeLeft(START_TIME);
-    setShowGuide(false);
-    setShowRevive(false);
-    setGameOver(false);
-    setReviveUsed(false);
-    setRewardAdded(false);
-  };
-
-  /* =========================================
-     REVIVE
-  ========================================= */
-
-  const handleRevive = () => {
-    if (reviveUsed) {
-      finishGame();
-      return;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      performMove(dx > 0 ? "right" : "left");
+    } else {
+      performMove(dy > 0 ? "down" : "up");
     }
-
-    setReviveUsed(true);
-    setShowRevive(false);
-    setTimeLeft(REVIVE_TIME);
   };
 
-  /* =========================================
-     NO THANKS
-  ========================================= */
-
-  const handleNoThanks = () => {
-    finishGame();
-    navigate("/game/10");
-  };
-
-  const bestTile =
-    Math.max(...board);
-
-  /* =========================================
-     GUIDE
-  ========================================= */
-
-  if (showGuide) {
-    return (
-      <div className={styles.page}>
-
-        <header className={styles.header}>
-
-          <button
-            type="button"
-            className={styles.backButton}
-            onClick={() =>
-              navigate("/game/10")
-            }
-          >
-            <FiArrowLeft />
-          </button>
-
-          <div className={styles.title}>
-            <span>MERGE MASTER</span>
-            <strong>PUZZLE CHALLENGE</strong>
-          </div>
-
-          <div className={styles.headerRight}>
-            <FiZap />
-            <span>READY</span>
-          </div>
-
-        </header>
-
-        <main className={styles.main}>
-
-          <section className={styles.guideCard}>
-
-            <div className={styles.guideIcon}>
-              <FiZap />
-            </div>
-
-            <span className={styles.guideLabel}>
-              HOW TO PLAY
-            </span>
-
-            <h1>Merge Master</h1>
-
-            <p>
-              Combine matching number tiles,
-              create larger values and build
-              the highest score you can.
-            </p>
-
-            <div className={styles.guideGrid}>
-
-              <GuideItem
-                number="01"
-                title="Swipe the board"
-                text="Move tiles up, down, left or right."
-              />
-
-              <GuideItem
-                number="02"
-                title="Merge matching tiles"
-                text="Equal values combine into one larger tile."
-              />
-
-              <GuideItem
-                number="03"
-                title="Plan ahead"
-                text="Keep enough space for future moves."
-              />
-
-              <GuideItem
-                number="04"
-                title="Build your score"
-                text="Larger merges increase your score."
-              />
-
-            </div>
-
-            <button
-              type="button"
-              className={styles.primaryButton}
-              onClick={() =>
-                setShowGuide(false)
-              }
-            >
-              START GAME
-            </button>
-
-          </section>
-
-        </main>
-
-      </div>
-    );
-  }
-
-  /* =========================================
-     MAIN GAME
-  ========================================= */
+  const getTileClass = (value) =>
+    value ? styles[TILE_COLORS[value] || "tile2048"] : "";
 
   return (
     <div className={styles.page}>
-
       <header className={styles.header}>
+        <div className={styles.brand}>
+          <div className={styles.brandMark}>∞</div>
+          <div>
+            <div className={styles.brandName}>VELOOP</div>
+            <div className={styles.brandSub}>REWARDS</div>
+          </div>
+        </div>
 
         <button
-          type="button"
           className={styles.backButton}
-          onClick={() =>
-            navigate("/game/10")
-          }
-          aria-label="Back to Merge Master home"
+          onClick={onBack}
         >
-          <FiArrowLeft />
+          <FaArrowLeft />
+          Back to Games
         </button>
 
-        <div className={styles.title}>
-          <span>MERGE MASTER</span>
-          <strong>PUZZLE ARENA</strong>
-        </div>
-
-        <div className={styles.timer}>
-          <FiClock />
-          <strong>{timeLeft}s</strong>
-        </div>
-
-      </header>
-
-
-      <main className={styles.main}>
-
-        {/* TOP INTRO */}
-
-        <section className={styles.arenaHeader}>
-
-          <div>
-
-            <span>MERGE ARENA</span>
-
-            <h1>
-              Reach higher tiles
-            </h1>
-
+        <div className={styles.headerActions}>
+          <div className={styles.coinPill}>
+            <span className={styles.coinIcon}>◉</span>
+            <strong>{gameCoins}</strong>
           </div>
-
-          <div className={styles.moves}>
-            <span>MOVES</span>
-            <strong>{moves}</strong>
-          </div>
-
-        </section>
-
-
-        {/* HUD */}
-
-        <section className={styles.stats}>
-
-          <Stat
-            label="SCORE"
-            value={score}
-          />
-
-          <Stat
-            label="BEST TILE"
-            value={bestTile}
-          />
-
-          <Stat
-            label="REWARD"
-            value={`+${reward}`}
-            reward
-          />
-
-        </section>
-
-
-        {/* BOARD */}
-
-        <section
-          className={styles.boardCard}
-          onTouchStart={
-            handleTouchStart
-          }
-          onTouchEnd={
-            handleTouchEnd
-          }
-        >
-
-          <div className={styles.board}>
-
-            {board.map(
-              (value, index) => {
-
-                const tileClass =
-                  value === 0
-                    ? styles.emptyTile
-                    : styles[
-                        `tile${Math.min(
-                          value,
-                          2048
-                        )}`
-                      ] ||
-                      styles.tileBig;
-
-                return (
-                  <div
-                    key={index}
-                    className={`${styles.tile} ${tileClass}`}
-                  >
-                    {value || ""}
-                  </div>
-                );
-              }
-            )}
-
-          </div>
-
-        </section>
-
-
-        {/* HELP */}
-
-        <p className={styles.instructions}>
-          <strong>Swipe</strong> or use your{" "}
-          <strong>keyboard</strong> to move the tiles
-        </p>
-
-
-        {/* CONTROLS */}
-
-        <div className={styles.controls}>
 
           <button
-            type="button"
-            onClick={() =>
-              handleMove("up")
-            }
+            className={styles.redeemButton}
+            onClick={onRedeem}
           >
-            ↑
+            Redeem
           </button>
 
-          <div>
-            <button
-              type="button"
-              onClick={() =>
-                handleMove("left")
-              }
-            >
-              ←
-            </button>
+          <button
+            className={styles.settingsButton}
+            aria-label="Settings"
+            onClick={() => setMessage("Settings")}
+          >
+            <FaCog />
+          </button>
+        </div>
+      </header>
 
-            <button
-              type="button"
-              onClick={() =>
-                handleMove("down")
-              }
-            >
-              ↓
-            </button>
+      <section className={styles.hero}>
+        <div className={`${styles.floatTile} ${styles.float256}`}>
+          256
+        </div>
+        <div className={`${styles.floatTile} ${styles.float512}`}>
+          512
+        </div>
+        <div className={`${styles.floatTile} ${styles.float128}`}>
+          128
+        </div>
+        <div className={`${styles.floatTile} ${styles.float1024}`}>
+          1024
+        </div>
 
-            <button
-              type="button"
-              onClick={() =>
-                handleMove("right")
-              }
-            >
-              →
-            </button>
+        <div className={styles.crown}>♛</div>
+        <h1>MERGE MASTER</h1>
+        <div className={styles.heroWords}>
+          MERGE <span>•</span> SCORE <span>•</span> RELAX
+          <span>•</span> WIN
+        </div>
+      </section>
+
+      <main className={styles.main}>
+        <aside className={styles.leftPanel}>
+          <div className={styles.panelTitle}>
+            <FaBullseye />
+            TARGET
           </div>
 
-        </div>
+          <p className={styles.targetText}>
+            Reach the highest number
+            <br />
+            and get the best rewards!
+          </p>
 
+          <div className={styles.infoCard}>
+            <div className={styles.infoLabel}>CURRENT GOAL</div>
+            <div className={styles.goalRow}>
+              <div className={`${styles.goalTile} ${styles.tile512}`}>
+                {goal}
+              </div>
+              <span>Merge tiles to<br />create {goal}</span>
+            </div>
+          </div>
 
-        {/* RESET */}
+          <div className={styles.infoCard}>
+            <FaTrophy className={styles.infoIconGold} />
+            <div>
+              <div className={styles.infoLabel}>HIGH SCORE</div>
+              <strong>{bestScore.toLocaleString()}</strong>
+            </div>
+          </div>
 
-        <button
-          type="button"
-          className={styles.resetButton}
-          onClick={resetGame}
-        >
-          <FiRotateCcw />
-          Restart
-        </button>
+          <div className={styles.infoCard}>
+            <FaStar className={styles.infoIconCyan} />
+            <div>
+              <div className={styles.infoLabel}>YOUR BEST TILE</div>
+              <strong>{bestTile}</strong>
+            </div>
+          </div>
+        </aside>
 
-
-        {/* REWARD */}
-
-        <div className={styles.rewardLine}>
-
-          <FiGift />
-
-          <span>
-            Possible reward
-          </span>
-
-          <strong>
-            +{reward} Game Coins
-          </strong>
-
-        </div>
-
-      </main>
-
-
-      {/* GAME OVER */}
-
-      {gameOver && (
-
-        <div className={styles.overlay}>
-
-          <section className={styles.resultCard}>
-
-            <div className={styles.resultIcon}>
-              <FiAward />
+        <section className={styles.gameShell}>
+          <div className={styles.topStats}>
+            <div>
+              <span>SCORE</span>
+              <strong>{score.toLocaleString()}</strong>
             </div>
 
-            <span className={styles.guideLabel}>
-              CHALLENGE COMPLETE
-            </span>
-
-            <h1>Great Game!</h1>
-
-            <div className={styles.resultGrid}>
-
-              <ResultStat
-                label="Score"
-                value={score}
-              />
-
-              <ResultStat
-                label="Best Tile"
-                value={bestTile}
-              />
-
-              <ResultStat
-                label="Reward"
-                value={`+${reward}`}
-              />
-
+            <div>
+              <FaTrophy />
+              <span>BEST SCORE</span>
+              <strong>{bestScore.toLocaleString()}</strong>
             </div>
 
-            <button
-              type="button"
-              className={styles.primaryButton}
-              onClick={resetGame}
-            >
-              <FiRotateCcw />
-              PLAY AGAIN
-            </button>
-
-            <button
-              type="button"
-              className={styles.secondaryButton}
-              onClick={() =>
-                navigate("/game/10")
-              }
-            >
-              <FiArrowLeft />
-              GAME HOME
-            </button>
-
-          </section>
-
-        </div>
-      )}
-
-
-      {/* REVIVE */}
-
-      {showRevive && (
-
-        <div className={styles.overlay}>
-
-          <section className={styles.modal}>
-
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={handleNoThanks}
-            >
-              <FiX />
-            </button>
-
-            <div className={styles.modalIcon}>
-              <FiZap />
+            <div className={styles.rewardStat}>
+              <FaGift />
+              <div>
+                <span>NEXT REWARD</span>
+                <div className={styles.rewardProgress}>
+                  <i style={{ width: `${rewardProgress}%` }} />
+                </div>
+              </div>
+              <b>{goal}</b>
             </div>
+          </div>
 
-            <span className={styles.guideLabel}>
-              TIME'S UP
-            </span>
-
-            <h2>Keep Playing?</h2>
-
-            <p>
-              Continue your current run with
-              another chance.
-            </p>
-
-            {!reviveUsed ? (
-              <>
-                <button
-                  type="button"
-                  className={styles.primaryButton}
-                  onClick={handleRevive}
+          <div
+            className={styles.board}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            {board.flatMap((row, r) =>
+              row.map((value, c) => (
+                <div
+                  key={`${r}-${c}`}
+                  className={`${styles.cell} ${
+                    value ? styles.occupied : ""
+                  } ${getTileClass(value)}`}
                 >
-                  REVIVE
-                </button>
-
-                <button
-                  type="button"
-                  className={styles.secondaryButton}
-                  onClick={handleNoThanks}
-                >
-                  NO THANKS
-                </button>
-              </>
-            ) : (
-              <button
-                type="button"
-                className={styles.primaryButton}
-                onClick={handleNoThanks}
-              >
-                COLLECT REWARD
-              </button>
+                  {value || ""}
+                </div>
+              ))
             )}
 
-          </section>
+            {message && (
+              <div className={styles.gameMessage}>
+                {message}
+              </div>
+            )}
 
-        </div>
-      )}
+            {paused && (
+              <div className={styles.overlay}>
+                <FaPause />
+                <strong>GAME PAUSED</strong>
+                <button
+                  onClick={() => setPaused(false)}
+                >
+                  <FaPlay /> Resume
+                </button>
+              </div>
+            )}
 
+            {gameOver && (
+              <div className={styles.overlay}>
+                <strong>GAME OVER</strong>
+                <span>Final score: {score.toLocaleString()}</span>
+                <button onClick={restartGame}>
+                  Play Again
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.controls}>
+            <button
+              className={styles.hintButton}
+              onClick={useHint}
+              disabled={!hintCount || paused || gameOver}
+            >
+              <FaLightbulb />
+              <span>{hintCount}</span>
+            </button>
+
+            <div className={styles.swipeHint}>SWIPE TO MERGE</div>
+
+            <button
+              className={styles.pauseButton}
+              onClick={() => setPaused((value) => !value)}
+            >
+              {paused ? <FaPlay /> : <FaPause />}
+            </button>
+          </div>
+        </section>
+
+        <aside className={styles.rightPanel}>
+          <div className={styles.panelTitle}>
+            <FaGamepad />
+            HOW TO PLAY
+          </div>
+
+          <div className={styles.steps}>
+            <div><b>1</b><span>Swipe to move all tiles.</span></div>
+            <div><b>2</b><span>Same numbers merge into a bigger number.</span></div>
+            <div><b>3</b><span>Keep merging to reach higher numbers.</span></div>
+            <div><b>4</b><span>Get the highest score and earn rewards!</span></div>
+          </div>
+
+          <div className={styles.previewBox}>
+            <div className={styles.previewTitle}>
+              <FaStar />
+              PREVIEW MERGES
+            </div>
+
+            {[
+              [4, 4, 8],
+              [8, 8, 16],
+              [16, 16, 32],
+              [32, 32, 64],
+            ].map(([a, b, result]) => (
+              <div className={styles.mergeRow} key={`${a}-${b}`}>
+                <span className={styles.miniTile}>{a}</span>
+                <b>+</b>
+                <span className={styles.miniTile}>{b}</span>
+                <b>→</b>
+                <span className={`${styles.miniTile} ${styles.resultTile}`}>
+                  {result}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.quote}>
+            <span>//</span>
+            <strong>Small Moves<br />Big Rewards</strong>
+            <span>//</span>
+          </div>
+        </aside>
+      </main>
+
+      <footer className={styles.footer}>
+        PLAY <span>•</span> EARN <span>•</span> REDEEM <span>•</span> REPEAT
+      </footer>
     </div>
   );
-}
-
-
-/* =========================================
-   HELPERS
-========================================= */
-
-function Stat({
-  label,
-  value,
-  reward = false,
-}) {
-  return (
-    <div className={styles.statCard}>
-
-      <span>{label}</span>
-
-      <strong className={
-        reward
-          ? styles.rewardValue
-          : ""
-      }>
-        {value}
-      </strong>
-
-    </div>
-  );
-}
-
-
-function ResultStat({
-  label,
-  value,
-}) {
-  return (
-    <div className={styles.resultStat}>
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
-}
-
-
-function GuideItem({
-  number,
-  title,
-  text,
-}) {
-  return (
-    <div className={styles.guideItem}>
-
-      <span>{number}</span>
-
-      <div>
-        <strong>{title}</strong>
-        <p>{text}</p>
-      </div>
-
-    </div>
-  );
-}
+};
 
 export default MergeMasterGame;
