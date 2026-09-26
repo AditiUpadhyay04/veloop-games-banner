@@ -626,35 +626,24 @@
 }
 
 .swipeHint {
-  min-width: 150px;
-  height: 58px;
-  display: grid;
-  place-items: center;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   padding: 0 18px;
-  border: 1px solid rgba(48, 203, 255, 0.55);
+  border: 1px solid rgba(44, 126, 255, 0.48);
   border-radius: 12px;
-  color: #67eaff;
-  background: rgba(5, 21, 61, 0.62);
+  color: #8fb8ff;
+  background: rgba(5, 18, 54, 0.5);
   font-size: 12px;
   font-weight: 900;
-  letter-spacing: 0.14em;
-  box-shadow: 0 0 16px rgba(0, 202, 255, 0.12);
-  animation: swipePulse 2.6s ease-in-out infinite;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 10px rgba(46, 205, 255, 0.25);
 }
 
-@keyframes swipePulse {
-  0%,
-  100% {
-    opacity: 0.7;
-    transform: translateY(0);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-2px);
-  }
-}
-
-.pauseButton {
+.swipeHint span {
+  color: #20e4ff;
   font-size: 22px;
 }
 
@@ -931,5 +920,184 @@
   .footer {
     font-size: 10px;
     letter-spacing: 0.15em;
+  }
+}
+
+/* ===== Gameplay polish: smooth movement / spawn / merge feedback ===== */
+
+.board {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+  overscroll-behavior: contain;
+}
+
+.boardSwiping {
+  cursor: grabbing;
+  transform: scale(0.995);
+  transition: transform 0.12s ease;
+}
+
+.cell {
+  position: relative;
+  overflow: visible;
+  transition:
+    transform 0.18s cubic-bezier(0.22, 0.8, 0.25, 1),
+    filter 0.18s ease,
+    box-shadow 0.18s ease;
+  will-change: transform;
+}
+
+.occupied {
+  animation: tileSettle 0.18s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+.moveLeft .cell {
+  animation: moveFromRight 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.moveRight .cell {
+  animation: moveFromLeft 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.moveUp .cell {
+  animation: moveFromBottom 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.moveDown .cell {
+  animation: moveFromTop 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.moveFlash .occupied {
+  filter: brightness(1.08);
+}
+
+.newTile {
+  z-index: 2;
+  animation: newTilePop 0.34s cubic-bezier(0.16, 1.35, 0.35, 1) !important;
+}
+
+.gameMessage {
+  padding: 9px 15px;
+  border: 1px solid rgba(255, 57, 220, 0.55);
+  border-radius: 12px;
+  background: rgba(28, 8, 65, 0.88);
+  box-shadow:
+    0 0 22px rgba(255, 42, 218, 0.38),
+    inset 0 0 16px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+@keyframes tileSettle {
+  0% {
+    transform: scale(0.96);
+  }
+  65% {
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes newTilePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+    filter: brightness(2);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.16);
+    filter: brightness(1.35);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes moveFromRight {
+  0% {
+    transform: translateX(12px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveFromLeft {
+  0% {
+    transform: translateX(-12px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveFromBottom {
+  0% {
+    transform: translateY(12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes moveFromTop {
+  0% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .board {
+    width: min(100%, 560px);
+    margin-inline: auto;
+  }
+
+  .cell {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .board {
+    width: 100%;
+    aspect-ratio: 1;
+    padding: 7px;
+    gap: 4px;
+    border-radius: 13px;
+  }
+
+  .cell {
+    font-size: clamp(17px, 7vw, 29px);
+    border-radius: 9px;
+  }
+
+  .gameMessage {
+    font-size: 18px;
+    padding: 8px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell,
+  .occupied,
+  .newTile,
+  .moveLeft .cell,
+  .moveRight .cell,
+  .moveUp .cell,
+  .moveDown .cell,
+  .boardSwiping,
+  .gameMessage {
+    animation: none !important;
+    transition: none !important;
   }
 }
